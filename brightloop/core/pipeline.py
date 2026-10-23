@@ -23,6 +23,7 @@ BASE_CONFIDENCE = {OFFICIAL_PRICING: 0.9, OFFICIAL_OTHER: 0.6}
 NUMBERS_BONUS = 0.05       # before and after values both stated
 CORROBORATION_BONUS = 0.04  # per extra independent domain reporting the same change
 INJECTION_PENALTY = 0.2    # the text tried to instruct an AI; trust it less
+PACKAGING_PENALTY = 0.15   # a feature line moved but no number changed; worth a look, less certain
 MAX_CONFIDENCE = 0.99
 
 _RUMOR = re.compile(
@@ -41,6 +42,7 @@ class _Candidate:
     info: SourceInfo
     ts: datetime | None
     injected: bool
+    screenshot: str | None = None  # set by live runs: the cropped plan card
 
 
 @dataclass
@@ -64,9 +66,18 @@ def _close_in_time(a: datetime | None, b: datetime | None) -> bool:
 def _summary(competitor: str, ch: Change) -> str:
     plan = f" {ch.plan}" if ch.plan else ""
     if ch.field == "tier":
-        return f"{competitor}: moved from {ch.before} to {ch.after}"
+        return f"{competitor}: {ch.quote.rstrip('.')}"
+    if ch.field == "packaging":
+        if ch.before and ch.after:
+            return f"{competitor}{plan}: '{ch.before}' is now '{ch.after}'"
+        if ch.after:
+            return f"{competitor}{plan}: '{ch.after}' added"
+        if ch.before:
+            return f"{competitor}{plan}: '{ch.before}' removed"
+        return f"{competitor}{plan}: packaging change (\"{ch.quote}\")"
     if ch.before and ch.after:
-        unit = "" if ch.field == "price" else f" {ch.field}"
+        bare = ch.before.replace(",", "").replace(".", "").isdigit()
+        unit = f" {ch.field}" if bare and ch.field != "price" else ""
         return f"{competitor}{plan}: {ch.before}{unit} → {ch.after}{unit}"
     if ch.after:
         return f"{competitor}{plan}: price {'raised' if ch.direction == 'up' else 'cut'} to {ch.after}"
@@ -93,6 +104,8 @@ def _build_item(group: _Group, used_ids: set[str], week: str, utm_source: str, b
     confidence += CORROBORATION_BONUS * max(0, len(domains) - 1)
     if any(m.injected for m in members):
         confidence -= INJECTION_PENALTY
+    if ch.field == "packaging":
+        confidence -= PACKAGING_PENALTY
     confidence = round(min(MAX_CONFIDENCE, max(0.0, confidence)), 2)
 
     summary = _summary(comp, ch)
@@ -136,7 +149,8 @@ def _build_item(group: _Group, used_ids: set[str], week: str, utm_source: str, b
         "change": {"field": ch.field, "plan": ch.plan, "before": ch.before, "after": ch.after,
                    "direction": ch.direction},
         "evidence": [{"source_id": m.sid, "source": m.source, "ts_utc": iso_utc(m.ts),
-                      "quote": m.text, "source_tier": m.info.tier} for m in members],
+                      "quote": m.text, "source_tier": m.info.tier,
+                      **({"screenshot": m.screenshot} if m.screenshot else {})} for m in members],
         "cta": {"label": f"Review the {comp} pricing change",
                 "utm": f"utm_source={utm_source}&utm_medium=pricing_deck&utm_campaign={campaign}"},
     }
@@ -244,7 +258,8 @@ def run(payload: object, *, started_at: datetime) -> dict:
         elif bounds and ts and not (bounds[0] <= ts < bounds[1]):
             skip(sid, f"Outside {week} ({tz}).", injected)
         else:
-            candidates.append(_Candidate(sid, competitor, change, text, source, info, ts, injected))
+            shot = s.get("screenshot") if isinstance(s.get("screenshot"), str) else None
+            candidates.append(_Candidate(sid, competitor, change, text, source, info, ts, injected, shot))
 
     groups: list[_Group] = []
     for c in candidates:

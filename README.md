@@ -28,6 +28,29 @@ Tests:
 python3 -m unittest -v
 ```
 
+## Live mode
+
+The weekly run opens each competitor's pricing page in a headless browser, switches to monthly
+billing, reads every plan card (price, credits, limits, features) and screenshots each card. It
+compares against the last recording and turns what moved into signals in the same format as
+`cases.json`, which go through the same core.
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install -e '.[live]' && .venv/bin/playwright install chromium
+.venv/bin/python -m brightloop live
+```
+
+Every live run is recorded in `recordings/`: a snapshot and cropped screenshots per competitor,
+plus `runs/<stamp>/cases.json` and `result.json`. These are real captures, so the live logic also
+runs with no keys and no network:
+
+```bash
+python3 -m brightloop live --offline   # replays the two latest recordings
+./run --input recordings/runs/<stamp>/cases.json --output result.json
+```
+
+Competitors and pages are in `config/live.json`.
+
 ## How it decides
 
 One decision path (`brightloop/core/pipeline.py`) for live runs and file runs. Only the source changes.
@@ -62,15 +85,18 @@ The required wrapper, plus these fields inside each item:
 | `evidence` | One entry per source: `source_id`, `source`, `ts_utc`, `quote` (visible text only), `source_tier` |
 | `cta` | `label` and `utm` query string (from `config.utm_source`) for the Brightloop link the action points to |
 
-`run.cost_usd` is 0.0: the decision path uses no paid API. File runs add `run.mode: "file"`.
+In live runs each evidence entry also has `screenshot`: the cropped plan card.
+
+`run.cost_usd` is 0.0: the decision path uses no paid API. `run.mode` is `file`, `live` or
+`replay`. `run.baselines` lists competitors captured for the first time (nothing to compare yet).
 
 ## Status
 
 | Part | State |
 |---|---|
 | Core rules, CLI, tests, CI | Done |
-| Live collection of pricing pages (Playwright) and recorded snapshots | Next |
-| History from the Wayback Machine | Planned |
+| Live collection of pricing pages (Playwright), recorded snapshots, offline replay | Done |
+| History from the Wayback Machine | Next |
 | Google Slides deck from Maya's template, Slack message | Planned |
 | Base44 app: change history, run log, run now | Planned |
 | Weekly schedule (GitHub Actions) | Planned |

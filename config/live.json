@@ -1,0 +1,15 @@
+{
+  "timezone": "Asia/Jerusalem",
+  "brand": {
+    "name": "Brightloop",
+    "voice": "plain, confident, no hype",
+    "banned_words": ["revolutionary", "game-changing", "seamless"]
+  },
+  "utm_source": "brightloop",
+  "competitors": [
+    { "name": "Lovable", "url": "https://lovable.dev/pricing", "enabled": true },
+    { "name": "Replit", "url": "https://replit.com/pricing", "enabled": true },
+    { "name": "Bolt", "url": "https://bolt.new/pricing", "enabled": true },
+    { "name": "v0", "url": "https://v0.app/pricing", "enabled": false }
+  ]
+}

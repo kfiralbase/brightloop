@@ -29,7 +29,11 @@ _FROM_TO = re.compile(r"(?:from\s+)?" + _MONEY + r"\s*(?:→|->|=>|\bto\b)\s*" +
 _QTY_WAS = re.compile(_QTY + r"\s*" + _UNITS + r"[^\d]{0,30}?\(?\b(?:was|previously|up from|down from)\s+" + _QTY, re.I)
 _QTY_FROM_TO = re.compile(r"\bfrom\s+" + _QTY + r"\s*(?:" + _UNITS + r"\s*)?(?:→|->|\bto\b)\s*" + _QTY + r"\s*" + _UNITS, re.I)
 # "SSO moved from Pro to Business"
-_TIER_MOVE = re.compile(r"\b(?:moved?|moves|now only on|restricted to)\b.{0,30}?\bfrom\s+" + _PLAN + r"\s+to\s+" + _PLAN, re.I)
+_TIER_MOVE = re.compile(r"\b(?:moved?|moves|now only on|restricted to)\b.{0,120}?\bfrom\s+" + _PLAN + r"\s+to\s+" + _PLAN, re.I)
+# Phrasings written by the snapshot diff (brightloop/snapshots.py)
+_LINE_EDIT = re.compile(r"\b([\w][\w ]{0,40}?) plan: '(.+?)' is now '(.+?)'", re.I)
+_FEATURE_EDIT = re.compile(r"'(.+?)' (added to|removed from) the ([\w][\w ]{0,40}?) plan\b", re.I)
+_UNIT_IN = re.compile(r"\b" + _UNITS + r"\b", re.I)
 # Free tier / plan changes with no number
 _QUALITATIVE = re.compile(
     r"\b(free (?:tier|plan)\b.{0,40}\b(?:removed|discontinued|ended|cut|reduced|eliminated|"
@@ -59,7 +63,8 @@ class Change:
 
     @property
     def has_numbers(self) -> bool:
-        return self.before is not None and self.after is not None and self.field != "tier"
+        return (self.before is not None and self.after is not None and self.field not in ("tier", "packaging")
+                and bool(re.search(r"\d", self.before)) and bool(re.search(r"\d", self.after)))
 
 
 def _plan(text: str) -> str | None:
@@ -78,6 +83,22 @@ def _money(v: float, period: str | None) -> str:
 
 def find_change(text: str) -> Change | None:
     """Return the first pricing or packaging change stated in the text, or None."""
+    m = _LINE_EDIT.search(text)
+    if m:
+        plan_name, before, after = m.group(1).strip().title(), m.group(2), m.group(3)
+        if re.search(r"\d", before) and re.search(r"\d", after):
+            unit = _UNIT_IN.search(after)
+            nums_b, nums_a = re.findall(r"\d[\d,.]*", before), re.findall(r"\d[\d,.]*", after)
+            direction = (_direction(_num(nums_b[0]), _num(nums_a[0]))
+                         if len(nums_b) == len(nums_a) == 1 else None)
+            return Change(unit.group(1).lower() if unit else "limit", plan_name, before, after, direction, m.group(0))
+        return Change("packaging", plan_name, before, after, None, m.group(0))
+    m = _FEATURE_EDIT.search(text)
+    if m:
+        line, verb, plan_name = m.group(1), m.group(2).lower(), m.group(3).strip().title()
+        before, after = (None, line) if verb.startswith("added") else (line, None)
+        return Change("packaging", plan_name, before, after, None, m.group(0))
+
     plan = _plan(text)
 
     m = _AFTER_WAS.search(text)

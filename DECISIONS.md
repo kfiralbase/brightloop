@@ -79,6 +79,28 @@ second.
 
 **Confidence is a fixed formula** (see README), so the same input always gives the same output.
 
+**Live mode reads the page in a real browser.** Lovable renders prices with JavaScript, so a plain
+HTTP fetch sees no prices. Playwright also gives the cropped per-plan screenshots Maya now makes
+by hand ("half of it is just cropping screenshots").
+
+**Live diffs become ordinary signals.** The diff writes plain sentences ("Pro plan shown at
+$30/month (was $25/month last week).") into a `cases.json`, and the core decides. One decision
+path for live and test, as the brief requires.
+
+**Guards against false flags in live mode**, because a false flag is the worst outcome:
+- Switch to monthly billing before reading; if the view still differs from last week, don't
+  compare prices (Bolt opens on yearly).
+- If more than half the plans vanish, treat it as a broken extraction, not removals.
+- Ignore marketing sentences, CTAs and badges; only entitlement lines count as features.
+- Packaging changes with no number get lower confidence (0.75) than price or limit changes.
+- Two captures a minute apart produced zero changes on all three sites.
+
+**Recordings are committed.** Snapshots and cropped card screenshots (about 1.5 MB per run) live
+in `recordings/`. They're the "before" for next week and the no-keys demo data.
+
+**Live runs go out from GitHub Actions, not from the office network.** Low volume: three pages
+once a week, pages that robots.txt allows.
+
 **The week filter uses the input's timezone.** An ISO week in Asia/Jerusalem starts Sunday 21:00
 or 22:00 UTC depending on DST.
 
