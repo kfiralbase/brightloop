@@ -1,0 +1,32 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.10", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Unit tests (no install, no keys, no network)
+        run: python -m unittest -v
+      - name: The proof command on the brief's example
+        run: |
+          ./run --input tests/fixtures/brief_example.json --output out/result.json
+          python - <<'EOF'
+          import json
+          r = json.load(open("out/result.json"))
+          ids = [s["id"] for s in json.load(open("tests/fixtures/brief_example.json"))["signals"]]
+          placed = [i for item in r["items"] for i in item["source_ids"]] + [s["id"] for s in r["skipped"]]
+          assert sorted(placed) == sorted(ids), "every input id must be placed exactly once"
+          assert r["built_for"] == "maya"
+          print("ok:", len(r["items"]), "items,", len(r["skipped"]), "skipped")
+          EOF

@@ -1,0 +1,21 @@
+[project]
+name = "brightloop"
+version = "0.1.0"
+description = "Competitor pricing watch for Brightloop's Head of Growth"
+requires-python = ">=3.10"
+# The core and the file-mode CLI use the standard library only.
+dependencies = []
+
+[project.optional-dependencies]
+# Live mode only: rendering pricing pages and taking screenshots.
+live = ["playwright>=1.48"]
+
+[project.scripts]
+brightloop = "brightloop.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["brightloop*"]
