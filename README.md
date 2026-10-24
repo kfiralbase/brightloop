@@ -81,6 +81,20 @@ python3 -m brightloop live --offline   # replays the two latest recordings
 
 Competitors and pages are in `config/live.json`.
 
+## Maya's Monday deck
+
+After each weekly run, the workflow asks the app to build **"Competitor Deck Wk of
+&lt;Monday&gt;"** in the **Growth** folder of the connected Google Drive, in her layout: one slide
+per competitor (Lovable, Replit, Bolt), the homepage and pricing-section screenshots (stacked or
+side by side, whichever shows them bigger), and a red box under the pricing shot with each
+change's `deck_line` only when something moved. Running it again for the same week refills the
+same file. The link appears on the app's home page.
+
+It's the `build-deck` backend function in the Base44 app, using Base44's shared Google Slides and
+Google Drive connectors (Base44 handles the OAuth). Function URLs are public, so it requires an
+`X-Deck-Secret` header matching the `DECK_SECRET` secret, set in both the app and this repo.
+A deck failure is recorded on the run; the recording is still committed.
+
 ## Base44 app
 
 The web app ([bright-loop-watch.base44.app](https://bright-loop-watch.base44.app)) shows this
