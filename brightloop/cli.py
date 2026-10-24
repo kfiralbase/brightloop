@@ -86,8 +86,12 @@ def main(argv: list[str] | None = None) -> int:
     result = run_file(args.input)
 
     out = Path(args.output)
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    try:
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    except OSError as exc:
+        print(f"Couldn't write {out}: {exc.strerror or exc}", file=sys.stderr)
+        return 2
 
     items, skipped, errors = len(result["items"]), len(result["skipped"]), len(result["run"]["errors"])
     print(f"Wrote {out}: {items} item(s), {skipped} skipped, {errors} error(s).", file=sys.stderr)

@@ -10,6 +10,12 @@ so plainly when nothing moved.
 
 Needs only `python3` (3.10 or newer). No install, no keys, no network.
 
+It always writes a valid `result.json`: a missing or broken input file, broken signals, or even a bug
+in the decision code end up in `run.errors`, with every input id still placed (in `skipped` if it
+couldn't be processed). On Windows, use `python -m brightloop run --input … --output …` (the
+`./run` wrapper is a bash script); if Windows' Python lacks time-zone data, install `tzdata`, or the
+run falls back to UTC and says so in `run.errors`.
+
 ```bash
 ./run --input cases.json --output result.json
 ```
