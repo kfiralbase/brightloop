@@ -1,286 +1,181 @@
 # Decision log
 
-Short entries, newest last. Quotes are from the marketer interviews.
+Why I built what I built. Quotes are from the marketer interviews.
 
-## Who and what
+## Who I built for
 
-**Built for Maya.** All three marketers track competitors by hand, and each opened with a wish
-("more signups", "more ad ideas", "tell me what ships"). I chose by asking for the last concrete
-time. Maya: 08:30 to 10:30 every Monday before an 11:00 leadership sync, and pricing moves are
-"the only thing that's ever shifted a decision in that room."
+**Maya.** All three marketers track competitors by hand, and each one opened with a wish rather
+than a problem: Maya wanted "more signups", Daniel "more ad ideas", Noa to know what ships. So I
+asked each of them about the last time it actually hurt. Maya's answer was the clearest: every
+Monday from 08:30 to 10:30 she rebuilds a competitor deck by hand for the 11:00 leadership sync,
+and a pricing move is "the only thing that's ever shifted a decision in that room." She has also
+paid for getting it wrong: an AI summary told the team a competitor "cut prices 30%", leadership
+started drafting a promo, and it turned out to be false. Since then her rule is "no link, no
+number." Her source is public and stable, a competitor's own pricing page, so I can collect it
+live, record it, and let anyone rerun it with no keys.
 
-**Not Daniel.** His pain is bigger in hours (about 3 of 5 weekly hours go to hunting ad proof),
-but his proof is Meta ads in the US ("I mostly look at US"). Meta's Ad Library API returns
-commercial ads only for EU/UK delivery, and LinkedIn, his other channel, has no public API. The
-rest means scraping against the platforms' terms or a paid third-party scraper. He is the clear
-next candidate if an official source opens up.
+**Not Daniel.** His pain is bigger in hours (about 3 of his 5 weekly hours go to hunting proof
+for ad briefs), but his proof lives in ad platforms I can't read properly. He mostly looks at
+the US, and Meta's Ad Library API only returns commercial ads delivered in the EU or UK; LinkedIn,
+his other channel, has no public API. What's left is scraping against the platforms' terms or a
+paid scraping service, which means a key the reviewers would need and the brief says they won't
+have. He also needs an "expected CPA" for every brief, and no public source has one; making it up
+is exactly the mistake Maya got burned by. He's the obvious next user if an official source opens.
 
-**Not Noa.** Her bottleneck is writing, not finding out ("That's the bottleneck, not the finding
-out"), and her core ask can't be met ("nothing reliably beats Twitter"). A drafting tool needs an
-LLM, so it can't give a meaningful result on unseen cases without keys, and "half-decent" can't
-be verified.
+**Not Noa.** She wants to know what competitors ship "before Twitter does", but launches are
+usually announced on Twitter first, and as she put it, "nothing reliably beats Twitter." Her real
+bottleneck is writing the take afterwards ("That's the bottleneck, not the finding out"). A
+writing tool needs an LLM and an API key, so it couldn't give a checkable result on unseen cases
+without keys. Maya's problem has none of these limits.
 
-**Only pricing and packaging.** Maya: "if the price didn't move, it's product's problem." Feature
-launches go to skipped, including "Agent 4 is live for every plan": I first read that as a
-packaging change, asked, and she said no.
+## What counts as a change
 
-**Full plan table, not just the headline price.** Maya listed "price, plan limits, free tier,
-seats, credits". Noa: "she cares about the headline number but misses the bundling and tier
-changes."
+**Pricing and packaging only.** Maya: "if the price didn't move, it's product's problem." So
+feature launches are skipped, even "Agent 4 is live for every plan"; I first read that as
+packaging, asked, and she said no.
 
-**Packaging counts as much as price.** I asked Maya whether a credit cut or SSO moving up a
-tier goes in the red box when the price stays the same: "yeah, that goes in the red box—that's
-packaging, not features, and it changes what someone gets for their money." The diff already
-reported both ("Pro: 100→50 monthly credits", "'SSO' moved from Business to Enterprise"); tests
-now pin them to the red box.
+**The whole plan, not just the headline price.** She listed "price, plan limits, free tier,
+seats, credits", and Noa warned that Maya "misses the bundling and tier changes." When I asked
+whether a credit cut or SSO moving up a tier counts even if the price stays the same: "yeah, that
+goes in the red box—that's packaging, not features, and it changes what someone gets for their
+money."
 
-**Monthly and annual prices.** Maya: "Annual price changes count, I look at both monthly and
-annual." The capture now also switches each page to its yearly view and reads every plan's
-price there (prices only; the screenshots stay monthly). An annual move is its own line,
-"Pro (annual): $21→$23/month". Only on pages with both a Monthly and a Yearly toggle (Lovable,
-Bolt); Replit shows no annual plans.
+**Monthly and annual.** "Annual price changes count, I look at both monthly and annual." The
+capture reads each page in its monthly view and then its yearly view. An annual move gets its own
+line, like `Pro (annual): $21→$23/month`. Replit shows no annual plans, so it has monthly only.
 
-**Limited-time promos are skipped.** Maya: "Promos I ignore until they stick—if it says 'limited
-time,' it's noise." Text with limited-time, promo, coupon or "first month" wording goes to
-skipped. The diff passes a promo line from the card along with a price move, so a
-"50% off your first month" price never reaches the deck. If the price stays after the promo
-wording is gone, the next run flags it as a real change. "2 months free" on a yearly toggle is a
-standing discount, not a promo.
+**Promos are noise.** "Promos I ignore until they stick—if it says 'limited time,' it's noise."
+Anything with limited-time, promo, coupon or "first month" wording is skipped. If the price stays
+after the promo wording is gone, the next run flags it as a real change.
 
-**Replit's credit packs aren't tracked.** Replit Pro has a dropdown of bigger packs ($225, $440…).
-Maya: "If a $225 pack becomes $250 but the headline doesn't move, I'd probably miss it—I
-screenshot the main pricing page, not every dropdown." She didn't ask for it, and those values
-are choices, not plan entitlements, so they stay out of features and out of the diff. Catching
-them would be easy to add (read each option's price) if she wants it.
-
-**Side programs aren't plans.** Lovable's page also has "for students", "for campus" and "for
-kids". They aren't steps on the price ladder Maya tracks ("what someone pays or what tier
-they're on"), so a card counts as a plan only if it has a known plan name or shows a $ price.
-The student discount ("up to 50% off Lovable Pro") is pricing of a sort; left out to keep to
-what Maya asked for.
-
-**Competitors: Lovable, Replit, Bolt.** Maya: "Always Lovable, Replit, and Bolt in the deck." The
-brief also names v0, Codex and Claude Code, so I asked: "Always just those three. Leadership
-doesn't think of v0 or coding agents as direct pricing competitors—they're more 'developer tools'
-in their minds." v0 stays in config, turned off: switching it on adds a fourth slide with no code
-change. Codex and Claude Code aren't configured; they're sold inside ChatGPT and Claude plans and
-have no app-builder pricing page to watch. The core handles any competitor that appears in an
-input file.
+**Three competitors.** "Always Lovable, Replit, and Bolt in the deck." The brief also names v0,
+Codex and Claude Code, so I asked about them too: "Always just those three. Leadership doesn't
+think of v0 or coding agents as direct pricing competitors—they're more 'developer tools' in
+their minds." v0 is in the config, switched off (turning it on adds a fourth slide with no code
+change). The core handles any competitor that shows up in an input file.
 
 ## Trust
 
-**Only the competitor's own pricing page counts as proof.** Maya was burned by an AI summary
-that said a competitor "cut prices 30%"; leadership drafted a promo before it was caught. Since
-then: "no link, no number." Third-party pricing claims go to skipped with the reason, so nothing
-disappears.
+The whole tool rests on Maya's rule, so trust decisions come first.
 
-**The competitor's own blog or X account isn't enough either.** I first made these items with
-lower confidence and a "confirm first" action. Maya's rule is binary ("pricing page or
-nothing"), and she said Monday is soon enough, so they go to skipped with the reason "not on
-the pricing page yet". If the price really moved, the live run catches it on the page.
+**Only the competitor's own pricing page counts.** A claim from a news site, a sponsored post or
+Reddit is skipped as unverified, with the reason written next to it. Even the competitor's own
+blog or X account isn't enough: I first gave those lower confidence, but Maya's rule is binary
+and Monday is soon enough, so they're skipped as "not on the pricing page yet." If the price
+really moved, the live run will see it on the page. A URL only counts if its path starts with
+`/pricing` (or `/plans`), so `lovable.dev/blog/pricing` doesn't sneak in.
 
-**No launch de-duplication.** I had built detection of the same launch reported twice (Noa's
-pain). For Maya every launch is skipped anyway, so it only added a sentence to a skip reason.
-Removed. What Maya needs stays: two reports of the same pricing change become one item.
+**False alarms are worse than misses.** "Flagging a false one is worse," because "we looked dumb
+in front of the whole team." So every rule leans toward precision: no change without a before and
+an after, rumors skipped, injected instructions stripped and penalized.
 
-**One generic extractor, not a scraper per competitor.** It finds plan cards by plan names and
-prices, not by a site's HTML structure, so a redesign is less likely to break it and a new
-competitor is one line in `config/live.json`. It worked on all three sites as is. If a site
-ever needs special handling, that goes in its config entry, not a new module.
+**No number comes from a model.** Every number is read straight from the source text by fixed
+rules, and confidence is a fixed formula (see the README). The same input always gives the same
+output, it runs on unseen cases with no keys, and nothing can be invented. That's also why
+`predicted_ctr` is never used: it's a model score, and Daniel lost a brief to a tool that ranked a
+2-day-old ad first by it ("That ad died a week later").
 
-**The deck is created in Google Slides in Maya's Drive, not offered as a download.** Maya: "if
-it's not already in Google Slides in my Drive when I open my laptop, it's not really saving me
-much — I'd still be downloading, converting, checking it looks right." She presents that file
-as-is on screen-share ("there's no bigger deck"), so a new file per Monday is the right shape.
+**The live capture never cheats.** If a site shows a bot check, the capture waits up to 20
+seconds for it to clear and otherwise doesn't use the page; it never tries to solve it. Cookie
+banners are rejected or hidden, never accepted on anyone's behalf.
 
-**One Slack message per Monday, with the link.** Slack was deferred at first ("I get a hundred
-pings a day"). Asked directly: "File in the folder plus one Slack message with the link would be
-ideal—I'm not hunting through Drive on Monday morning." So the scheduled Monday run posts exactly
-one message: the deck link, the red-box lines, any site not checked, or plainly that the deck
-failed and where the changes are instead. Run now never posts, so midweek checks don't ping her.
-It goes to a Slack incoming webhook (`SLACK_WEBHOOK_URL` secret), which sets the channel or DM;
-without the secret the step is skipped.
+## The deck and how it reaches her
 
-**A site that didn't load keeps its slide, marked "not checked".** Maya: "I'd rather see last
-week's screenshot marked 'not checked' than an empty slide, because an empty slide just gets me
-questions I don't have answers to." Before this, a failed capture dropped that competitor from
-the deck. Now the run records last week's snapshot as this week's stand-in (`not_checked`,
-original `fetched_at`), the slide says "Not checked this week (site didn't load) · screenshots
-from Oct 19", the app shows the same, and next week compares against the last real capture.
-All three competitors always get a slide.
+**It lands in her Drive, in her layout.** "If it's not already in Google Slides in my Drive when
+I open my laptop, it's not really saving me much." She described the slide exactly: one per
+competitor, the homepage screenshot, the pricing screenshot, and a red box with a one-liner only
+if something moved. The file is "Competitor Deck Wk of [date]" in the Growth folder, and she
+presents it as is ("there's no bigger deck"). The pricing shot gets about two thirds of the
+slide, because that's what leadership reads; with an even split the cards were too small on
+screen-share.
 
-**She still checks every screenshot before 11.** "If something's off, it's my name on it." So
-the deck doesn't need to be perfect unattended; it needs to be easy to check. That's why every
-reused picture is dated on the slide.
+**The red box is short.** "'Pro: $25→$30/month'—keep it short, it's a red box, not a paragraph."
 
-**The deck is built by a Base44 backend function, called at the end of the weekly run.** It's
-presentation, not a decision, so it can live outside the Python core without breaking "same
-logic". Base44's shared Google Slides and Drive connectors hold the OAuth, so no Google refresh
-token sits in GitHub. A Base44 trigger on new records wasn't an option: records written through
-the API don't fire workflows. Backend functions answer on the app's subdomain even before the
-app is published (checked), so the workflow can call it. The function URL is public, so a shared
-secret guards it; I generated it and stored it in the app, the repo and `.env` without printing
-it. Stacked or side-by-side is decided per slide from the screenshots' sizes, as Maya does by
-eye ("depending on how the screenshots came out"). The pricing shot gets about two thirds of the
-space and the homepage a third: with an even split the pricing cards came out too small to read
-on screen-share, and the pricing page is what leadership reads; the homepage is context. To check the red box before any real change
-existed, I added one test change record, rebuilt, looked at the slide, then deleted the record
-and rebuilt clean.
+**A midweek change still makes Monday's slide.** If someone presses Run now on Thursday, Monday's
+diff would no longer see that change. Maya: "It still goes in Monday's deck, because leadership
+doesn't read Slack, they read the slide. If it's not on the slide, it didn't happen." So each deck
+belongs to a Monday and collects every change found since the last one, marked "(spotted Thu)."
+A deck leadership has already seen is never rewritten.
 
-**Maya never connects anything.** The Google connector is shared, connected once by whoever
-sets the tool up: in production a Brightloop team account with edit rights on the Growth folder,
-so decks land where she already looks every Monday ("anything that gets me there without adding
-another tab") and nothing depends on one person's login. In this demo my personal Google account
-stands in for that team account, and its Growth folder is shared view-only by link so reviewers
-can open the deck from the app. Switching to a real account is reconnecting the connector; no
-code change.
+**A site that didn't load keeps its slide.** "I'd rather see last week's screenshot marked 'not
+checked' than an empty slide, because an empty slide just gets me questions I don't have answers
+to." The run reuses the last capture, labels it on the slide, and next week compares against the
+last real one.
 
-**A change spotted midweek still goes on Monday's slide.** With Run now, Monday's diff compares
-against the latest snapshot, which may already include a Thursday price change, so Monday's run
-alone would miss it. I asked Maya: "It still goes in Monday's deck, because leadership doesn't
-read Slack, they read the slide. If it's not on the slide, it didn't happen." So each deck now
-belongs to a Monday and collects the changes from every run that feeds it (any run from Tuesday
-to Monday), and a midweek run fills next Monday's deck instead of rewriting last week's.
+**One Slack message on Monday.** I held off on Slack at first because she gets "a hundred pings a
+day". When I asked, she said: "File in the folder plus one Slack message with the link would be
+ideal—I'm not hunting through Drive on Monday morning." So only the Monday run posts, once, with
+the link and the red-box lines. Run now stays quiet.
 
-**The red box is short.** Maya: "'Pro: $25→$30/month' — keep it short, it's a red box, not a
-paragraph." The `deck_line` drops the repeated unit, and a midweek change adds only
-"(spotted Thu)".
+**She'll still check it.** "If something's off, it's my name on it." So the deck has to be easy
+to check, not perfect: reused pictures are dated, and every change links to its source.
 
-**The deck copies Maya's layout exactly.** "One slide per competitor, so three slides… Top of
-the slide is the homepage screenshot, bottom is the pricing page screenshot… If something
-moved, I add a red text box below the pricing shot with a one-liner… If nothing changed, the
-slide is just the two screenshots and the competitor name." File "Competitor Deck Wk of
-[date]" in the Growth folder. So the capture takes a homepage shot and one pricing-section shot
-per competitor, each change carries a `deck_line` for the red box, and each run carries
-`week_of` (the Monday) for the file name. Homepage pictures are for the slide only; homepage
-changes stay untracked ("features are product's problem").
+**Maya never connects anything.** The Google connection is set up once by whoever runs the tool.
+In this demo that's my personal Google account standing in for a team account.
 
-**Bot checks are waited out, never solved.** From GitHub's servers, Lovable's homepage showed a
-Cloudflare check ("Performing security verification") and the first deck carried a picture of
-it. Now the capture gives a check 20 seconds to clear by itself and otherwise doesn't use the
-page: a blocked pricing page fails that competitor's capture with a clear error (no screenshot of
-the check, no guessed data); a blocked homepage reuses the last good homepage picture, and the
-slide says how old it is. That one bad recording was corrected by hand to point at the earlier
-good picture.
+## When it runs
 
-**Cookie banners are hidden, never accepted.** Lovable's banner offers only "OK", which would
-mean consenting on our behalf. The capture presses Reject/Decline when a site has it and
-otherwise hides the banner before the screenshot.
+**Monday 07:30, on two clocks.** She starts at 08:30, so the deck has to be there by then. I
+first relied on GitHub's scheduler, then tested it: a one-off schedule still hadn't started 20
+minutes after its time. So a scheduled workflow in the Base44 app starts the run at 07:30 Israel
+time, and GitHub's own schedule is a fallback at 07:45 that skips itself if a run already
+happened that day. Base44's workflows are in beta, which is exactly why they aren't the only
+clock. Both would have to fail the same morning for the deck to be missing.
 
-**Precision over recall.** Maya: "Flagging a false one is worse." The cost was credibility: "we
-looked dumb in front of the whole team."
+## How it's built
 
-**No number comes from a model.** Every number is read from the source text by deterministic
-rules. That's also what makes the repo run on unseen cases with no keys.
+**Base44 for what Maya and the reviewers see, Python for the logic.** The Base44 app is the
+front end (this week, history, the run log, a file test page), the database (runs, changes,
+skipped signals, snapshots), the scheduler, and the function that builds the deck through Base44's
+Google Slides and Drive connectors. The logic and the backend are Python, run by GitHub Actions,
+for three reasons:
+- The brief's test runs on a fresh clone with no keys, so the core uses only the Python standard
+  library: `./run --input cases.json --output result.json` needs nothing but `python3` (3.9 is
+  enough, the version macOS ships).
+- The capture needs a real browser: Lovable renders its prices with JavaScript, and Maya needs
+  screenshots. Playwright on a GitHub runner does that; a Base44 function can't.
+- One decision path. The live run turns what changed into plain sentences in the same format as
+  `cases.json` ("Pro plan shown at $30/month (was $25/month last week)."), and the same core
+  decides. Only the source changes, as the brief asks.
 
-**predicted_ctr is never used.** It's a model score, not performance. Daniel was burned by a tool
-that ranked a 2-day-old ad first by predicted CTR; "That ad died a week later."
+**The file test page runs the same Python in the browser.** Rewriting the core in JavaScript
+would mean two implementations to keep in sync. The page runs the exact modules behind `./run`
+with Pyodide: no server, no keys, and the file never leaves the computer. A test fails if the
+app's copy drifts from the repo.
 
-**Rumors are skipped.** Noa nearly posted a reaction to "v0 is shutting down" from Reddit.
+**Recordings stay in the repo, screenshots go to Base44.** The JSON snapshots are next week's
+"before" and the data the repo replays with no keys, so they're committed. Screenshots are large
+and public anyway, so they're uploaded to Base44 instead.
 
-## Product
+**Safe by default.** The app only reads; the Python job writes with a token scoped to this one
+app, and publishing the same run twice updates rather than duplicates. Run now is open to anyone
+(Maya won't log in) but refuses while a run is going and for 10 minutes after the last one. A
+broken input, a duplicate id or even a bug in the code still produces a valid result file, with
+every input id placed and the problem listed in `run.errors`.
 
-**The core feature is the diff.** Maya: "I re-screenshot everything fresh every Monday because I
-have no way to diff against last week's." Real changes come "maybe once a quarter", so a quiet
-week must still produce a deck that says "no change", with fresh screenshots as proof.
+**One extractor for every site.** It finds plan cards by plan names and prices, not by a site's
+HTML, so a redesign is less likely to break it and a new competitor is one line of config. To
+avoid false flags it compares the same billing view every week, treats more than half the plans
+vanishing as a broken read rather than removals, and ignores buttons, badges and dropdown values.
 
-**Deliver into Drive and Slack, not a dashboard.** Maya: "if it's not already in Google Drive or
-Slack where I live, I'm not opening it. New login, new tab, it's dead." The deck fills her
-existing Google Slides template. The web app holds history and the run log.
-This is also why the brief's "analytics dashboard" stays out.
+**Tested on cases I hadn't seen.** Before submitting I wrote new inputs against the rules rather
+than the code: other units, other word orders, a new plan, URLs that only look like a pricing
+page, plain-text injections. Each one that came out wrong was fixed and kept as a test.
 
-**Each item's action points somewhere useful.** Comparison pages are orphaned (Noa: "No one
-really owns them"), so a verified change says to update the comparison page. A price rise
-suggests checking whether we're now cheaper, which is an angle for Daniel only if it's true.
+**The app's code is copied into `app/`.** The brief wants all the code in the repo, and Base44's
+GitHub sync can only create a new repository. A script exports the app's source into `app/`.
 
-**Weekly schedule, Monday 07:30 Jerusalem time, on two clocks.** Maya starts at 08:30 ("Monday's
-been working fine"). GitHub's cron alone isn't reliable enough for "if it's not on the slide, it
-didn't happen": a one-off test schedule (15:15 UTC on 2026-10-24) still hadn't started more than
-15 minutes later. So the Base44 app's scheduled workflow ("Monday pricing run", 07:30
-`Asia/Jerusalem`) starts the GitHub run, the same call as Run now plus the Slack message, and
-GitHub's cron stays as the fallback at 07:45. The run itself stays in GitHub because it needs a
-real browser. Base44's workflows API is in beta, which is why it isn't the only clock. GitHub's
-cron runs in UTC and Israel changes clocks (2026-10-25), so it's scheduled at both offsets and
-only proceeds at 07:xx–08:xx local time if nothing ran that day. After each run it commits the JSON recording, so next week's diff has its "before".
-Midweek checks are a possible extension.
+## What I chose not to build
 
-## Engineering
-
-**Core and test path use only the Python standard library.** The examiners run a fresh clone with
-none of our keys; `python3` is the only requirement. Playwright is needed only for live runs.
-
-**The app's file test runs our Python in the browser.** The brief allows a command or an upload
-page, and asks for the same logic as the live app. Rewriting the core in JavaScript would make
-two implementations; a server-side Python run through GitHub Actions would take a minute or two
-and need a token. Pyodide runs the exact modules behind `./run` in the page: no server, no
-keys, the file stays on the computer, about 2 seconds including the first load. The modules are
-copied into the app as one bundle stamped with its source commit, and a test checks the bundle
-alone matches the CLI. The cost is a copy that can go stale; the commit stamp makes that visible.
-
-**Run now is open to anyone, but throttled.** The app has no sign-in (Maya won't log in), so
-the button's server function refuses while a run is in progress and for 10 minutes after the
-last one started (a run takes about 2 minutes; I first set 30, which was more than needed,
-since a running run already blocks a second one). The GitHub token is an app secret scoped to Actions on this one repo, never
-sent to the browser. The weekly cron and the button run the same workflow.
-
-**The app's code is exported into `app/`, not synced.** The brief wants all the code in the
-repo. Base44's two-way GitHub sync needs its own new repository and can't attach to this one,
-and once connected it can't be undone. Instead, a script pulls the app's source through Base44's
-export API into `app/` and it's committed like any other change. The cost is a manual step after
-editing the app; a test catches the one drift that would matter (the core copy the app runs).
-
-**Python backend on GitHub Actions, front end on Base44.** Same code runs on the schedule and in
-the CLI. No always-on server: a "run now" press starts a workflow, so it takes a minute, not a
-second.
-
-**Hidden cases are guessed at by writing new ones.** The reviewers' cases are unseen, so before
-submitting I wrote a fresh batch against the rules (other units and multipliers, other word
-orders, a new plan, URLs that only look like a pricing page, plain-text injections, epoch times).
-Four phrasings and one trust rule came out wrong; each is fixed and kept as a test. The trust fix
-matters most: `lovable.dev/blog/pricing` used to count as the pricing page.
-
-**Confidence is a fixed formula** (see README), so the same input always gives the same output.
-
-**Live mode reads the page in a real browser.** Lovable renders prices with JavaScript, so a plain
-HTTP fetch sees no prices. Playwright also gives the cropped per-plan screenshots Maya now makes
-by hand ("half of it is just cropping screenshots").
-
-**Live diffs become ordinary signals.** The diff writes plain sentences ("Pro plan shown at
-$30/month (was $25/month last week).") into a `cases.json`, and the core decides. One decision
-path for live and test, as the brief requires.
-
-**Guards against false flags in live mode**, because a false flag is the worst outcome:
-- Switch to monthly billing before reading; if the view still differs from last week, don't
-  compare prices (Bolt opens on yearly).
-- If more than half the plans vanish, treat it as a broken extraction, not removals.
-- Ignore marketing sentences, CTAs and badges; only entitlement lines count as features.
-- Packaging changes with no number get lower confidence (0.75) than price or limit changes.
-- Two captures a minute apart produced zero changes on all three sites.
-
-**Screenshots live in Base44; JSON recordings stay in the repo.** Screenshots were about 1.5 MB a
-run, so they're uploaded to Base44 as public files (pricing pages are public anyway) and not
-committed. The JSON snapshots and each run's cases.json and result.json stay in `recordings/`:
-they're next week's "before", and the brief needs the repo to run "on data recorded from your
-real runs" with no keys, which data behind a Base44 token wouldn't allow.
-
-**The web app only reads.** Entities allow reads for anyone and writes for the admin only; the
-Python job writes with a personal access token scoped to this one app. I turned down the App MCP
-setup Base44 offered (AI assistants with full read-write access): Maya didn't ask for it, and it
-would have put the app behind a sign-in, which she said she won't do ("New login, new tab, it's
-dead") and which would lock reviewers out.
-
-**Upserts, not inserts.** Every record is keyed on the run plus its own id, so publishing a run
-twice (a retry after a timeout) updates rather than duplicates. Base44's API has no idempotency
-key, so this is what makes retries safe.
-
-**Base44's Entities and file APIs are in beta.** All calls to them sit in one module
-(`brightloop/store/base44.py`), and a failed publish never fails the run.
-
-**Live runs go out from GitHub Actions, not from the office network.** Low volume: three pages
-once a week, pages that robots.txt allows.
-
-**The week filter uses the input's timezone.** An ISO week in Asia/Jerusalem starts Sunday 21:00
-or 22:00 UTC depending on DST.
+- **The brief's nice-to-haves** (multi-language, SSO, dark mode, an analytics dashboard, A/B
+  auto-winner, a mobile app). Maya won't open another tool: "New login, new tab, it's dead."
+- **Merging duplicate launches.** I built it for Noa's problem, then removed it: for Maya every
+  launch is skipped anyway. Two reports of the same pricing change are still merged into one item.
+- **Replit's bigger credit packs** ($225, $440… in a dropdown). Maya: "I'd probably miss it—I
+  screenshot the main pricing page, not every dropdown." She didn't ask for it; it's easy to add.
+- **Side programs** (Lovable for students, campus and kids). They aren't steps on the price ladder
+  she tracks.
+- **Homepage change tracking.** The homepage is on the slide as context only.
 
 ## Disclosure
 
