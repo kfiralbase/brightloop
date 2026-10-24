@@ -34,7 +34,7 @@ python3 -m unittest -v
 |---|---|
 | **Test on a file** (what reviewers run) | `./run --input cases.json --output result.json`. No install, no keys, no network. |
 | **Test on a file, in the app** | **Test a file** page: upload `cases.json`, download `result.json`. Runs the same Python (`brightloop/file_run.py`) in the browser with Pyodide; the file never leaves the computer. |
-| **Scan now, from the app** | **Run now** on the home page. Starts the weekly workflow; refused while one is running or within 30 minutes of the last. |
+| **Scan now, from the app** | **Run now** on the home page. Starts the weekly workflow; refused while one is running or within 10 minutes of the last. |
 | **Scan now, from GitHub** | Actions → **weekly** → **Run workflow**, or `gh workflow run weekly`. Captures, decides, publishes to the app, commits the recording. |
 | **Scan now, on your machine** | `.venv/bin/python -m brightloop live` (setup below). Publishes too if `.env` has the Base44 keys; add `--no-publish` to keep it local. |
 | **Every Monday** | Automatic: `.github/workflows/weekly.yml`, ready by 07:30 Jerusalem time. |
