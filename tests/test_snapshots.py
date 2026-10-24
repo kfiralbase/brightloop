@@ -43,6 +43,9 @@ class CardParsing(unittest.TestCase):
         self.assertEqual(headline_price(["Core", "$20 / month", "$20 towards more powerful models"]), "$20/month")
         self.assertEqual(headline_price(["Pro", "$25", "*", "/month", "Billed monthly"]), "$25/month")
         self.assertEqual(headline_price(["Enterprise", "Custom", "Book a Demo"]), "Custom")
+        # Lovable's yearly view: the monthly price struck through, then the annual one.
+        self.assertEqual(headline_price(["Pro", "$25", "Originally $25 per month", "$21",
+                                         "/ month, billed annually"]), "$21/month")
 
     def test_features_drop_ctas_badges_and_blurbs(self):
         f = features(LOVABLE["plans"][1]["lines"], "$25/month")
@@ -146,6 +149,59 @@ class Diffing(unittest.TestCase):
         r = decide(signals)
         placed = [i for it in r["items"] for i in it["source_ids"]] + [s["id"] for s in r["skipped"]]
         self.assertEqual(sorted(placed), sorted(ids))
+
+
+def with_annual(snap, pro_price):
+    snap = copy.deepcopy(snap)
+    snap["annual"] = {"billing_view": "annual", "plans": [
+        {"name": "Pro", "lines": ["Pro", pro_price, "/ month", "Billed annually", "100 monthly credits"]},
+        {"name": "Business", "lines": ["Business", "$42", "/ month", "Billed annually"]},
+    ]}
+    return snap
+
+
+class MayasRules(unittest.TestCase):
+    """Maya: packaging goes in the red box, annual prices count, promos are noise until they stick."""
+
+    def test_packaging_reaches_the_red_box(self):
+        cut = diff(LOVABLE, changed(Pro=lambda ls: [("50 monthly credits" if l == "100 monthly credits" else l)
+                                                    for l in ls]))[0]
+        cur = changed(Business=lambda ls: [l for l in ls if l != "SSO"])
+        cur["plans"].append({"name": "Enterprise", "lines": ["Enterprise", "Custom", "SSO"]})
+        prev = copy.deepcopy(LOVABLE)
+        prev["plans"].append({"name": "Enterprise", "lines": ["Enterprise", "Custom"]})
+        moved = diff(prev, cur)[0]
+        self.assertEqual(decide(cut)["items"][0]["deck_line"], "Pro: 100→50 monthly credits")
+        self.assertEqual(decide(moved)["items"][0]["deck_line"], "'SSO' moved from Business to Enterprise")
+
+    def test_annual_price_change_is_its_own_line(self):
+        signals, _ = diff(with_annual(LOVABLE, "$21"), with_annual(changed(), "$23"))
+        self.assertEqual([s["text"] for s in signals],
+                         ["Pro plan, billed annually, shown at $23/month (was $21/month last week)."])
+        item = decide(signals)["items"][0]
+        self.assertEqual(item["change"]["plan"], "Pro (annual)")
+        self.assertEqual(item["deck_line"], "Pro (annual): $21→$23/month")
+
+    def test_annual_needs_both_weeks(self):
+        self.assertEqual(diff(LOVABLE, with_annual(changed(), "$23")), ([], []))
+
+    def test_limited_time_price_is_skipped(self):
+        signals, _ = diff(LOVABLE, changed(Pro=lambda ls: [("$12.50" if l == "$25" else l) for l in ls]
+                                           + ["50% off your first month, limited time"]))
+        r = decide(signals)
+        self.assertEqual(r["items"], [])
+        self.assertIn("Limited-time promo", r["skipped"][0]["reason"])
+
+    def test_promo_line_added_is_skipped(self):
+        signals, _ = diff(LOVABLE, changed(Pro=lambda ls: ls + ["Limited time: 2x credits"]))
+        r = decide(signals)
+        self.assertEqual((r["items"], len(r["skipped"])), ([], 1))
+
+    def test_permanent_yearly_discount_wording_is_not_a_promo(self):
+        signals = [{"id": "p1", "type": "pricing", "competitor": "Lovable", "source": "lovable.dev/pricing",
+                    "ts": "2026-10-26T04:30:00Z",
+                    "text": "Pro plan, billed annually, shown at $20/month (was $21/month last week). 2 months free"}]
+        self.assertEqual(len(decide(signals)["items"]), 1)
 
 
 if __name__ == "__main__":

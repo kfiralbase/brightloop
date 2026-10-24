@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from .normalize import clean_text, iso_utc, parse_ts, slug, week_bounds
-from .pricing import Change, find_change
+from .pricing import PROMO, Change, find_change
 from .trust import OFFICIAL_OTHER, THIRD_PARTY, SourceInfo, classify_source
 
 BUILT_FOR = "maya"
@@ -257,6 +257,8 @@ def run(payload: object, *, started_at: datetime) -> dict:
         if _RUMOR.search(text):
             who = " from an anonymous source" if info.unvetted else ""
             skip(sid, f"Rumor{who} (speculative wording), not a confirmed change.", injected)
+        elif PROMO.search(text):
+            skip(sid, "Limited-time promo, not a lasting price change. Flagged only once it sticks.", injected)
         elif change is None and kind == "launch":
             skip(sid, "Feature launch with no price change: product's area, not the pricing deck.", injected)
         elif change is None:

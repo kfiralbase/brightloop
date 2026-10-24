@@ -10,6 +10,7 @@ import re
 from urllib.parse import urlparse
 
 from .core.normalize import slug
+from .core.pricing import PROMO
 
 _MONEY = re.compile(r"\$\s?\d[\d,]*(?:\.\d+)?")
 _HEADLINE = re.compile(r"(\$\s?\d[\d,]*(?:\.\d+)?)(?:\s*\*)?(?:\s*(?:/|per)\s*(month|mo|year|yr|member|seat|user))?", re.I)
@@ -49,7 +50,9 @@ def source_label(url: str) -> str:
 
 
 def headline_price(lines: list[str]) -> str | None:
-    """The plan's own price: the first amount on the card, with its period if it has one."""
+    """The plan's own price: the first amount on the card, with its period if it has one.
+    A struck-through price ("$25" then "Originally $25 per month", as on a yearly view) is skipped."""
+    lines = _without_struck_price(lines)
     text = " ".join(lines)
     m = _HEADLINE.search(text)
     if m:
@@ -62,6 +65,21 @@ def headline_price(lines: list[str]) -> str | None:
         if _NON_NUMERIC_PRICE.match(line):
             return line.title()
     return None
+
+
+_STRUCK = re.compile(r"^(?:originally|was|regular(?:ly)?|normally)\s+(\$\s?\d[\d,]*(?:\.\d+)?)", re.I)
+
+
+def _without_struck_price(lines: list[str]) -> list[str]:
+    out = []
+    for line in lines:
+        m = _STRUCK.match(line)
+        if m:
+            if out and out[-1].replace(" ", "") == m.group(1).replace(" ", ""):
+                out.pop()  # the struck amount shown just above its screen-reader label
+            continue
+        out.append(line)
+    return out
 
 
 def features(lines: list[str], price: str | None, controls: set[str] | list[str] = ()) -> list[str]:
@@ -84,6 +102,21 @@ def features(lines: list[str], price: str | None, controls: set[str] | list[str]
 
 def _shape(line: str) -> str:
     return _DIGITS.sub("#", line.lower())
+
+
+def _price_move(name: str, old: str | None, new: str | None, lines: list[str], shot: str | None,
+                annual: bool = False) -> list[tuple[str, str | None]]:
+    """A headline price that moved, as a signal text. A promo line on the card goes along, so the
+    core can tell a limited-time deal from a real price change."""
+    if not (old and new and old != new):
+        return []
+    label = f"{name} plan, billed annually," if annual else f"{name} plan"
+    if _MONEY.match(old) and _MONEY.match(new):
+        text = f"{label} shown at {new} (was {old} last week)."
+    else:
+        text = f"{label}: '{old}' is now '{new}'."
+    promo = next((ln for ln in lines if PROMO.search(ln)), None)
+    return [(text + (f" The card says: '{promo}'." if promo else ""), shot)]
 
 
 def diff(prev: dict, cur: dict) -> tuple[list[dict], list[str]]:
@@ -120,11 +153,8 @@ def diff(prev: dict, cur: dict) -> tuple[list[dict], list[str]]:
         before, after = prev_plans[name], cur_plans[name]
         shot = after.get("screenshot")
         old_price, new_price = headline_price(before["lines"]), headline_price(after["lines"])
-        if compare_prices and old_price and new_price and old_price != new_price:
-            if _MONEY.match(old_price) and _MONEY.match(new_price):
-                texts.append((f"{name} plan shown at {new_price} (was {old_price} last week).", shot))
-            else:
-                texts.append((f"{name} plan: '{old_price}' is now '{new_price}'.", shot))
+        if compare_prices:
+            texts += _price_move(name, old_price, new_price, after["lines"], shot)
 
         # A control's value is ignored on both sides, so older recordings (which didn't mark
         # controls) never make a dropdown look like a removed feature.
@@ -140,6 +170,15 @@ def diff(prev: dict, cur: dict) -> tuple[list[dict], list[str]]:
                 came.remove(twin)
                 texts.append((f"{name} plan: '{g}' is now '{twin}'.", shot))
         removed[name], added[name] = gone, came
+
+    # The annual bill, read with the page switched to yearly. Prices only: features don't change
+    # with the billing period. Nothing to compare until both weeks have it.
+    prev_year = {p["name"]: p for p in (prev.get("annual") or {}).get("plans", [])}
+    for p in (cur.get("annual") or {}).get("plans", []):
+        if p["name"] in prev_year and p["name"] in cur_plans:
+            texts += _price_move(p["name"], headline_price(prev_year[p["name"]]["lines"]),
+                                 headline_price(p["lines"]), p["lines"], cur_plans[p["name"]].get("screenshot"),
+                                 annual=True)
 
     # A line that left one plan and appeared in another moved tiers.
     for src, lines in removed.items():

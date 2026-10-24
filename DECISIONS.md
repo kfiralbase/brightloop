@@ -28,6 +28,31 @@ packaging change, asked, and she said no.
 seats, credits". Noa: "she cares about the headline number but misses the bundling and tier
 changes."
 
+**Packaging counts as much as price.** I asked Maya whether a credit cut or SSO moving up a
+tier goes in the red box when the price stays the same: "yeah, that goes in the red box—that's
+packaging, not features, and it changes what someone gets for their money." The diff already
+reported both ("Pro: 100→50 monthly credits", "'SSO' moved from Business to Enterprise"); tests
+now pin them to the red box.
+
+**Monthly and annual prices.** Maya: "Annual price changes count, I look at both monthly and
+annual." The capture now also switches each page to its yearly view and reads every plan's
+price there (prices only; the screenshots stay monthly). An annual move is its own line,
+"Pro (annual): $21→$23/month". Only on pages with both a Monthly and a Yearly toggle (Lovable,
+Bolt); Replit shows no annual plans.
+
+**Limited-time promos are skipped.** Maya: "Promos I ignore until they stick—if it says 'limited
+time,' it's noise." Text with limited-time, promo, coupon or "first month" wording goes to
+skipped. The diff passes a promo line from the card along with a price move, so a
+"50% off your first month" price never reaches the deck. If the price stays after the promo
+wording is gone, the next run flags it as a real change. "2 months free" on a yearly toggle is a
+standing discount, not a promo.
+
+**Replit's credit packs aren't tracked.** Replit Pro has a dropdown of bigger packs ($225, $440…).
+Maya: "If a $225 pack becomes $250 but the headline doesn't move, I'd probably miss it—I
+screenshot the main pricing page, not every dropdown." She didn't ask for it, and those values
+are choices, not plan entitlements, so they stay out of features and out of the diff. Catching
+them would be easy to add (read each option's price) if she wants it.
+
 **Side programs aren't plans.** Lovable's page also has "for students", "for campus" and "for
 kids". They aren't steps on the price ladder Maya tracks ("what someone pays or what tier
 they're on"), so a card counts as a plan only if it has a known plan name or shows a $ price.

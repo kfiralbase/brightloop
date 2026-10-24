@@ -27,9 +27,10 @@ Or install it and use the brief's exact command (still no dependencies):
 pip install . && run --input cases.json --output result.json
 ```
 
-Try it on the example from the brief, or on a harder one (24 signals: the same change from two
+Try it on the example from the brief, or on a harder one (26 signals: the same change from two
 sources in two time formats, `€` prices, an unknown competitor, injected text, rumors, sponsored
-claims, an out-of-week change, a bad timestamp, missing and duplicate ids, a non-object entry):
+claims, a limited-time promo, an annual price move, an out-of-week change, a bad timestamp,
+missing and duplicate ids, a non-object entry):
 
 ```bash
 ./run --input tests/fixtures/brief_example.json --output result.json
@@ -73,7 +74,9 @@ The page shows the commit the bundle came from; rebuild it when the core changes
 ## Live mode
 
 The weekly run opens each competitor's pricing page in a headless browser, switches to monthly
-billing, reads every plan card (price, credits, limits, features) and screenshots each card. It
+billing, reads every plan card (price, credits, limits, features) and screenshots each card.
+Where the page also has a Yearly toggle (Lovable, Bolt), it switches to it and reads each plan's
+annual price too; an annual move gets its own line, `Pro (annual): $21→$23/month`. It
 compares against the last recording and turns what moved into signals in the same format as
 `cases.json`, which go through the same core.
 
@@ -153,8 +156,8 @@ One decision path (`brightloop/core/pipeline.py`) for live runs and file runs. O
 
 1. **Clean the text.** Hidden HTML comments and tags are removed before anything reads it.
    Text that tries to instruct an AI is flagged and ignored.
-2. **Keep only pricing changes.** Ads, feature launches without a price change, and rumors go to
-   `skipped` with the reason.
+2. **Keep only pricing changes.** Ads, feature launches without a price change, rumors and
+   limited-time promos go to `skipped` with the reason.
 3. **Trust only the competitor's own pricing page** (`brightloop/core/trust.py`). A pricing
    claim from anywhere else goes to `skipped`: a sponsored post, a news site or a reddit thread
    as unverified, and the competitor's own blog or X account as "not on the pricing page yet".
@@ -213,7 +216,7 @@ from an earlier run because this week's page showed a bot check.
 |---|---|
 | Core rules, CLI, tests, CI | Done |
 | Live collection (Playwright), recordings, offline replay | Done |
-| Base44 app: this week, history, run log, Test a file, Run now | Done (not yet published) |
+| Base44 app: this week, history, run log, Test a file, Run now | Done, published |
 | Google Slides deck in Maya's layout, built after each run | Done |
 | Weekly schedule (GitHub Actions) | Done |
 | Slack message | Deferred: Maya gets "a hundred pings a day" |

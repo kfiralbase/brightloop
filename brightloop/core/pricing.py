@@ -7,7 +7,7 @@ and it moved, I flag it." Numbers come only from the text itself. Nothing is est
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 _MONEY = r"\$\s?(\d[\d,]*(?:\.\d+)?)"
 _QTY = r"(\d[\d,]*(?:\.\d+)?)\s*(?:k\b)?"
@@ -52,6 +52,15 @@ _QUALITATIVE = re.compile(
     re.I,
 )
 _RAISE_TO = re.compile(r"\b(?:raised|raises|increased|increases|cut|cuts|dropped|drops|lowered|lowers|reduced|reduces)\b[^$]{0,40}?\bto\s+" + _MONEY, re.I)
+# Maya: "Promos I ignore until they stick—if it says 'limited time,' it's noise."
+PROMO = re.compile(
+    r"\blimited[- ]time\b|\b(?:promo(?:tion)?s?|promo code|coupon|flash sale|black friday|cyber monday)\b|"
+    r"\b(?:offer|sale|deal) ends\b|\bends (?:soon|today|tonight)\b|"
+    r"\b\d+% off (?:your |the )?first\b|\bfirst (?:month|\d+ months) (?:free|for \$)",
+    re.I,
+)
+# "Pro plan, billed annually, shown at $21/month (was $25/month last week)"
+_ANNUAL = re.compile(r"\bbilled (?:annually|yearly)\b|\bannual (?:plan|price|pricing|billing)\b", re.I)
 _PLAN_IN = re.compile(r"\b" + _PLAN + r"\b(?:\s+(?:plan|tier))?", re.I)
 
 
@@ -89,7 +98,15 @@ def _money(v: float, period: str | None, currency: str = "$") -> str:
 
 
 def find_change(text: str) -> Change | None:
-    """Return the first pricing or packaging change stated in the text, or None."""
+    """Return the first pricing or packaging change stated in the text, or None.
+    A price change on the annual bill is its own change, labelled "Pro (annual)"."""
+    ch = _find_change(text)
+    if ch and ch.field == "price" and _ANNUAL.search(text):
+        ch = replace(ch, plan=f"{ch.plan} (annual)" if ch.plan else "Annual")
+    return ch
+
+
+def _find_change(text: str) -> Change | None:
     m = _LINE_EDIT.search(text)
     if m:
         plan_name, before, after = m.group(1).strip().title(), m.group(2), m.group(3)
