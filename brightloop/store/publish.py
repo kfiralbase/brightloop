@@ -52,8 +52,9 @@ def publish_run(store: Base44Store, run_dir: Path, recordings: Path, root: Path,
             continue
         snap = _read(snap_path)
         gained = False
-        if not snap.get("page_screenshot_url") and (url := upload(snap.get("page_screenshot"))):
-            snap["page_screenshot_url"], gained = url, True
+        for key in ("page_screenshot", "pricing_screenshot", "homepage_screenshot"):
+            if not snap.get(f"{key}_url") and (url := upload(snap.get(key))):
+                snap[f"{key}_url"], gained = url, True
         for plan in snap.get("plans", []):
             if not plan.get("screenshot_url") and (url := upload(plan.get("screenshot"))):
                 plan["screenshot_url"], gained = url, True

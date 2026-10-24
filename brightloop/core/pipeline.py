@@ -142,6 +142,8 @@ def _build_item(group: _Group, used_ids: set[str], week: str, utm_source: str, b
         "action": _scrub(action, banned),
         "why": _scrub(why, banned),
         "competitor": comp,
+        # Maya's red text box on the competitor's slide, e.g. "Pro: $20/month → $25/month".
+        "deck_line": _scrub(_summary("", ch).lstrip(" :"), banned),
         "change": {"field": ch.field, "plan": ch.plan, "before": ch.before, "after": ch.after,
                    "direction": ch.direction},
         "evidence": [{"source_id": m.sid, "source": m.source, "ts_utc": iso_utc(m.ts),

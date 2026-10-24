@@ -50,7 +50,8 @@ def _relative(snapshot: dict, base: Path) -> dict:
             return str(Path(p).resolve().relative_to(base)) if p else p
         except ValueError:
             return p
-    snapshot["page_screenshot"] = rel(snapshot.get("page_screenshot"))
+    for key in ("page_screenshot", "pricing_screenshot", "homepage_screenshot"):
+        snapshot[key] = rel(snapshot.get(key))
     for plan in snapshot.get("plans", []):
         plan["screenshot"] = rel(plan.get("screenshot"))
     return snapshot
@@ -80,7 +81,7 @@ def live(config_path: Path, recordings: Path, output: Path | None, offline: bool
             prev = _read(history[-1]) if history else None
             shots = recordings / slug(name) / stamp
             try:
-                cur = _relative(capture(name, url, shots), ROOT)
+                cur = _relative(capture(name, url, shots, homepage=comp.get("homepage")), ROOT)
             except Exception as exc:  # noqa: BLE001 - one site failing must not stop the others
                 errors.append(f"{name}: capture failed ({type(exc).__name__}: {str(exc).splitlines()[0][:160]}).")
                 continue

@@ -63,6 +63,7 @@ class BriefExample(unittest.TestCase):
         self.assertEqual([i["source_ids"] for i in self.result["items"]], [["pr-401"]])
         item = self.result["items"][0]
         self.assertEqual((item["change"]["before"], item["change"]["after"]), ("$20/month", "$25/month"))
+        self.assertEqual(item["deck_line"], "Pro: $20/month → $25/month")
         self.assertGreaterEqual(item["confidence"], 0.9)
 
     def test_sponsored_free_forever_is_not_trusted(self):

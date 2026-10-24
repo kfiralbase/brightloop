@@ -58,6 +58,24 @@ prices, not by a site's HTML structure, so a redesign is less likely to break it
 competitor is one line in `config/live.json`. It worked on all three sites as is. If a site
 ever needs special handling, that goes in its config entry, not a new module.
 
+**The deck is created in Google Slides in Maya's Drive, not offered as a download.** Maya: "if
+it's not already in Google Slides in my Drive when I open my laptop, it's not really saving me
+much — I'd still be downloading, converting, checking it looks right." Slack is deferred: "Not
+noise if it's accurate and sourced, but I get a hundred pings a day."
+
+**The deck copies Maya's layout exactly.** "One slide per competitor, so three slides… Top of
+the slide is the homepage screenshot, bottom is the pricing page screenshot… If something
+moved, I add a red text box below the pricing shot with a one-liner… If nothing changed, the
+slide is just the two screenshots and the competitor name." File "Competitor Deck Wk of
+[date]" in the Growth folder. So the capture takes a homepage shot and one pricing-section shot
+per competitor, each change carries a `deck_line` for the red box, and each run carries
+`week_of` (the Monday) for the file name. Homepage pictures are for the slide only; homepage
+changes stay untracked ("features are product's problem").
+
+**Cookie banners are hidden, never accepted.** Lovable's banner offers only "OK", which would
+mean consenting on our behalf. The capture presses Reject/Decline when a site has it and
+otherwise hides the banner before the screenshot.
+
 **Precision over recall.** Maya: "Flagging a false one is worse." The cost was credibility: "we
 looked dumb in front of the whole team."
 

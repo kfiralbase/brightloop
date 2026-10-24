@@ -29,7 +29,8 @@ _FROM_TO = re.compile(r"(?:from\s+)?" + _MONEY + r"\s*(?:→|->|=>|\bto\b)\s*" +
 _QTY_WAS = re.compile(_QTY + r"\s*" + _UNITS + r"[^\d]{0,30}?\(?\b(?:was|previously|up from|down from)\s+" + _QTY, re.I)
 _QTY_FROM_TO = re.compile(r"\bfrom\s+" + _QTY + r"\s*(?:" + _UNITS + r"\s*)?(?:→|->|\bto\b)\s*" + _QTY + r"\s*" + _UNITS, re.I)
 # "SSO moved from Pro to Business"
-_TIER_MOVE = re.compile(r"\b(?:moved?|moves|now only on|restricted to)\b.{0,120}?\bfrom\s+" + _PLAN + r"\s+to\s+" + _PLAN, re.I)
+_TIER_MOVE = re.compile(r"(?:'[^']{1,90}'\s+)?\b(?:moved?|moves|now only on|restricted to)\b.{0,120}?\bfrom\s+"
+                        + _PLAN + r"\s+to\s+" + _PLAN, re.I)
 # Phrasings written by the snapshot diff (brightloop/snapshots.py)
 _LINE_EDIT = re.compile(r"\b([\w][\w ]{0,40}?) plan: '(.+?)' is now '(.+?)'", re.I)
 _FEATURE_EDIT = re.compile(r"'(.+?)' (added to|removed from) the ([\w][\w ]{0,40}?) plan\b", re.I)

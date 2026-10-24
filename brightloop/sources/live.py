@@ -85,8 +85,76 @@ def _prefer_monthly(page) -> bool:
     return False
 
 
-def capture(competitor: str, url: str, shots_dir: Path, *, timeout_ms: int = 45000) -> dict:
-    """Open the page, read every plan card, screenshot each card. Raises on failure."""
+# The rectangle around all plan cards, in page coordinates, for one "pricing section" picture.
+_CARDS_BOX_JS = r"""
+(indexes) => {
+  const boxes = indexes.map(i => document.querySelector(`[data-bl-card='${i}']`))
+    .filter(Boolean).map(el => el.getBoundingClientRect()).filter(r => r.width && r.height);
+  if (!boxes.length) return null;
+  const left = Math.min(...boxes.map(r => r.left)), top = Math.min(...boxes.map(r => r.top));
+  const right = Math.max(...boxes.map(r => r.right)), bottom = Math.max(...boxes.map(r => r.bottom));
+  return { x: left + scrollX, y: top + scrollY, width: right - left, height: bottom - top };
+}
+"""
+
+_DECLINE = re.compile(r"^\s*(reject( all)?|decline( all)?|only necessary|necessary only|deny)\s*$", re.IGNORECASE)
+PAD = 16
+MAX_SECTION_HEIGHT = 2400
+
+
+# Hide (never accept) floating cookie banners: fixed or sticky boxes that talk about cookies.
+_HIDE_COOKIE_BANNERS_JS = r"""
+() => {
+  let hidden = 0;
+  for (const el of document.querySelectorAll('body *')) {
+    const pos = getComputedStyle(el).position;
+    if ((pos === 'fixed' || pos === 'sticky') && /cookie/i.test(el.innerText || '') && (el.innerText || '').length < 1500) {
+      el.style.setProperty('display', 'none', 'important');
+      hidden++;
+    }
+  }
+  return hidden;
+}
+"""
+
+
+def _decline_cookies(page) -> None:
+    """Get a cookie banner out of the screenshot without consenting: press Reject/Decline if
+    there is one, otherwise hide the banner. Never presses OK or Accept."""
+    for role in ("button", "link"):
+        loc = page.get_by_role(role, name=_DECLINE)
+        if loc.count():
+            try:
+                loc.first.click(timeout=2000)
+                page.wait_for_timeout(500)
+            except Exception:  # noqa: BLE001 - it went away on its own
+                pass
+            break
+    try:
+        page.evaluate(_HIDE_COOKIE_BANNERS_JS)
+    except Exception:  # noqa: BLE001
+        pass
+
+
+def _homepage_shot(browser, homepage: str, path: Path, timeout_ms: int) -> str | None:
+    """Above-the-fold screenshot of the homepage, for the deck only (homepage changes aren't tracked)."""
+    page = browser.new_page(viewport={"width": 1440, "height": 900}, user_agent=USER_AGENT)
+    try:
+        page.goto(homepage, wait_until="load", timeout=timeout_ms)
+        page.wait_for_timeout(2500)  # hero animations and late images
+        _decline_cookies(page)
+        page.screenshot(path=str(path))
+        return str(path)
+    except Exception:  # noqa: BLE001 - a missing homepage picture must not fail the pricing capture
+        return None
+    finally:
+        page.close()
+
+
+def capture(competitor: str, url: str, shots_dir: Path, *, homepage: str | None = None,
+            timeout_ms: int = 45000) -> dict:
+    """Open the pricing page, read every plan card, and take the screenshots the deck needs:
+    each card, the whole pricing section, and the homepage. Raises if the pricing page fails."""
     from playwright.sync_api import sync_playwright  # live-only dependency
 
     shots_dir.mkdir(parents=True, exist_ok=True)
@@ -98,13 +166,16 @@ def capture(competitor: str, url: str, shots_dir: Path, *, timeout_ms: int = 450
             response = page.goto(url, wait_until="load", timeout=timeout_ms)
             status = response.status if response else None
             page.wait_for_function(r"() => /\$\s?\d/.test(document.body.innerText)", timeout=timeout_ms)
+            _decline_cookies(page)
             monthly = _prefer_monthly(page)
             page.wait_for_timeout(1000)
             cards = page.evaluate(_CARDS_JS, PLAN_NAMES)
-            plans = []
+            _decline_cookies(page)  # banners can appear late; clear them right before the screenshots
+            plans, kept = [], []
             for card in cards:
                 if not is_plan(card["name"], _lines(card["text"])):
                     continue  # a side program (campus, students...), not a step on the price ladder
+                kept.append(card["index"])
                 shot = shots_dir / f"{_file_slug(card['name'])}.png"
                 try:
                     page.locator(f"[data-bl-card='{card['index']}']").screenshot(path=str(shot), timeout=10000)
@@ -114,6 +185,17 @@ def capture(competitor: str, url: str, shots_dir: Path, *, timeout_ms: int = 450
                 plans.append({"name": card["name"], "lines": _lines(card["text"]), "screenshot": shot_path})
             full = shots_dir / "page.png"
             page.screenshot(path=str(full), full_page=True)
+            section = None
+            box = page.evaluate(_CARDS_BOX_JS, kept)
+            if box:
+                clip = {"x": max(0, box["x"] - PAD), "y": max(0, box["y"] - PAD), "width": box["width"] + 2 * PAD,
+                        "height": min(box["height"] + 2 * PAD, MAX_SECTION_HEIGHT)}
+                section = shots_dir / "pricing.png"
+                try:
+                    page.screenshot(path=str(section), full_page=True, clip=clip)
+                except Exception:  # noqa: BLE001
+                    section = None
+            home = _homepage_shot(browser, homepage, shots_dir / "homepage.png", timeout_ms) if homepage else None
             return {
                 "competitor": competitor,
                 "url": url,
@@ -124,6 +206,9 @@ def capture(competitor: str, url: str, shots_dir: Path, *, timeout_ms: int = 450
                 "method": "playwright",
                 "plans": plans,
                 "page_screenshot": str(full),
+                "pricing_screenshot": str(section) if section else None,
+                "homepage_url": homepage,
+                "homepage_screenshot": home,
             }
         finally:
             browser.close()

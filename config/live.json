@@ -3,13 +3,37 @@
   "brand": {
     "name": "Brightloop",
     "voice": "plain, confident, no hype",
-    "banned_words": ["revolutionary", "game-changing", "seamless"]
+    "banned_words": [
+      "revolutionary",
+      "game-changing",
+      "seamless"
+    ]
   },
   "utm_source": "brightloop",
   "competitors": [
-    { "name": "Lovable", "url": "https://lovable.dev/pricing", "enabled": true },
-    { "name": "Replit", "url": "https://replit.com/pricing", "enabled": true },
-    { "name": "Bolt", "url": "https://bolt.new/pricing", "enabled": true },
-    { "name": "v0", "url": "https://v0.app/pricing", "enabled": false }
+    {
+      "name": "Lovable",
+      "url": "https://lovable.dev/pricing",
+      "homepage": "https://lovable.dev/",
+      "enabled": true
+    },
+    {
+      "name": "Replit",
+      "url": "https://replit.com/pricing",
+      "homepage": "https://replit.com/",
+      "enabled": true
+    },
+    {
+      "name": "Bolt",
+      "url": "https://bolt.new/pricing",
+      "homepage": "https://bolt.new/",
+      "enabled": true
+    },
+    {
+      "name": "v0",
+      "url": "https://v0.app/pricing",
+      "homepage": "https://v0.app/",
+      "enabled": false
+    }
   ]
 }

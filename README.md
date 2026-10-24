@@ -60,6 +60,11 @@ billing, reads every plan card (price, credits, limits, features) and screenshot
 compares against the last recording and turns what moved into signals in the same format as
 `cases.json`, which go through the same core.
 
+For Maya's deck it also takes two pictures per competitor: the whole pricing section (one
+rectangle around all plan cards) and the homepage above the fold. Homepage changes aren't
+tracked; the picture is only for the slide. Cookie banners are hidden for the screenshot, never
+accepted: Reject is pressed if the site offers it, otherwise the banner is just not shown.
+
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -e '.[live]' && .venv/bin/playwright install chromium
 .venv/bin/python -m brightloop live
@@ -128,6 +133,7 @@ The required wrapper, plus these fields inside each item:
 | Field | Meaning |
 |---|---|
 | `competitor` | Whose pricing changed |
+| `deck_line` | The one-liner for the red box on that competitor's slide, e.g. `Pro: $20/month → $25/month` |
 | `change` | `field` (price, a unit like credits, tier, packaging), `plan`, `before`, `after`, `direction` |
 | `evidence` | One entry per source: `source_id`, `source`, `ts_utc`, `quote` (visible text only), `source_tier` |
 | `cta` | `label` and `utm` query string (from `config.utm_source`) for the Brightloop link the action points to |
