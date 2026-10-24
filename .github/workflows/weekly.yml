@@ -7,6 +7,7 @@ on:
   schedule:
     - cron: "30 4 * * 1"   # 07:30 in summer (UTC+3)
     - cron: "30 5 * * 1"   # 07:30 in winter (UTC+2)
+    - cron: "15 15 * * *"  # TEMPORARY: one-off schedule test, reverted right after
   workflow_dispatch:         # "Run workflow" button (and the app's Run now): run now, any day
     inputs:
       notify:
@@ -33,6 +34,7 @@ jobs:
         run: |
           echo "run_key=$(date -u +%Y-%m-%dT%H%MZ)" >> "$GITHUB_OUTPUT"   # one key for the whole run
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then echo "go=yes" >> "$GITHUB_OUTPUT"; exit 0; fi
+          if [ "${{ github.event.schedule }}" = "15 15 * * *" ]; then echo "go=yes" >> "$GITHUB_OUTPUT"; exit 0; fi  # TEMPORARY
           hour=$(TZ=Asia/Jerusalem date +%H)
           today=$(date -u +%F)
           if [ "$hour" != "07" ] && [ "$hour" != "08" ]; then
