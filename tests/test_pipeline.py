@@ -142,6 +142,12 @@ class PricingRules(unittest.TestCase):
         for s in r["skipped"]:
             self.assertIn("not on the pricing page yet", s["reason"])
 
+    def test_a_blog_post_named_pricing_is_not_the_pricing_page(self):
+        r = case(pricing("a", "We raised Core to $25/month.", source="blog.replit.com/pricing-update", competitor="Replit"),
+                 pricing("b", "Pro from $20 to $25/month.", source="lovable.dev/en/pricing/?ref=nav"))
+        self.assertEqual([i["source_ids"] for i in r["items"]], [["b"]])
+        self.assertIn("not on the pricing page yet", r["skipped"][0]["reason"])
+
     def test_real_news_site_is_still_third_party(self):
         r = case(pricing("a", "Lovable raised prices from $20 to $25.", source="techcrunch.com/2026/10/lovable"))
         self.assertEqual(r["items"], [])

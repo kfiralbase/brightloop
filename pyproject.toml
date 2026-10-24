@@ -12,6 +12,8 @@ live = ["playwright>=1.48"]
 
 [project.scripts]
 brightloop = "brightloop.cli:main"
+# The brief's literal command: `run --input cases.json --output result.json`
+run = "brightloop.cli:run_command"
 
 [build-system]
 requires = ["setuptools>=68"]
