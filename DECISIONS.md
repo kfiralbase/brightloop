@@ -85,8 +85,28 @@ ever needs special handling, that goes in its config entry, not a new module.
 
 **The deck is created in Google Slides in Maya's Drive, not offered as a download.** Maya: "if
 it's not already in Google Slides in my Drive when I open my laptop, it's not really saving me
-much — I'd still be downloading, converting, checking it looks right." Slack is deferred: "Not
-noise if it's accurate and sourced, but I get a hundred pings a day."
+much — I'd still be downloading, converting, checking it looks right." She presents that file
+as-is on screen-share ("there's no bigger deck"), so a new file per Monday is the right shape.
+
+**One Slack message per Monday, with the link.** Slack was deferred at first ("I get a hundred
+pings a day"). Asked directly: "File in the folder plus one Slack message with the link would be
+ideal—I'm not hunting through Drive on Monday morning." So the scheduled Monday run posts exactly
+one message: the deck link, the red-box lines, any site not checked, or plainly that the deck
+failed and where the changes are instead. Run now never posts, so midweek checks don't ping her.
+It goes to a Slack incoming webhook (`SLACK_WEBHOOK_URL` secret), which sets the channel or DM;
+without the secret the step is skipped.
+
+**A site that didn't load keeps its slide, marked "not checked".** Maya: "I'd rather see last
+week's screenshot marked 'not checked' than an empty slide, because an empty slide just gets me
+questions I don't have answers to." Before this, a failed capture dropped that competitor from
+the deck. Now the run records last week's snapshot as this week's stand-in (`not_checked`,
+original `fetched_at`), the slide says "Not checked this week (site didn't load) · screenshots
+from Oct 19", the app shows the same, and next week compares against the last real capture.
+All three competitors always get a slide.
+
+**She still checks every screenshot before 11.** "If something's off, it's my name on it." So
+the deck doesn't need to be perfect unattended; it needs to be easy to check. That's why every
+reused picture is dated on the slide.
 
 **The deck is built by a Base44 backend function, called at the end of the weekly run.** It's
 presentation, not a decision, so it can live outside the Python core without breaking "same
@@ -159,7 +179,7 @@ week must still produce a deck that says "no change", with fresh screenshots as 
 
 **Deliver into Drive and Slack, not a dashboard.** Maya: "if it's not already in Google Drive or
 Slack where I live, I'm not opening it. New login, new tab, it's dead." The deck fills her
-existing Google Slides template. The web app holds history and the run log, linked from Slack.
+existing Google Slides template. The web app holds history and the run log.
 This is also why the brief's "analytics dashboard" stays out.
 
 **Each item's action points somewhere useful.** Comparison pages are orphaned (Noa: "No one

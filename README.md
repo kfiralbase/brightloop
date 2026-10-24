@@ -57,7 +57,8 @@ python3 -m unittest -v
 | **Scan now, on your machine** | `.venv/bin/python -m brightloop live` (setup below). Publishes too if `.env` has the Base44 keys; add `--no-publish` to keep it local. |
 | **Every Monday** | Automatic: `.github/workflows/weekly.yml`, ready by 07:30 Jerusalem time. |
 
-The weekly workflow needs two repository secrets: `BASE44_APP_ID` and `BASE44_TOKEN`.
+The weekly workflow needs the repository secrets `BASE44_APP_ID`, `BASE44_TOKEN` and
+`DECK_SECRET`; `SLACK_WEBHOOK_URL` is optional (the Monday message).
 GitHub's cron runs in UTC and Israel changes clocks, so it's scheduled at both 04:30 and 05:30
 UTC on Mondays and proceeds only when it's 07:xx or 08:xx in Jerusalem and hasn't run that day.
 GitHub can start scheduled jobs late; the hour window absorbs ordinary delays.
@@ -114,6 +115,17 @@ appears on the app's home page.
 on or after its date (Jerusalem time), and that deck shows every change from all the runs that
 feed it. So a price spotted by a Thursday Run now still appears on Monday's slide, marked
 "(spotted Thu)", and a midweek run never rewrites the deck leadership already saw.
+
+**A site that didn't load keeps its slide.** The run reuses its last capture, and the slide
+says "Not checked this week (site didn't load) · screenshots from &lt;date&gt;". All three
+competitors always get a slide.
+
+**One Slack message on Monday** with the deck link and the red-box lines (or that the deck
+failed, and where to look). Only the scheduled Monday run sends it; Run now doesn't, unless the
+workflow is started with **notify** checked. Needs a `SLACK_WEBHOOK_URL` repository secret
+(a Slack incoming webhook; the webhook decides the channel or DM). Without it the step is skipped.
+Try the text locally: `python3 -m brightloop notify --deck out/deck.json` prints it when no
+webhook is set.
 
 It's the `build-deck` backend function in the Base44 app, using Base44's shared Google Slides and
 Google Drive connectors (Base44 handles the OAuth). Function URLs are public, so it requires an
@@ -219,6 +231,6 @@ from an earlier run because this week's page showed a bot check.
 | Base44 app: this week, history, run log, Test a file, Run now | Done, published |
 | Google Slides deck in Maya's layout, built after each run | Done |
 | Weekly schedule (GitHub Actions) | Done |
-| Slack message | Deferred: Maya gets "a hundred pings a day" |
+| Monday Slack message with the deck link | Done; needs the `SLACK_WEBHOOK_URL` secret |
 
 See [DECISIONS.md](DECISIONS.md) for why it's built this way.

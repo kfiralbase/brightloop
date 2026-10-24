@@ -4,6 +4,8 @@
 // and the pricing-section screenshot, stacked or side by side, whichever shows them bigger; a red
 // text box under the pricing shot only when something moved, nothing when it didn't. File name
 // "Competitor Deck Wk of <Monday>". Re-running for the same week refills the same file.
+// A site that didn't load keeps its slide with last week's pictures, marked "not checked" (Maya:
+// "an empty slide just gets me questions I don't have answers to").
 //
 // Called by the weekly GitHub workflow after a run is published. Every function URL is public,
 // so it requires the X-Deck-Secret header to match the DECK_SECRET app secret.
@@ -173,8 +175,10 @@ export default async function (req: Request): Promise<Response> {
         deck_line: c.deck_line && runDay.get(c.run_key) !== today
           ? `${c.deck_line} (spotted ${dayLabel(runDay.get(c.run_key))})` : c.deck_line,
       }));
-    snaps.sort((a: any, b: any) => (ORDER.indexOf(a.competitor) + 1 || 99) - (ORDER.indexOf(b.competitor) + 1 || 99));
     if (!snaps.length) throw new Error("This run has no snapshots to put on slides.");
+    // "Always Lovable, Replit, and Bolt in the deck": one with nothing captured yet still gets its slide.
+    for (const c of ORDER) if (!snaps.some((s: any) => s.competitor === c)) snaps.push({ competitor: c, not_checked: true });
+    snaps.sort((a: any, b: any) => (ORDER.indexOf(a.competitor) + 1 || 99) - (ORDER.indexOf(b.competitor) + 1 || 99));
 
     const drive = (await sr.connectors.getConnection("googledrive")).accessToken;
     const slidesTok = (await sr.connectors.getConnection("googleslides")).accessToken;
@@ -205,6 +209,12 @@ export default async function (req: Request): Promise<Response> {
       requests.push(...textBox(`t${i}_${tag}`, slide, { x: margin, y: margin * 0.6, w: pageW - 2 * margin, h: titleH },
         snap.competitor, { bold: true, fontSize: { magnitude: 20, unit: "PT" } }));
 
+      if (snap.not_checked) {
+        const asOf = snap.fetched_at ? `screenshots from ${mondayLabel(snap.fetched_at.slice(0, 10))}` : "no earlier screenshots";
+        requests.push(...textBox(`x${i}_${tag}`, slide, { x: pageW / 2, y: margin * 0.6, w: pageW / 2 - margin, h: titleH },
+          `Not checked this week (site didn't load) · ${asOf}`,
+          { bold: true, fontSize: { magnitude: 11, unit: "PT" }, foregroundColor: { opaqueColor: { rgbColor: RED } } }));
+      }
       const lines = changes.filter((c: any) => c.competitor === snap.competitor).map((c: any) => c.deck_line).filter(Boolean);
       const noteH = lines.length ? IN(0.32) * lines.length + IN(0.15) : 0;
       const area = { x: margin, y: margin * 0.6 + titleH, w: pageW - 2 * margin, h: pageH - (margin * 0.6 + titleH) - margin * 0.6 };
@@ -218,7 +228,7 @@ export default async function (req: Request): Promise<Response> {
         requests.push(image(`h${i}_${tag}`, slide, snap.homepage_screenshot_url, l.home));
         // A bot check blocked this week's homepage, so last good picture is reused: say how old it is.
         const taken = (snap.homepage_captured_at || "").slice(0, 10), run = (snap.fetched_at || "").slice(0, 10);
-        if (taken && run && taken !== run) {
+        if (taken && run && taken !== run && !snap.not_checked) {
           requests.push(...textBox(`c${i}_${tag}`, slide, { x: l.home.x, y: l.home.y + l.home.h + IN(0.03), w: l.home.w, h: IN(0.3) },
             `Homepage as of ${mondayLabel(taken)} (this week's page showed a bot check)`,
             { italic: true, fontSize: { magnitude: 9, unit: "PT" } }));
@@ -244,7 +254,11 @@ export default async function (req: Request): Promise<Response> {
       deck_url: deckUrl,
       errors: (run.errors || []).filter((e: string) => !e.startsWith("Deck: ")),
     });
-    return Response.json({ ok: true, deck_url: deckUrl, name, monday, slides: snaps.length, changes: changes.length, reused: !!existing });
+    // What's on the slides, for the Monday Slack message.
+    const lines = changes.filter((c: any) => c.deck_line).map((c: any) => ({ competitor: c.competitor, deck_line: c.deck_line }));
+    const notChecked = snaps.filter((s: any) => s.not_checked).map((s: any) => s.competitor);
+    return Response.json({ ok: true, deck_url: deckUrl, name, monday, slides: snaps.length, changes: changes.length,
+      lines, not_checked: notChecked, reused: !!existing });
   } catch (err) {
     const message = `Deck: ${(err as Error).message}`;
     await sr.entities.Run.update(run.id, { errors: [...(run.errors || []).filter((e: string) => !e.startsWith("Deck: ")), message] }).catch(() => {});

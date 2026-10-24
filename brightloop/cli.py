@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -11,6 +12,7 @@ from pathlib import Path
 from .env import load_dotenv
 from .file_run import run_file
 from .live_run import ROOT, live
+from .notify import deck_message, post
 from .store.base44 import Base44Error, Base44Store
 from .store.publish import publish_run
 
@@ -36,8 +38,26 @@ def main(argv: list[str] | None = None) -> int:
     mark_cmd.add_argument("--status", required=True, choices=["running", "failed"])
     mark_cmd.add_argument("--error", help="Why it failed")
     mark_cmd.add_argument("--log-url", help="Link to the workflow log")
+    notify_cmd = sub.add_parser("notify", help="Post the Monday Slack message (needs SLACK_WEBHOOK_URL)")
+    notify_cmd.add_argument("--deck", required=True, help="build-deck's JSON response")
     args = parser.parse_args(argv)
     load_dotenv(ROOT / ".env")
+
+    if args.command == "notify":
+        webhook = os.environ.get("SLACK_WEBHOOK_URL", "").strip()
+        try:
+            deck = json.loads(Path(args.deck).read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            deck = None
+        text = deck_message(deck if isinstance(deck, dict) else None)
+        if not webhook:
+            print(f"No SLACK_WEBHOOK_URL; would have sent:\n{text}", file=sys.stderr)
+            return 0
+        try:
+            post(webhook, text)
+        except OSError as exc:  # URLError and HTTPError are OSErrors; never fail the run over a ping
+            print(f"Couldn't post to Slack: {exc}", file=sys.stderr)
+        return 0
 
     if args.command == "mark":
         store = Base44Store.from_env()

@@ -60,6 +60,16 @@ def carry_homepage(prev: dict | None, cur: dict) -> str | None:
     return f"homepage picture unavailable this week; reusing the one from {cur['homepage_captured_at'][:10]}."
 
 
+def not_checked(prev: dict) -> dict:
+    """This week's stand-in when a site didn't load: last week's snapshot, unchanged and marked
+    not checked. Maya: last week's screenshot marked "not checked" beats an empty slide, "because
+    an empty slide just gets me questions I don't have answers to." fetched_at stays the old one,
+    so every screen shows how old the pictures are, and next week compares against real data."""
+    snap = dict(prev, not_checked=True)
+    snap.setdefault("homepage_captured_at", prev.get("fetched_at"))
+    return snap
+
+
 def _relative(snapshot: dict, base: Path) -> dict:
     """Store screenshot paths relative to the repo so recordings work on any clone."""
     def rel(p):
@@ -104,6 +114,10 @@ def live(config_path: Path, recordings: Path, output: Path | None, offline: bool
                 cur = _relative(capture(name, url, shots, homepage=comp.get("homepage")), ROOT)
             except Exception as exc:  # noqa: BLE001 - one site failing must not stop the others
                 errors.append(f"{name}: capture failed ({type(exc).__name__}: {str(exc).splitlines()[0][:160]}).")
+                if prev:
+                    _write(shots / "snapshot.json", not_checked(prev))
+                    notes.append(f"{name}: not checked this week; the slide shows the screenshots from "
+                                 f"{prev.get('fetched_at', '')[:10]}, marked not checked.")
                 continue
             note = carry_homepage(prev, cur)
             if note:

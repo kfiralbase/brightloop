@@ -7,7 +7,12 @@ on:
   schedule:
     - cron: "30 4 * * 1"   # 07:30 in summer (UTC+3)
     - cron: "30 5 * * 1"   # 07:30 in winter (UTC+2)
-  workflow_dispatch: {}     # "Run workflow" button: run now, any day
+  workflow_dispatch:         # "Run workflow" button (and the app's Run now): run now, any day
+    inputs:
+      notify:
+        description: "Also send the Slack message (normally only the Monday run does)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write           # commit the run's JSON recording back to the repo
@@ -75,6 +80,15 @@ jobs:
           curl -sS -m 180 --fail-with-body -X POST "$DECK_URL" \
             -H "Content-Type: application/json" -H "X-Deck-Secret: $DECK_SECRET" \
             -A "brightloop-pricing-watch/0.1" -d "{\"run_key\": \"$run_key\"}" | tee out/deck.json
+
+      # One message with the deck link (Maya: "I'm not hunting through Drive on Monday morning").
+      # Monday runs only, so a midweek Run now doesn't ping her. Skipped without the secret.
+      - name: Tell Maya on Slack
+        if: steps.due.outputs.go == 'yes' && (github.event_name == 'schedule' || inputs.notify)
+        continue-on-error: true
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: python -m brightloop notify --deck out/deck.json
 
       - name: Run summary
         if: steps.due.outputs.go == 'yes'

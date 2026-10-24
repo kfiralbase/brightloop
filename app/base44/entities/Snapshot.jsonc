@@ -67,6 +67,10 @@
     },
     "pricing_screenshot_url": {
       "type": "string"
+    },
+    "not_checked": {
+      "type": "boolean",
+      "description": "The site didn't load this run; these are the last good capture's pictures"
     }
   },
   "required": [
