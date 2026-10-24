@@ -231,7 +231,7 @@ def capture(competitor: str, url: str, shots_dir: Path, *, homepage: str | None 
                               "screenshot": shot_path})
             full = shots_dir / "page.png"
             page.screenshot(path=str(full), full_page=True)
-            section = _section_shot(page, kept, shots_dir / "pricing.png")
+            section, cropped = _section_shot(page, kept, shots_dir / "pricing.png")
             # Maya looks at monthly and annual. The slide shows the monthly view (what loads by default
             # on most pages); the annual view adds each plan's yearly price, and its own pricing picture
             # for a slide where only the annual price moved ("If only the annual moved, I'd want to see
@@ -244,7 +244,7 @@ def capture(competitor: str, url: str, shots_dir: Path, *, homepage: str | None 
                 _decline_cookies(page)
                 cards_y = [c for c in page.evaluate(_CARDS_JS, PLAN_NAMES) if is_plan(c["name"], _lines(c["text"]))]
                 yearly = [{"name": c["name"], "lines": _lines(c["text"])} for c in cards_y]
-                shot_y = _section_shot(page, [c["index"] for c in cards_y], shots_dir / "pricing-annual.png")
+                shot_y, _ = _section_shot(page, [c["index"] for c in cards_y], shots_dir / "pricing-annual.png")
                 annual = {"billing_view": "annual", "plans": yearly,
                           "pricing_screenshot": str(shot_y) if shot_y else None}
             home = _homepage_shot(browser, homepage, shots_dir / "homepage.png", timeout_ms) if homepage else None
@@ -260,6 +260,7 @@ def capture(competitor: str, url: str, shots_dir: Path, *, homepage: str | None 
                 "annual": annual,
                 "page_screenshot": str(full),
                 "pricing_screenshot": str(section) if section else None,
+                "pricing_cropped": cropped,
                 "homepage_url": homepage,
                 "homepage_screenshot": home,
             }
@@ -267,18 +268,20 @@ def capture(competitor: str, url: str, shots_dir: Path, *, homepage: str | None 
             browser.close()
 
 
-def _section_shot(page, indexes: list[int], path: Path) -> Path | None:
-    """One picture of the whole pricing section: the rectangle around the given plan cards."""
+def _section_shot(page, indexes: list[int], path: Path) -> tuple[Path | None, bool]:
+    """One picture of the whole pricing section: the rectangle around the given plan cards.
+    Also says whether the section was taller than the limit, so the picture is cut off."""
     box = page.evaluate(_CARDS_BOX_JS, indexes)
     if not box:
-        return None
+        return None, False
+    cropped = box["height"] + 2 * PAD > MAX_SECTION_HEIGHT
     clip = {"x": max(0, box["x"] - PAD), "y": max(0, box["y"] - PAD), "width": box["width"] + 2 * PAD,
             "height": min(box["height"] + 2 * PAD, MAX_SECTION_HEIGHT)}
     try:
         page.screenshot(path=str(path), full_page=True, clip=clip)
-        return path
+        return path, cropped
     except Exception:  # noqa: BLE001
-        return None
+        return None, False
 
 
 def _lines(text: str) -> list[str]:

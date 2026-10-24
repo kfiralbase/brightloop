@@ -22,6 +22,7 @@ from .core.normalize import slug
 from .snapshots import diff
 from .store.base44 import Base44Store
 from .store.publish import publish_run
+from .verify import check_snapshot
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -70,6 +71,22 @@ def not_checked(prev: dict) -> dict:
     return snap
 
 
+def _verified(snapshot: dict, recapture) -> dict:
+    """The last check before the deck: OCR each screenshot against the text read from the page
+    (brightloop/verify.py). On a mismatch, capture once more and keep that capture, whatever its
+    check says; a capture that fails the second time keeps the first. Decisions don't change."""
+    check = check_snapshot(snapshot)
+    if check["status"] == "mismatch":
+        try:
+            again = recapture()
+        except Exception:  # noqa: BLE001 - the first capture still stands
+            again = None
+        if again is not None:
+            snapshot, check = again, check_snapshot(again)
+    snapshot["verification"] = check
+    return snapshot
+
+
 def _relative(snapshot: dict, base: Path) -> dict:
     """Store screenshot paths relative to the repo so recordings work on any clone."""
     def rel(p):
@@ -113,7 +130,9 @@ def live(config_path: Path, recordings: Path, output: Path | None, offline: bool
             prev = _read(history[-1]) if history else None
             shots = recordings / slug(name) / stamp
             try:
-                cur = _relative(capture(name, url, shots, homepage=comp.get("homepage")), ROOT)
+                raw = capture(name, url, shots, homepage=comp.get("homepage"))
+                raw = _verified(raw, lambda: capture(name, url, shots, homepage=comp.get("homepage")))
+                cur = _relative(raw, ROOT)
             except Exception as exc:  # noqa: BLE001 - one site failing must not stop the others
                 errors.append(f"{name}: capture failed ({type(exc).__name__}: {str(exc).splitlines()[0][:160]}).")
                 if prev:
@@ -121,6 +140,9 @@ def live(config_path: Path, recordings: Path, output: Path | None, offline: bool
                     notes.append(f"{name}: not checked this week; the slide shows the screenshots from "
                                  f"{prev.get('fetched_at', '')[:10]}, marked not checked.")
                 continue
+            if cur["verification"]["status"] == "mismatch":
+                notes.append(f"{name}: the screenshot doesn't match the page text "
+                             f"({'; '.join(cur['verification']['problems'][:3])}); the slide is marked to check.")
             note = carry_homepage(prev, cur)
             if note:
                 notes.append(f"{name}: {note}")

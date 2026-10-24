@@ -227,10 +227,18 @@ export default async function (req: Request): Promise<Response> {
       requests.push(...textBox(`t${i}_${tag}`, slide, { x: margin, y: margin * 0.6, w: pageW - 2 * margin, h: titleH },
         snap.competitor, { bold: true, fontSize: { magnitude: 20, unit: "PT" } }));
 
+      // Warnings for Maya, top right: a site that didn't load, or screenshots the OCR check couldn't
+      // match to the page text (the slide still goes in; she checks it before 11).
+      const warnings: string[] = [];
       if (snap.not_checked) {
         const asOf = snap.fetched_at ? `screenshots from ${mondayLabel(snap.fetched_at.slice(0, 10))}` : "no earlier screenshots";
+        warnings.push(`Not checked this week (site didn't load) · ${asOf}`);
+      } else if (snap.verification_status === "mismatch") {
+        warnings.push("Screenshot doesn't match the page text: check before 11");
+      }
+      if (warnings.length) {
         requests.push(...textBox(`x${i}_${tag}`, slide, { x: pageW / 2, y: margin * 0.6, w: pageW / 2 - margin, h: titleH },
-          `Not checked this week (site didn't load) · ${asOf}`,
+          warnings.join("\n"),
           { bold: true, fontSize: { magnitude: 11, unit: "PT" }, foregroundColor: { opaqueColor: { rgbColor: RED } } }));
       }
       const lines = changes.filter((c: any) => c.competitor === snap.competitor).map((c: any) => c.deck_line).filter(Boolean);
@@ -239,7 +247,7 @@ export default async function (req: Request): Promise<Response> {
       // the annual moved, I'd want to see that").
       const annualOnly = lines.length > 0 && lines.every((ln: string) => ln.includes("(annual)"));
       const pricingUrl = annualOnly && snap.annual_pricing_screenshot_url ? snap.annual_pricing_screenshot_url : snap.pricing_screenshot_url;
-      if (pricingUrl && pricingUrl === snap.annual_pricing_screenshot_url && !snap.not_checked) {
+      if (pricingUrl && pricingUrl === snap.annual_pricing_screenshot_url && !warnings.length) {
         requests.push(...textBox(`a${i}_${tag}`, slide, { x: pageW / 2, y: margin * 0.6, w: pageW / 2 - margin, h: titleH },
           "Pricing shown in the annual billing view",
           { italic: true, fontSize: { magnitude: 11, unit: "PT" } }));
@@ -285,8 +293,9 @@ export default async function (req: Request): Promise<Response> {
     // What's on the slides, for the Monday Slack message.
     const lines = changes.filter((c: any) => c.deck_line).map((c: any) => ({ competitor: c.competitor, deck_line: c.deck_line }));
     const notChecked = snaps.filter((s: any) => s.not_checked).map((s: any) => s.competitor);
+    const unverified = snaps.filter((s: any) => !s.not_checked && s.verification_status === "mismatch").map((s: any) => s.competitor);
     return Response.json({ ok: true, deck_url: deckUrl, name, monday, slides: snaps.length, changes: changes.length,
-      lines, not_checked: notChecked, reused: !!existing });
+      lines, not_checked: notChecked, unverified, reused: !!existing });
   } catch (err) {
     const message = `Deck: ${(err as Error).message}`;
     await sr.entities.Run.update(run.id, { errors: [...(run.errors || []).filter((e: string) => !e.startsWith("Deck: ")), message] }).catch(() => {});

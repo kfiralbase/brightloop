@@ -7,8 +7,9 @@ requires-python = ">=3.9"
 dependencies = []
 
 [project.optional-dependencies]
-# Live mode only: rendering pricing pages and taking screenshots.
-live = ["playwright>=1.48"]
+# Live mode only: rendering pricing pages and taking screenshots, and preparing them for the
+# OCR check before the deck (which also needs the tesseract program).
+live = ["playwright>=1.48", "pillow>=10"]
 
 [project.scripts]
 brightloop = "brightloop.cli:main"
