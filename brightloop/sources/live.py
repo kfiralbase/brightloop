@@ -10,6 +10,8 @@ import re
 from datetime import datetime, timezone
 from pathlib import Path
 
+from ..snapshots import PLAN_NAMES, is_plan
+
 USER_AGENT = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/130.0 Safari/537.36"
@@ -58,11 +60,6 @@ _CARDS_JS = r"""
 }
 """
 
-PLAN_NAMES = [
-    "Free", "Starter", "Hobby", "Basic", "Core", "Plus", "Pro", "Premium", "Max", "Ultra",
-    "Team", "Teams", "Business", "Scale", "Growth", "Enterprise",
-]
-
 _MONTHLY = re.compile(r"^\s*monthly\s*$", re.IGNORECASE)
 
 
@@ -106,6 +103,8 @@ def capture(competitor: str, url: str, shots_dir: Path, *, timeout_ms: int = 450
             cards = page.evaluate(_CARDS_JS, PLAN_NAMES)
             plans = []
             for card in cards:
+                if not is_plan(card["name"], _lines(card["text"])):
+                    continue  # a side program (campus, students...), not a step on the price ladder
                 shot = shots_dir / f"{_file_slug(card['name'])}.png"
                 try:
                     page.locator(f"[data-bl-card='{card['index']}']").screenshot(path=str(shot), timeout=10000)

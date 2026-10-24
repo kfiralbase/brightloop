@@ -28,6 +28,12 @@ packaging change, asked, and she said no.
 seats, credits". Noa: "she cares about the headline number but misses the bundling and tier
 changes."
 
+**Side programs aren't plans.** Lovable's page also has "for students", "for campus" and "for
+kids". They aren't steps on the price ladder Maya tracks ("what someone pays or what tier
+they're on"), so a card counts as a plan only if it has a known plan name or shows a $ price.
+The student discount ("up to 50% off Lovable Pro") is pricing of a sort; left out to keep to
+what Maya asked for.
+
 **Competitors: Lovable, Replit, Bolt.** Maya: "Always Lovable, Replit, and Bolt in the deck." v0
 is in the brief's list, so it's in config but off. The core handles any competitor in the input.
 

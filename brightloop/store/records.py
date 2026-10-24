@@ -5,7 +5,7 @@ Field names match the app's entities: Run, Change, Skipped, Snapshot.
 
 from __future__ import annotations
 
-from ..snapshots import headline_price
+from ..snapshots import features, headline_price, plans_of
 
 # Upsert keys: re-publishing the same run updates its records instead of duplicating them.
 KEYS = {
@@ -75,11 +75,14 @@ def to_records(run_key: str, result: dict, cases: dict, snapshots: list[dict]) -
             "fetched_at": snap.get("fetched_at"),
             "url": snap.get("final_url") or snap.get("url"),
             "billing_view": snap.get("billing_view"),
-            "plans": [{"name": p["name"], "price": headline_price(p["lines"]) or "", "lines": p["lines"]}
-                      for p in snap.get("plans", [])],
+            # What a viewer needs: the price and what the plan includes. CTAs, badges and the
+            # raw page text stay in the repo's snapshot JSON.
+            "plans": [{"name": p["name"], "price": (price := headline_price(p["lines"]) or ""),
+                       "lines": features(p["lines"], price or None)}
+                      for p in plans_of(snap)],
             "page_screenshot_url": snap.get("page_screenshot_url") or "",
             "plan_screenshots": [{"name": p["name"], "url": p["screenshot_url"]}
-                                 for p in snap.get("plans", []) if p.get("screenshot_url")],
+                                 for p in plans_of(snap) if p.get("screenshot_url")],
         })
     return records
 

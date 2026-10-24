@@ -25,6 +25,23 @@ _NOISE = re.compile(
 )
 MAX_FEATURE_LEN = 90
 
+# Names of steps on a pricing ladder. A card with another name counts as a plan only if it
+# shows a $ price: that keeps "Lovable for campus" (contact sales) out and real plans in.
+PLAN_NAMES = [
+    "Free", "Starter", "Hobby", "Basic", "Core", "Plus", "Pro", "Premium", "Max", "Ultra",
+    "Team", "Teams", "Business", "Scale", "Growth", "Enterprise",
+]
+_PLAN_SET = {n.lower() for n in PLAN_NAMES}
+
+
+def is_plan(name: str, lines: list[str]) -> bool:
+    return name.strip().lower() in _PLAN_SET or any(_MONEY.search(line) for line in lines)
+
+
+def plans_of(snapshot: dict) -> list[dict]:
+    """The snapshot's plans, without side programs (also drops them from older recordings)."""
+    return [p for p in snapshot.get("plans", []) if is_plan(p["name"], p["lines"])]
+
 
 def source_label(url: str) -> str:
     u = urlparse(url)
@@ -51,9 +68,9 @@ def features(lines: list[str], price: str | None) -> list[str]:
     """Lines that describe what the plan includes, without the name, price, CTAs or blurbs."""
     out = []
     for i, line in enumerate(lines):
-        if i == 0 or _NOISE.match(line) or line == "*":
-            continue
-        if price and line.replace(" ", "") in (price, price.split("/")[0]):
+        if i == 0 or _NOISE.match(line) or line == "*" or line.lower() in _PLAN_SET:
+            continue  # the name can sit below a badge, so it isn't always the first line
+        if price and line.replace(" ", "").lower() in (price.replace(" ", "").lower(), price.split("/")[0].lower()):
             continue
         if _HEADLINE.fullmatch(line.strip()):
             continue
@@ -71,8 +88,8 @@ def diff(prev: dict, cur: dict) -> tuple[list[dict], list[str]]:
     """Return (signals, errors) describing what changed from prev to cur for one competitor."""
     comp = cur.get("competitor") or prev.get("competitor") or "Unknown"
     errors: list[str] = []
-    prev_plans = {p["name"]: p for p in prev.get("plans", [])}
-    cur_plans = {p["name"]: p for p in cur.get("plans", [])}
+    prev_plans = {p["name"]: p for p in plans_of(prev)}
+    cur_plans = {p["name"]: p for p in plans_of(cur)}
 
     if not cur_plans:
         return [], [f"{comp}: no plans found on the page this time; nothing compared."]

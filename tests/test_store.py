@@ -61,6 +61,7 @@ class Records(unittest.TestCase):
         self.assertEqual(ch["screenshot_url"], "https://cdn.example/pro.png")
         self.assertEqual(r["Skipped"], [{"run_key": "2026-10-26T0430Z", "signal_id": "x-1", "reason": "Ad"}])
         self.assertEqual(r["Snapshot"][0]["plans"][0]["price"], "$30/month")
+        self.assertEqual(r["Snapshot"][0]["plans"][0]["lines"], [])  # name, price and "/ month" aren't features
         self.assertEqual(r["Snapshot"][0]["plan_screenshots"], [{"name": "Pro", "url": "https://cdn.example/pro.png"}])
 
     def test_local_screenshot_paths_never_reach_base44(self):

@@ -5,7 +5,7 @@ import unittest
 from datetime import datetime, timezone
 
 from brightloop.core import run
-from brightloop.snapshots import diff, features, headline_price
+from brightloop.snapshots import diff, features, headline_price, is_plan
 
 T0 = datetime(2026, 10, 26, 4, 30, tzinfo=timezone.utc)
 
@@ -96,6 +96,16 @@ class Diffing(unittest.TestCase):
             ("Built for fast-moving teams shipping together, in real time." if l.startswith("Designed") else l)
             for l in ls]))
         self.assertEqual(signals, [])
+
+    def test_side_programs_are_not_plans(self):
+        # "Lovable for campus" (contact sales) was in older recordings; dropping it is not a removal.
+        prev = copy.deepcopy(LOVABLE)
+        prev["plans"].append({"name": "Lovable for campus", "lines": ["Lovable for campus", "Contact sales"]})
+        signals, errors = diff(prev, changed())
+        self.assertEqual((signals, errors), ([], []))
+        self.assertFalse(is_plan("Lovable for students", ["Up to 50% off Lovable Pro", "Get started"]))
+        self.assertTrue(is_plan("Enterprise", ["Enterprise", "Custom"]))
+        self.assertTrue(is_plan("Launch", ["Launch", "$12 / month"]))
 
     def test_extraction_failure_is_not_reported_as_removals(self):
         cur = changed()
