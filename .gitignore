@@ -3,6 +3,10 @@ __pycache__/
 .venv/
 .env
 .env.*
-result.json
+# A result.json written at the repo root while trying the CLI; run results under recordings/ are kept
+/result.json
 out/
 .DS_Store
+
+# Screenshots go to Base44; the JSON snapshots stay in the repo
+recordings/**/*.png

@@ -109,8 +109,24 @@ path for live and test, as the brief requires.
 - Packaging changes with no number get lower confidence (0.75) than price or limit changes.
 - Two captures a minute apart produced zero changes on all three sites.
 
-**Recordings are committed.** Snapshots and cropped card screenshots (about 1.5 MB per run) live
-in `recordings/`. They're the "before" for next week and the no-keys demo data.
+**Screenshots live in Base44; JSON recordings stay in the repo.** Screenshots were about 1.5 MB a
+run, so they're uploaded to Base44 as public files (pricing pages are public anyway) and not
+committed. The JSON snapshots and each run's cases.json and result.json stay in `recordings/`:
+they're next week's "before", and the brief needs the repo to run "on data recorded from your
+real runs" with no keys, which data behind a Base44 token wouldn't allow.
+
+**The web app only reads.** Entities allow reads for anyone and writes for the admin only; the
+Python job writes with a personal access token scoped to this one app. I turned down the App MCP
+setup Base44 offered (AI assistants with full read-write access): Maya didn't ask for it, and it
+would have put the app behind a sign-in, which she said she won't do ("New login, new tab, it's
+dead") and which would lock reviewers out.
+
+**Upserts, not inserts.** Every record is keyed on the run plus its own id, so publishing a run
+twice (a retry after a timeout) updates rather than duplicates. Base44's API has no idempotency
+key, so this is what makes retries safe.
+
+**Base44's Entities and file APIs are in beta.** All calls to them sit in one module
+(`brightloop/store/base44.py`), and a failed publish never fails the run.
 
 **Live runs go out from GitHub Actions, not from the office network.** Low volume: three pages
 once a week, pages that robots.txt allows.
