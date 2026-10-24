@@ -5,6 +5,8 @@ Field names match the app's entities: Run, Change, Skipped, Snapshot.
 
 from __future__ import annotations
 
+from datetime import date
+
 from ..snapshots import features, headline_price, plans_of
 
 # Upsert keys: re-publishing the same run updates its records instead of duplicating them.
@@ -14,6 +16,15 @@ KEYS = {
     "Skipped": ["run_key", "signal_id"],
     "Snapshot": ["run_key", "competitor"],
 }
+
+
+def week_of(week: str) -> str:
+    """Monday of an ISO week ("2026-W44" → "2026-10-26"), or "" when the week is unreadable."""
+    try:
+        year, num = week.split("-W")
+        return date.fromisocalendar(int(year), int(num), 1).isoformat()
+    except (ValueError, AttributeError):
+        return ""
 
 
 def run_status(result: dict, snapshots: list[dict]) -> str:
@@ -33,6 +44,7 @@ def to_records(run_key: str, result: dict, cases: dict, snapshots: list[dict]) -
             "started_at": run.get("started_at"),
             "mode": run.get("mode", "live"),
             "week": week,
+            "week_of": week_of(week),  # the deck's name: "Competitor Deck Wk of <this date>"
             "status": run_status(result, snapshots),
             "items_count": len(result["items"]),
             "skipped_count": len(result["skipped"]),
@@ -61,6 +73,7 @@ def to_records(run_key: str, result: dict, cases: dict, snapshots: list[dict]) -
             "confidence": item["confidence"],
             "action": item["action"],
             "why": item["why"],
+            "deck_line": item.get("deck_line", ""),
             "source": _url(lead.get("source", "")),
             "source_ids": item["source_ids"],
             "screenshot_url": next((e["screenshot"] for e in item.get("evidence", [])
@@ -81,6 +94,10 @@ def to_records(run_key: str, result: dict, cases: dict, snapshots: list[dict]) -
                        "lines": features(p["lines"], price or None)}
                       for p in plans_of(snap)],
             "page_screenshot_url": snap.get("page_screenshot_url") or "",
+            # The two pictures on Maya's slide: homepage on top, pricing section below.
+            "homepage_url": snap.get("homepage_url") or "",
+            "homepage_screenshot_url": snap.get("homepage_screenshot_url") or "",
+            "pricing_screenshot_url": snap.get("pricing_screenshot_url") or "",
             "plan_screenshots": [{"name": p["name"], "url": p["screenshot_url"]}
                                  for p in plans_of(snap) if p.get("screenshot_url")],
         })

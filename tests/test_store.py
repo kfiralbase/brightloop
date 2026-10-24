@@ -10,15 +10,18 @@ from urllib.error import HTTPError
 
 from brightloop.store.base44 import Base44Error, Base44Store
 from brightloop.store.publish import publish_run
-from brightloop.store.records import KEYS, to_records
+from brightloop.store.records import KEYS, to_records, week_of
 
 SNAP = {"competitor": "Lovable", "url": "https://lovable.dev/pricing", "fetched_at": "2026-10-26T04:30:00Z",
         "billing_view": "monthly", "page_screenshot": "rec/lovable/S/page.png",
+        "pricing_screenshot": "rec/lovable/S/pricing.png", "homepage_screenshot": "rec/lovable/S/homepage.png",
+        "homepage_url": "https://lovable.dev/",
         "plans": [{"name": "Pro", "lines": ["Pro", "$30", "/ month"], "screenshot": "rec/lovable/S/pro.png"}]}
 RESULT = {
     "built_for": "maya",
     "items": [{"id": "chg-lovable-pro-price-30-month", "source_ids": ["live-lovable-1"], "confidence": 0.95,
                "action": "Add a slide", "why": "Pro went up", "competitor": "Lovable",
+               "deck_line": "Pro: $25/month → $30/month",
                "change": {"field": "price", "plan": "Pro", "before": "$25/month", "after": "$30/month",
                           "direction": "up"},
                "evidence": [{"source_id": "live-lovable-1", "source": "lovable.dev/pricing",
@@ -64,6 +67,13 @@ class Records(unittest.TestCase):
         self.assertEqual(r["Snapshot"][0]["plans"][0]["lines"], [])  # name, price and "/ month" aren't features
         self.assertEqual(r["Snapshot"][0]["plan_screenshots"], [{"name": "Pro", "url": "https://cdn.example/pro.png"}])
 
+    def test_deck_fields(self):
+        r = to_records("k", RESULT, CASES, [SNAP])
+        self.assertEqual(r["Run"][0]["week_of"], "2026-10-26")  # Monday of 2026-W44
+        self.assertEqual(r["Change"][0]["deck_line"], "Pro: $25/month → $30/month")
+        self.assertEqual(r["Snapshot"][0]["homepage_url"], "https://lovable.dev/")
+        self.assertEqual(week_of("not a week"), "")
+
     def test_local_screenshot_paths_never_reach_base44(self):
         r = to_records("k", RESULT, CASES, [SNAP])
         self.assertEqual(r["Change"][0]["screenshot_url"], "")
@@ -80,6 +90,8 @@ class Publish(unittest.TestCase):
         (rec / "lovable/S/snapshot.json").write_text(json.dumps(SNAP))
         (rec / "lovable/S/pro.png").write_bytes(b"png")
         (rec / "lovable/S/page.png").write_bytes(b"png")
+        (rec / "lovable/S/pricing.png").write_bytes(b"png")
+        (rec / "lovable/S/homepage.png").write_bytes(b"png")
         (rec / "runs/S/cases.json").write_text(json.dumps(CASES))
         (rec / "runs/S/result.json").write_text(json.dumps(RESULT))
         self.rec = rec
@@ -88,7 +100,10 @@ class Publish(unittest.TestCase):
         store = FakeStore()
         errors = publish_run(store, self.rec / "runs/S", self.rec, self.root, ["Lovable", "Bolt"])
         self.assertEqual(errors, [])
-        self.assertEqual(sorted(store.uploads), ["page.png", "pro.png"])
+        self.assertEqual(sorted(store.uploads), ["homepage.png", "page.png", "pricing.png", "pro.png"])
+        snap_record = store.upserts[0][2][0]
+        self.assertEqual(snap_record["homepage_screenshot_url"], "https://cdn.example/homepage.png")
+        self.assertEqual(snap_record["pricing_screenshot_url"], "https://cdn.example/pricing.png")
         self.assertEqual([e for e, _, _ in store.upserts], ["Snapshot", "Change", "Skipped", "Run"])
         self.assertEqual({e: k for e, k, _ in store.upserts}, KEYS)
         change = store.upserts[1][2][0]
@@ -109,7 +124,7 @@ class Publish(unittest.TestCase):
         for _ in range(3):
             publish_run(FakeStore(fail={"upload"}), self.rec / "runs/S", self.rec, self.root, ["Lovable"])
         saved = json.loads((self.rec / "runs/S/result.json").read_text())
-        self.assertEqual(len(saved["run"]["errors"]), 2)  # the two failed uploads, once
+        self.assertEqual(len(saved["run"]["errors"]), 4)  # the four failed uploads, once, not three times over
         self.assertTrue(all(e.startswith("Publish: ") for e in saved["run"]["errors"]))
         snap = json.loads((self.rec / "lovable/S/snapshot.json").read_text())
         self.assertNotIn("page_screenshot_url", snap)  # nothing gained, file untouched
