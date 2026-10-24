@@ -11,7 +11,7 @@
       "action": "Add a slide to Monday's deck: Lovable Pro: $25/month → $30/month, with a screenshot of lovable.dev/pricing. Then update the Brightloop vs Lovable comparison page. Price went up: check whether Brightloop is now cheaper on this plan; if it is, that's a 'cheaper than Lovable' angle for Daniel.",
       "why": "Lovable Pro: $25/month → $30/month, stated on lovable.dev/pricing, lovable.app/pricing (2026-10-27T07:00:00Z). Source is the competitor's own pricing page, with the numbers next to it. 2 independent sources report the same change.",
       "competitor": "Lovable",
-      "deck_line": "Pro: $25/month → $30/month",
+      "deck_line": "Pro: $25→$30/month",
       "change": {
         "field": "price",
         "plan": "Pro",
@@ -49,7 +49,7 @@
       "action": "Add a slide to Monday's deck: Bolt Enterprise: $1,200/month → $1,500/month, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page. Price went up: check whether Brightloop is now cheaper on this plan; if it is, that's a 'cheaper than Bolt' angle for Daniel.",
       "why": "Bolt Enterprise: $1,200/month → $1,500/month, stated on bolt.new/pricing (2026-10-29T12:30:00Z). Source is the competitor's own pricing page, with the numbers next to it.",
       "competitor": "Bolt",
-      "deck_line": "Enterprise: $1,200/month → $1,500/month",
+      "deck_line": "Enterprise: $1,200→$1,500/month",
       "change": {
         "field": "price",
         "plan": "Enterprise",
@@ -80,7 +80,7 @@
       "action": "Add a slide to Monday's deck: Bolt Free: 5 projects → 3 projects, with a screenshot of https://bolt.new/pricing. Then update the Brightloop vs Bolt comparison page. Price went down: re-check any 'cheaper than Bolt' claims in our ads and pages.",
       "why": "Bolt Free: 5 projects → 3 projects, stated on https://bolt.new/pricing (2026-10-28T08:00:00Z). Source is the competitor's own pricing page, with the numbers next to it.",
       "competitor": "Bolt",
-      "deck_line": "Free: 5 projects → 3 projects",
+      "deck_line": "Free: 5→3 projects",
       "change": {
         "field": "projects",
         "plan": "Free",
@@ -111,7 +111,7 @@
       "action": "Add a slide to Monday's deck: Cursor Pro: $20/month → $40/month, with a screenshot of cursor.com/pricing. Then update the Brightloop vs Cursor comparison page. Price went up: check whether Brightloop is now cheaper on this plan; if it is, that's a 'cheaper than Cursor' angle for Daniel.",
       "why": "Cursor Pro: $20/month → $40/month, stated on cursor.com/pricing (2026-10-29T08:00:00Z). Source is the competitor's own pricing page, with the numbers next to it.",
       "competitor": "Cursor",
-      "deck_line": "Pro: $20/month → $40/month",
+      "deck_line": "Pro: $20→$40/month",
       "change": {
         "field": "price",
         "plan": "Pro",
@@ -142,7 +142,7 @@
       "action": "Add a slide to Monday's deck: Replit Pro: €100/month → €90/month, with a screenshot of replit.com/pricing. Then update the Brightloop vs Replit comparison page. Price went down: re-check any 'cheaper than Replit' claims in our ads and pages.",
       "why": "Replit Pro: €100/month → €90/month, stated on replit.com/pricing (2026-10-28T07:00:00Z). Source is the competitor's own pricing page, with the numbers next to it.",
       "competitor": "Replit",
-      "deck_line": "Pro: €100/month → €90/month",
+      "deck_line": "Pro: €100→€90/month",
       "change": {
         "field": "price",
         "plan": "Pro",
@@ -173,7 +173,7 @@
       "action": "Add a slide to Monday's deck: Replit Teams: 10 seats → 15 seats, with a screenshot of replit.com/pricing. Then update the Brightloop vs Replit comparison page. Price went up: check whether Brightloop is now cheaper on this plan; if it is, that's a 'cheaper than Replit' angle for Daniel.",
       "why": "Replit Teams: 10 seats → 15 seats, stated on replit.com/pricing (2026-10-29T14:00:00Z). Source is the competitor's own pricing page, with the numbers next to it.",
       "competitor": "Replit",
-      "deck_line": "Teams: 10 seats → 15 seats",
+      "deck_line": "Teams: 10→15 seats",
       "change": {
         "field": "seats",
         "plan": "Teams",
@@ -235,7 +235,7 @@
       "action": "Add a slide to Monday's deck: Lovable Business: $50/month → $60/month, with a screenshot of lovable.dev/pricing. Then update the Brightloop vs Lovable comparison page. Price went up: check whether Brightloop is now cheaper on this plan; if it is, that's a 'cheaper than Lovable' angle for Daniel.",
       "why": "Lovable Business: $50/month → $60/month, stated on lovable.dev/pricing (2026-10-29T09:00:00Z). Source is the competitor's own pricing page, with the numbers next to it. One source contained hidden instructions aimed at AI systems; they were ignored.",
       "competitor": "Lovable",
-      "deck_line": "Business: $50/month → $60/month",
+      "deck_line": "Business: $50→$60/month",
       "change": {
         "field": "price",
         "plan": "Business",
@@ -336,7 +336,7 @@
     }
   ],
   "run": {
-    "started_at": "2026-10-24T13:18:53+00:00",
+    "started_at": "2026-10-24T13:48:23+00:00",
     "cost_usd": 0.0,
     "errors": [
       "t-16: unreadable timestamp 'yesterday'.",

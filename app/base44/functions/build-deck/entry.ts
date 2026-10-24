@@ -118,6 +118,26 @@ function textBox(id: string, slide: string, b: Box, text: string, style: Record<
   return reqs;
 }
 
+// The deck a run feeds: the Monday on or after the run's date in Jerusalem. A Monday run feeds that
+// day's deck; a Friday "Run now" feeds next Monday's. So a deck that leadership has already seen is
+// never rewritten, and a change spotted midweek still reaches the next Monday's deck.
+function jerusalemDate(iso: string): string {
+  return new Date(iso).toLocaleDateString("en-CA", { timeZone: "Asia/Jerusalem" }); // YYYY-MM-DD
+}
+
+function deckMonday(iso: string): string {
+  const day = jerusalemDate(iso);
+  const d = new Date(`${day}T12:00:00Z`);
+  const dow = d.getUTCDay(); // 0 Sunday .. 6 Saturday
+  d.setUTCDate(d.getUTCDate() + ((8 - dow) % 7));
+  return d.toISOString().slice(0, 10);
+}
+
+// Short, because the red box is "not a paragraph" (Maya): "(spotted Thu)".
+function dayLabel(isoDay: string): string {
+  return new Date(`${isoDay}T12:00:00Z`).toLocaleDateString("en-GB", { weekday: "short", timeZone: "UTC" });
+}
+
 function mondayLabel(weekOf: string): string {
   const d = new Date(`${weekOf}T12:00:00Z`);
   return isNaN(d.getTime()) ? weekOf : d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
@@ -138,7 +158,21 @@ export default async function (req: Request): Promise<Response> {
 
   try {
     const snaps = items(await sr.entities.Snapshot.filter({ run_key: run.run_key }));
-    const changes = items(await sr.entities.Change.filter({ run_key: run.run_key }));
+    // Every change from every run that feeds this deck, not only this run's: a price spotted by a
+    // Thursday "Run now" is gone from Monday's diff (the baseline already has it) but belongs here.
+    const monday = deckMonday(run.started_at);
+    const feeding = items(await sr.entities.Run.filter({}, "-started_at", 200))
+      .filter((r: any) => r.started_at && deckMonday(r.started_at) === monday);
+    const runDay = new Map(feeding.map((r: any) => [r.run_key, jerusalemDate(r.started_at)]));
+    runDay.set(run.run_key, jerusalemDate(run.started_at));
+    const today = jerusalemDate(run.started_at);
+    const changes = items(await sr.entities.Change.filter({}, "-detected_at", 500))
+      .filter((c: any) => runDay.has(c.run_key))
+      .map((c: any) => ({
+        ...c,
+        deck_line: c.deck_line && runDay.get(c.run_key) !== today
+          ? `${c.deck_line} (spotted ${dayLabel(runDay.get(c.run_key))})` : c.deck_line,
+      }));
     snaps.sort((a: any, b: any) => (ORDER.indexOf(a.competitor) + 1 || 99) - (ORDER.indexOf(b.competitor) + 1 || 99));
     if (!snaps.length) throw new Error("This run has no snapshots to put on slides.");
 
@@ -151,7 +185,7 @@ export default async function (req: Request): Promise<Response> {
     const folderId = folders[0]?.id
       ?? (await google(drive, `${D}?fields=id`, { method: "POST", body: JSON.stringify({ name: FOLDER, mimeType: "application/vnd.google-apps.folder" }) })).id;
 
-    const name = `Competitor Deck Wk of ${mondayLabel(run.week_of || "")}`;
+    const name = `Competitor Deck Wk of ${mondayLabel(monday)}`;
     const existing = (await google(drive, q(`name='${name.replace(/'/g, "\\'")}' and '${folderId}' in parents and mimeType='application/vnd.google-apps.presentation' and trashed=false`))).files[0];
     const file = existing ?? await google(drive, `${D}?fields=id,webViewLink&supportsAllDrives=true`, {
       method: "POST", body: JSON.stringify({ name, mimeType: "application/vnd.google-apps.presentation", parents: [folderId] }),
@@ -210,7 +244,7 @@ export default async function (req: Request): Promise<Response> {
       deck_url: deckUrl,
       errors: (run.errors || []).filter((e: string) => !e.startsWith("Deck: ")),
     });
-    return Response.json({ ok: true, deck_url: deckUrl, name, slides: snaps.length, changes: changes.length, reused: !!existing });
+    return Response.json({ ok: true, deck_url: deckUrl, name, monday, slides: snaps.length, changes: changes.length, reused: !!existing });
   } catch (err) {
     const message = `Deck: ${(err as Error).message}`;
     await sr.entities.Run.update(run.id, { errors: [...(run.errors || []).filter((e: string) => !e.startsWith("Deck: ")), message] }).catch(() => {});

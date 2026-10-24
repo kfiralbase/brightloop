@@ -83,6 +83,17 @@ stands in for that team account, and its Growth folder is shared view-only by li
 can open the deck from the app. Switching to a real account is reconnecting the connector; no
 code change.
 
+**A change spotted midweek still goes on Monday's slide.** With Run now, Monday's diff compares
+against the latest snapshot, which may already include a Thursday price change, so Monday's run
+alone would miss it. I asked Maya: "It still goes in Monday's deck, because leadership doesn't
+read Slack, they read the slide. If it's not on the slide, it didn't happen." So each deck now
+belongs to a Monday and collects the changes from every run that feeds it (any run from Tuesday
+to Monday), and a midweek run fills next Monday's deck instead of rewriting last week's.
+
+**The red box is short.** Maya: "'Pro: $25→$30/month' — keep it short, it's a red box, not a
+paragraph." The `deck_line` drops the repeated unit, and a midweek change adds only
+"(spotted Thu)".
+
 **The deck copies Maya's layout exactly.** "One slide per competitor, so three slides… Top of
 the slide is the homepage screenshot, bottom is the pricing page screenshot… If something
 moved, I add a red text box below the pricing shot with a one-liner… If nothing changed, the

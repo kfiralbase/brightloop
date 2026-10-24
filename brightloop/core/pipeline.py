@@ -88,6 +88,28 @@ def _summary(competitor: str, ch: Change) -> str:
     return f"{competitor}{plan}: packaging change (\"{ch.quote}\")"
 
 
+_NUM = re.compile(r"\d[\d,.]*")
+
+
+def _deck_line(ch: Change) -> str:
+    """Maya's red box, as she writes it: short. "Pro: $25→$30/month", "Free: 5→3 projects"."""
+    prefix = f"{ch.plan}: " if ch.plan else ""
+    b, a = ch.before, ch.after
+    if ch.field in ("tier", "packaging") or not (b and a):
+        return _summary("", ch).lstrip(" :")
+    if ch.field == "price":
+        (b_amt, _, b_per), (a_amt, _, a_per) = b.partition("/"), a.partition("/")
+        if b_per == a_per:
+            return f"{prefix}{b_amt}→{a_amt}" + (f"/{a_per}" if a_per else "")
+        return f"{prefix}{b}→{a}"
+    if b.replace(",", "").replace(".", "").isdigit():  # bare quantities: "5" → "3" projects
+        return f"{prefix}{b}→{a} {ch.field}"
+    nb, na = _NUM.findall(b), _NUM.findall(a)
+    if len(nb) == len(na) == 1 and _NUM.sub("#", b) == _NUM.sub("#", a):  # "100 monthly credits" → "50 …"
+        return f"{prefix}{_NUM.sub(f'{nb[0]}→{na[0]}', a, count=1)}"
+    return f"{prefix}{b}→{a}"
+
+
 def _scrub(text: str, banned: list[str]) -> str:
     for word in banned:
         text = re.sub(re.escape(word), "[removed]", text, flags=re.IGNORECASE)
@@ -143,7 +165,7 @@ def _build_item(group: _Group, used_ids: set[str], week: str, utm_source: str, b
         "why": _scrub(why, banned),
         "competitor": comp,
         # Maya's red text box on the competitor's slide, e.g. "Pro: $20/month → $25/month".
-        "deck_line": _scrub(_summary("", ch).lstrip(" :"), banned),
+        "deck_line": _scrub(_deck_line(ch), banned),
         "change": {"field": ch.field, "plan": ch.plan, "before": ch.before, "after": ch.after,
                    "direction": ch.direction},
         "evidence": [{"source_id": m.sid, "source": m.source, "ts_utc": iso_utc(m.ts),
