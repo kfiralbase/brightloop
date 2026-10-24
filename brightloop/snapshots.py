@@ -64,11 +64,13 @@ def headline_price(lines: list[str]) -> str | None:
     return None
 
 
-def features(lines: list[str], price: str | None) -> list[str]:
-    """Lines that describe what the plan includes, without the name, price, CTAs or blurbs."""
+def features(lines: list[str], price: str | None, controls: set[str] | list[str] = ()) -> list[str]:
+    """Lines that describe what the plan includes, without the name, price, CTAs, blurbs, or the
+    value shown in a selection control (a credit-tier dropdown is a choice, not an entitlement)."""
+    skip = set(controls)
     out = []
     for i, line in enumerate(lines):
-        if i == 0 or _NOISE.match(line) or line == "*" or line.lower() in _PLAN_SET:
+        if i == 0 or _NOISE.match(line) or line == "*" or line.lower() in _PLAN_SET or line in skip:
             continue  # the name can sit below a badge, so it isn't always the first line
         if price and line.replace(" ", "").lower() in (price.replace(" ", "").lower(), price.split("/")[0].lower()):
             continue
@@ -124,7 +126,10 @@ def diff(prev: dict, cur: dict) -> tuple[list[dict], list[str]]:
             else:
                 texts.append((f"{name} plan: '{old_price}' is now '{new_price}'.", shot))
 
-        old_f, new_f = features(before["lines"], old_price), features(after["lines"], new_price)
+        # A control's value is ignored on both sides, so older recordings (which didn't mark
+        # controls) never make a dropdown look like a removed feature.
+        controls = set(before.get("controls", [])) | set(after.get("controls", []))
+        old_f, new_f = features(before["lines"], old_price, controls), features(after["lines"], new_price, controls)
         gone = [f for f in old_f if f not in new_f]
         came = [f for f in new_f if f not in old_f]
         # Same line with different numbers: "100 monthly credits" → "50 monthly credits".

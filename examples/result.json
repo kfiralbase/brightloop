@@ -336,7 +336,7 @@
     }
   ],
   "run": {
-    "started_at": "2026-10-24T12:21:37+00:00",
+    "started_at": "2026-10-24T12:59:53+00:00",
     "cost_usd": 0.0,
     "errors": [
       "t-16: unreadable timestamp 'yesterday'.",

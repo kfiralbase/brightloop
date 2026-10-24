@@ -1,0 +1,23 @@
+{
+  "week": "2026-W44",
+  "timezone": "Asia/Jerusalem",
+  "brand": { "name": "Brightloop", "voice": "plain, confident, no hype",
+             "banned_words": ["revolutionary", "game-changing", "seamless"] },
+  "config": { "utm_source": "brightloop" },
+  "sources": ["competitor pricing pages", "Meta Ad Library", "x.com", "launch blogs"],
+  "signals": [
+    { "id": "pr-501", "type": "pricing", "competitor": "Lovable", "source": "lovable.dev/pricing",
+      "ts": "2026-10-26T05:30:00Z", "text": "Pro plan shown at $30/month (was $25 last week)." },
+    { "id": "pr-502", "type": "pricing", "competitor": "Bolt", "source": "bolt.new/pricing",
+      "ts": "2026-10-26T05:31:00Z", "text": "Free tier: 5→3 projects" },
+    { "id": "pr-503", "type": "pricing", "competitor": "Replit", "source": "replit.com/pricing",
+      "ts": "2026-10-26T05:32:00Z", "text": "Core plan shown at $20/month." },
+    { "id": "ad-201", "type": "ad", "competitor": "Lovable", "channel": "meta",
+      "first_seen": "2026-08-30", "last_seen": "2026-10-25", "text": "Your app, live by Friday.", "predicted_ctr": 0.038 },
+    { "id": "sg-401", "type": "launch", "competitor": "Replit", "source": "blog.replit.com/agent-5",
+      "ts": "2026-10-27T16:00:00Z", "text": "Replit ships Agent 5 for all plans." },
+    { "id": "sg-402", "type": "launch", "competitor": "Bolt", "source": "x.com/@boltdotnew",
+      "ts": "2026-10-28T09:00:00+02:00", "text": "Bolt adds one-click Stripe payments." }
+  ],
+  "output": { "cta_required_per_item": true }
+}

@@ -91,7 +91,7 @@ def to_records(run_key: str, result: dict, cases: dict, snapshots: list[dict]) -
             # What a viewer needs: the price and what the plan includes. CTAs, badges and the
             # raw page text stay in the repo's snapshot JSON.
             "plans": [{"name": p["name"], "price": (price := headline_price(p["lines"]) or ""),
-                       "lines": features(p["lines"], price or None)}
+                       "lines": features(p["lines"], price or None, p.get("controls", []))}
                       for p in plans_of(snap)],
             "page_screenshot_url": snap.get("page_screenshot_url") or "",
             # The two pictures on Maya's slide: homepage on top, pricing section below.

@@ -97,6 +97,22 @@ class Diffing(unittest.TestCase):
             for l in ls]))
         self.assertEqual(signals, [])
 
+    def test_dropdown_values_are_not_features(self):
+        # Replit Pro's "Credit tier" dropdown shows "$100 credits": a choice, not part of the plan.
+        lines = ["Pro", "$100 / month", "10 parallel agents", "$100 credits", "Upgrade to Pro"]
+        self.assertEqual(features(lines, "$100/month", ["$100 credits"]), ["10 parallel agents"])
+        # An older recording didn't mark controls; the new one does. Not a removal.
+        old = copy.deepcopy(LOVABLE)
+        new = changed()
+        new["plans"][1]["controls"] = ["100 monthly credits"]
+        new["plans"][1]["lines"] = [l for l in new["plans"][1]["lines"] if l != "100 monthly credits"]
+        self.assertEqual(diff(old, new), ([], []))
+        # Picking another tier in the dropdown isn't a change either.
+        old["plans"][1]["controls"] = ["100 monthly credits"]
+        new["plans"][1]["lines"].append("200 monthly credits")
+        new["plans"][1]["controls"] = ["200 monthly credits"]
+        self.assertEqual(diff(old, new)[0], [])
+
     def test_side_programs_are_not_plans(self):
         # "Lovable for campus" (contact sales) was in older recordings; dropping it is not a removal.
         prev = copy.deepcopy(LOVABLE)
