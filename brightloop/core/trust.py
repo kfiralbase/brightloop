@@ -29,7 +29,9 @@ SOCIAL_DOMAINS = {
 _DOMAIN = re.compile(r"(?<![@\w])((?:[a-z0-9-]+\.)+[a-z]{2,})(/[^\s,;]*)?", re.IGNORECASE)
 _PAID = re.compile(r"\b(sponsored|promoted|advertorial|paid post|ad network|affiliate)\b", re.I)
 _UNVETTED = re.compile(r"\b(guest post|u/anon|anonymous|unverified|rumou?r|forum)\b", re.I)
-_PRICING_PATH = re.compile(r"/(pricing|plans|price|billing)\b", re.I)
+# The pricing page itself: "/pricing" as a whole path segment ("/pricing", "/en/pricing/",
+# "/pricing?ref=x"), not a blog post that happens to start with the word ("/pricing-update").
+_PRICING_PATH = re.compile(r"/(pricing|plans|price|billing)(?=/|\?|#|$)", re.I)
 
 OFFICIAL_PRICING = "official_pricing_page"
 OFFICIAL_OTHER = "official_other"

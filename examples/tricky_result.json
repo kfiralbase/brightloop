@@ -1,0 +1,349 @@
+{
+  "built_for": "maya",
+  "items": [
+    {
+      "id": "chg-lovable-pro-price-30-month",
+      "source_ids": [
+        "t-01",
+        "t-02"
+      ],
+      "confidence": 0.99,
+      "action": "Add a slide to Monday's deck: Lovable Pro: $25/month → $30/month, with a screenshot of lovable.dev/pricing. Then update the Brightloop vs Lovable comparison page. Price went up: check whether Brightloop is now cheaper on this plan; if it is, that's a 'cheaper than Lovable' angle for Daniel.",
+      "why": "Lovable Pro: $25/month → $30/month, stated on lovable.dev/pricing, lovable.app/pricing (2026-10-27T07:00:00Z). Source is the competitor's own pricing page, with the numbers next to it. 2 independent sources report the same change.",
+      "competitor": "Lovable",
+      "deck_line": "Pro: $25/month → $30/month",
+      "change": {
+        "field": "price",
+        "plan": "Pro",
+        "before": "$25/month",
+        "after": "$30/month",
+        "direction": "up"
+      },
+      "evidence": [
+        {
+          "source_id": "t-01",
+          "source": "lovable.dev/pricing",
+          "ts_utc": "2026-10-27T07:00:00Z",
+          "quote": "Pro plan shown at $30/month (was $25 last week).",
+          "source_tier": "official_pricing_page"
+        },
+        {
+          "source_id": "t-02",
+          "source": "lovable.app/pricing",
+          "ts_utc": "2026-10-27T09:00:00Z",
+          "quote": "Lovable Pro: $25 → $30/month",
+          "source_tier": "official_pricing_page"
+        }
+      ],
+      "cta": {
+        "label": "Review the Lovable pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w44-lovable-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-enterprise-price-1-500-month",
+      "source_ids": [
+        "1234"
+      ],
+      "confidence": 0.95,
+      "action": "Add a slide to Monday's deck: Bolt Enterprise: $1,200/month → $1,500/month, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page. Price went up: check whether Brightloop is now cheaper on this plan; if it is, that's a 'cheaper than Bolt' angle for Daniel.",
+      "why": "Bolt Enterprise: $1,200/month → $1,500/month, stated on bolt.new/pricing (2026-10-29T12:30:00Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Enterprise: $1,200/month → $1,500/month",
+      "change": {
+        "field": "price",
+        "plan": "Enterprise",
+        "before": "$1,200/month",
+        "after": "$1,500/month",
+        "direction": "up"
+      },
+      "evidence": [
+        {
+          "source_id": "1234",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-10-29T12:30:00Z",
+          "quote": "Enterprise from $1,200 to $1,500 per month.",
+          "source_tier": "official_pricing_page"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w44-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-free-projects-3",
+      "source_ids": [
+        "t-03"
+      ],
+      "confidence": 0.95,
+      "action": "Add a slide to Monday's deck: Bolt Free: 5 projects → 3 projects, with a screenshot of https://bolt.new/pricing. Then update the Brightloop vs Bolt comparison page. Price went down: re-check any 'cheaper than Bolt' claims in our ads and pages.",
+      "why": "Bolt Free: 5 projects → 3 projects, stated on https://bolt.new/pricing (2026-10-28T08:00:00Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Free: 5 projects → 3 projects",
+      "change": {
+        "field": "projects",
+        "plan": "Free",
+        "before": "5",
+        "after": "3",
+        "direction": "down"
+      },
+      "evidence": [
+        {
+          "source_id": "t-03",
+          "source": "https://bolt.new/pricing",
+          "ts_utc": "2026-10-28T08:00:00Z",
+          "quote": "Free tier: 5→3 projects",
+          "source_tier": "official_pricing_page"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w44-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-cursor-pro-price-40-month",
+      "source_ids": [
+        "t-09"
+      ],
+      "confidence": 0.95,
+      "action": "Add a slide to Monday's deck: Cursor Pro: $20/month → $40/month, with a screenshot of cursor.com/pricing. Then update the Brightloop vs Cursor comparison page. Price went up: check whether Brightloop is now cheaper on this plan; if it is, that's a 'cheaper than Cursor' angle for Daniel.",
+      "why": "Cursor Pro: $20/month → $40/month, stated on cursor.com/pricing (2026-10-29T08:00:00Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Cursor",
+      "deck_line": "Pro: $20/month → $40/month",
+      "change": {
+        "field": "price",
+        "plan": "Pro",
+        "before": "$20/month",
+        "after": "$40/month",
+        "direction": "up"
+      },
+      "evidence": [
+        {
+          "source_id": "t-09",
+          "source": "cursor.com/pricing",
+          "ts_utc": "2026-10-29T08:00:00Z",
+          "quote": "Pro from $20 to $40/month.",
+          "source_tier": "official_pricing_page"
+        }
+      ],
+      "cta": {
+        "label": "Review the Cursor pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w44-cursor-pricing"
+      }
+    },
+    {
+      "id": "chg-replit-pro-price-90-month",
+      "source_ids": [
+        "t-04"
+      ],
+      "confidence": 0.95,
+      "action": "Add a slide to Monday's deck: Replit Pro: €100/month → €90/month, with a screenshot of replit.com/pricing. Then update the Brightloop vs Replit comparison page. Price went down: re-check any 'cheaper than Replit' claims in our ads and pages.",
+      "why": "Replit Pro: €100/month → €90/month, stated on replit.com/pricing (2026-10-28T07:00:00Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Replit",
+      "deck_line": "Pro: €100/month → €90/month",
+      "change": {
+        "field": "price",
+        "plan": "Pro",
+        "before": "€100/month",
+        "after": "€90/month",
+        "direction": "down"
+      },
+      "evidence": [
+        {
+          "source_id": "t-04",
+          "source": "replit.com/pricing",
+          "ts_utc": "2026-10-28T07:00:00Z",
+          "quote": "Pro €90/month (was €100)",
+          "source_tier": "official_pricing_page"
+        }
+      ],
+      "cta": {
+        "label": "Review the Replit pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w44-replit-pricing"
+      }
+    },
+    {
+      "id": "chg-replit-teams-seats-15",
+      "source_ids": [
+        "t-24"
+      ],
+      "confidence": 0.95,
+      "action": "Add a slide to Monday's deck: Replit Teams: 10 seats → 15 seats, with a screenshot of replit.com/pricing. Then update the Brightloop vs Replit comparison page. Price went up: check whether Brightloop is now cheaper on this plan; if it is, that's a 'cheaper than Replit' angle for Daniel.",
+      "why": "Replit Teams: 10 seats → 15 seats, stated on replit.com/pricing (2026-10-29T14:00:00Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Replit",
+      "deck_line": "Teams: 10 seats → 15 seats",
+      "change": {
+        "field": "seats",
+        "plan": "Teams",
+        "before": "10",
+        "after": "15",
+        "direction": "up"
+      },
+      "evidence": [
+        {
+          "source_id": "t-24",
+          "source": "replit.com/pricing",
+          "ts_utc": "2026-10-29T14:00:00Z",
+          "quote": "Teams seats from 10 to 15 seats, a seamless upgrade.",
+          "source_tier": "official_pricing_page"
+        }
+      ],
+      "cta": {
+        "label": "Review the Replit pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w44-replit-pricing"
+      }
+    },
+    {
+      "id": "chg-lovable-all-tier-enterprise",
+      "source_ids": [
+        "t-10"
+      ],
+      "confidence": 0.9,
+      "action": "Add a slide to Monday's deck: Lovable: 'SSO' moved from Business to Enterprise, with a screenshot of lovable.dev/pricing. Then update the Brightloop vs Lovable comparison page.",
+      "why": "Lovable: 'SSO' moved from Business to Enterprise, stated on lovable.dev/pricing (2026-10-29T08:30:00Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Lovable",
+      "deck_line": "'SSO' moved from Business to Enterprise",
+      "change": {
+        "field": "tier",
+        "plan": null,
+        "before": "Business",
+        "after": "Enterprise",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "t-10",
+          "source": "lovable.dev/pricing",
+          "ts_utc": "2026-10-29T08:30:00Z",
+          "quote": "'SSO' moved from Business to Enterprise.",
+          "source_tier": "official_pricing_page"
+        }
+      ],
+      "cta": {
+        "label": "Review the Lovable pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w44-lovable-pricing"
+      }
+    },
+    {
+      "id": "chg-lovable-business-price-60-month",
+      "source_ids": [
+        "t-11"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Lovable Business: $50/month → $60/month, with a screenshot of lovable.dev/pricing. Then update the Brightloop vs Lovable comparison page. Price went up: check whether Brightloop is now cheaper on this plan; if it is, that's a 'cheaper than Lovable' angle for Daniel.",
+      "why": "Lovable Business: $50/month → $60/month, stated on lovable.dev/pricing (2026-10-29T09:00:00Z). Source is the competitor's own pricing page, with the numbers next to it. One source contained hidden instructions aimed at AI systems; they were ignored.",
+      "competitor": "Lovable",
+      "deck_line": "Business: $50/month → $60/month",
+      "change": {
+        "field": "price",
+        "plan": "Business",
+        "before": "$50/month",
+        "after": "$60/month",
+        "direction": "up"
+      },
+      "evidence": [
+        {
+          "source_id": "t-11",
+          "source": "lovable.dev/pricing",
+          "ts_utc": "2026-10-29T09:00:00Z",
+          "quote": "Business plan from $50 to $60/month.",
+          "source_tier": "official_pricing_page"
+        }
+      ],
+      "cta": {
+        "label": "Review the Lovable pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w44-lovable-pricing"
+      }
+    },
+    {
+      "id": "chg-lovable-pro-packaging-change",
+      "source_ids": [
+        "t-16"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Lovable Pro: 'Custom domains' removed, with a screenshot of lovable.dev/pricing. Then update the Brightloop vs Lovable comparison page.",
+      "why": "Lovable Pro: 'Custom domains' removed, stated on lovable.dev/pricing (time not given). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Lovable",
+      "deck_line": "Pro: 'Custom domains' removed",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": "Custom domains",
+        "after": null,
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "t-16",
+          "source": "lovable.dev/pricing",
+          "ts_utc": null,
+          "quote": "'Custom domains' removed from the Pro plan.",
+          "source_tier": "official_pricing_page"
+        }
+      ],
+      "cta": {
+        "label": "Review the Lovable pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w44-lovable-pricing"
+      }
+    }
+  ],
+  "skipped": [
+    {
+      "id": "t-05",
+      "reason": "Announced on Replit's own channel (blog.replit.com), but not on the pricing page yet. The live run will flag it once the pricing page changes."
+    },
+    {
+      "id": "t-06",
+      "reason": "Announced on Replit's own channel (x.com), but not on the pricing page yet. The live run will flag it once the pricing page changes."
+    },
+    {
+      "id": "t-07",
+      "reason": "Unverified pricing claim from a sponsored post, not Bolt's own pricing page. Check the pricing page before it goes anywhere."
+    },
+    {
+      "id": "t-08",
+      "reason": "Rumor from an anonymous source (speculative wording), not a confirmed change."
+    },
+    {
+      "id": "t-12",
+      "reason": "Ad, not a pricing-page change: out of scope for the pricing deck. predicted_ctr is a model score and is not used for anything."
+    },
+    {
+      "id": "t-13",
+      "reason": "Feature launch with no price change: product's area, not the pricing deck."
+    },
+    {
+      "id": "t-14",
+      "reason": "Outside 2026-W44 (Asia/Jerusalem)."
+    },
+    {
+      "id": "t-15",
+      "reason": "No change stated. A price with no previous value isn't a change."
+    },
+    {
+      "id": "t-20",
+      "reason": "Unknown signal type 'podcast'; only pricing changes go in the deck."
+    },
+    {
+      "id": "t-21",
+      "reason": "No readable text, so no change can be confirmed."
+    },
+    {
+      "id": "t-23",
+      "reason": "Unverified pricing claim from techcrunch.com, not Bolt's own pricing page. Check the pricing page before it goes anywhere."
+    }
+  ],
+  "run": {
+    "started_at": "2026-10-24T12:21:37+00:00",
+    "cost_usd": 0.0,
+    "errors": [
+      "t-16: unreadable timestamp 'yesterday'.",
+      "Duplicate id 't-01' at signals[16]; only the first one was used.",
+      "signals[17] has no id; it can't be placed in items or skipped.",
+      "signals[18] is not an object; it has no id to report."
+    ],
+    "mode": "file"
+  }
+}

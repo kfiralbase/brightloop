@@ -70,5 +70,10 @@ def main(argv: list[str] | None = None) -> int:
     return 0
 
 
+def run_command() -> int:
+    """Entry point for the installed `run` command: `run --input cases.json --output result.json`."""
+    return main(["run", *sys.argv[1:]])
+
+
 if __name__ == "__main__":
     sys.exit(main())

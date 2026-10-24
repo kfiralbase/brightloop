@@ -15,12 +15,22 @@ Needs only `python3` (3.10 or newer). No install, no keys, no network.
 ```
 
 Same thing without the wrapper script: `python3 -m brightloop run --input cases.json --output result.json`.
+Or install it and use the brief's exact command (still no dependencies):
 
-Try it on the example from the brief:
+```bash
+pip install . && run --input cases.json --output result.json
+```
+
+Try it on the example from the brief, or on a harder one (24 signals: the same change from two
+sources in two time formats, `€` prices, an unknown competitor, injected text, rumors, sponsored
+claims, an out-of-week change, a bad timestamp, missing and duplicate ids, a non-object entry):
 
 ```bash
 ./run --input tests/fixtures/brief_example.json --output result.json
+./run --input examples/tricky_cases.json --output result.json
 ```
+
+The expected output for the harder one is in `examples/tricky_result.json`.
 
 Tests:
 
