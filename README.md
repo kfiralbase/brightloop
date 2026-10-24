@@ -51,6 +51,29 @@ python3 -m brightloop live --offline   # replays the two latest recordings
 
 Competitors and pages are in `config/live.json`.
 
+## Base44 app
+
+The web app ([bright-loop-watch.base44.app](https://bright-loop-watch.base44.app)) shows this
+week's changes with their screenshots, the change history, and the run log. It reads four
+entities: `Run`, `Change`, `Skipped`, `Snapshot`. The Python job writes them through the Base44
+REST API; viewers only read.
+
+With `BASE44_APP_ID` and `BASE44_TOKEN` in `.env` (or the environment), a live run uploads its
+screenshots as public files and upserts its records. To publish a run that's already recorded:
+
+```bash
+python3 -m brightloop publish            # the latest run
+python3 -m brightloop publish --run 2026-10-23T1508Z
+```
+
+Publishing never blocks a run: if Base44 is down, the result and recording are still written
+and the error goes into `run.errors`. Re-publishing a run updates its records (upsert on
+`run_key` plus the record's own id) rather than duplicating them.
+
+**Where data lives:** screenshots (about 99% of the size) go to Base44 and aren't committed.
+The JSON snapshots and each run's `cases.json` and `result.json` stay in `recordings/`, because
+they're next week's "before" and the no-keys replay data.
+
 ## How it decides
 
 One decision path (`brightloop/core/pipeline.py`) for live runs and file runs. Only the source changes.
@@ -97,7 +120,8 @@ In live runs each evidence entry also has `screenshot`: the cropped plan card.
 | Live collection of pricing pages (Playwright), recorded snapshots, offline replay | Done |
 | History from the Wayback Machine | Next |
 | Google Slides deck from Maya's template, Slack message | Planned |
-| Base44 app: change history, run log, run now | Planned |
+| Base44 app (this week, history, run log) and publishing to it | In progress |
+| Run now button | Planned |
 | Weekly schedule (GitHub Actions) | Planned |
 
 See [DECISIONS.md](DECISIONS.md) for why it's built this way.

@@ -4,7 +4,9 @@
   python -m brightloop live --offline    no network: replay the two latest recordings
 
 Each run leaves recordings/runs/<stamp>/cases.json (the signals, in the brief's input format)
-and result.json. Snapshots and screenshots land in recordings/<competitor>/<stamp>/.
+and result.json. Snapshots land in recordings/<competitor>/<stamp>/. With BASE44_APP_ID and
+BASE44_TOKEN set, screenshots are uploaded to Base44 and the run's records written there; the
+PNGs stay local (not committed) and the snapshot keeps their URLs.
 """
 
 from __future__ import annotations
@@ -17,6 +19,8 @@ from zoneinfo import ZoneInfo
 from .core import run
 from .core.normalize import slug
 from .snapshots import diff
+from .store.base44 import Base44Store
+from .store.publish import publish_run
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -52,7 +56,8 @@ def _relative(snapshot: dict, base: Path) -> dict:
     return snapshot
 
 
-def live(config_path: Path, recordings: Path, output: Path | None, offline: bool) -> dict:
+def live(config_path: Path, recordings: Path, output: Path | None, offline: bool,
+         store: Base44Store | None = None) -> dict:
     cfg = _read(config_path)
     tz = cfg.get("timezone", "UTC")
     started = datetime.now(timezone.utc)
@@ -102,6 +107,10 @@ def live(config_path: Path, recordings: Path, output: Path | None, offline: bool
         run_dir = recordings / "runs" / stamp
         _write(run_dir / "cases.json", cases)
         _write(run_dir / "result.json", result)
+        if store:
+            names = [c["name"] for c in cfg.get("competitors", []) if c.get("enabled")]
+            publish_run(store, run_dir, recordings, ROOT, names)
+            result = _read(run_dir / "result.json")  # now with screenshot URLs and any publish errors
     if output:
         _write(output, result)
     return result

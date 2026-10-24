@@ -22,7 +22,8 @@
         "Unlimited databases",
         "Website hosting"
       ],
-      "screenshot": "recordings/bolt/2026-10-23T1508Z/free.png"
+      "screenshot": "recordings/bolt/2026-10-23T1508Z/free.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/5d221da4b_free.png"
     },
     {
       "name": "Pro",
@@ -43,7 +44,8 @@
         "Connectors and MCPs",
         "SEO boosting"
       ],
-      "screenshot": "recordings/bolt/2026-10-23T1508Z/pro.png"
+      "screenshot": "recordings/bolt/2026-10-23T1508Z/pro.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/f0bbed76e_pro.png"
     },
     {
       "name": "Teams",
@@ -64,7 +66,8 @@
         "Design System knowledge with per-package prompts",
         "Priority support"
       ],
-      "screenshot": "recordings/bolt/2026-10-23T1508Z/teams.png"
+      "screenshot": "recordings/bolt/2026-10-23T1508Z/teams.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/bdeec3f38_teams.png"
     },
     {
       "name": "Enterprise",
@@ -81,8 +84,10 @@
         "Data governance & retention policies",
         "Flexible procurement, MSA, and 24/7 support"
       ],
-      "screenshot": "recordings/bolt/2026-10-23T1508Z/enterprise.png"
+      "screenshot": "recordings/bolt/2026-10-23T1508Z/enterprise.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/84230118f_enterprise.png"
     }
   ],
-  "page_screenshot": "recordings/bolt/2026-10-23T1508Z/page.png"
+  "page_screenshot": "recordings/bolt/2026-10-23T1508Z/page.png",
+  "page_screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/bc9326b7a_page.png"
 }

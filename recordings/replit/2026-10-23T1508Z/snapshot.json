@@ -20,7 +20,8 @@
         "Unlimited workspaces",
         "Try now"
       ],
-      "screenshot": "recordings/replit/2026-10-23T1508Z/core.png"
+      "screenshot": "recordings/replit/2026-10-23T1508Z/core.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/fd21bb267_core.png"
     },
     {
       "name": "Pro",
@@ -43,7 +44,8 @@
         "$2,050 / month",
         "Upgrade to Pro"
       ],
-      "screenshot": "recordings/replit/2026-10-23T1508Z/pro.png"
+      "screenshot": "recordings/replit/2026-10-23T1508Z/pro.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/a2cf0b2ef_pro.png"
     },
     {
       "name": "Enterprise",
@@ -60,8 +62,10 @@
         "Contact sales",
         "Get started"
       ],
-      "screenshot": "recordings/replit/2026-10-23T1508Z/enterprise.png"
+      "screenshot": "recordings/replit/2026-10-23T1508Z/enterprise.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/bec68a163_enterprise.png"
     }
   ],
-  "page_screenshot": "recordings/replit/2026-10-23T1508Z/page.png"
+  "page_screenshot": "recordings/replit/2026-10-23T1508Z/page.png",
+  "page_screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/a780fbb68_page.png"
 }
