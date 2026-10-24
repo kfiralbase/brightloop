@@ -10,3 +10,7 @@ out/
 
 # Screenshots go to Base44; the JSON snapshots stay in the repo
 recordings/**/*.png
+
+# Ad-hoc run outputs
+examples/result.json
+examples/cases.json
