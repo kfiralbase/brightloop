@@ -11,6 +11,7 @@ export function formatTime(iso) {
 }
 
 export const STATUS_DOT = {
+  running: "bg-amber-400 animate-pulse",
   ok: "bg-[#059669]",
   partial: "bg-amber-500",
   failed: "bg-[#E11D48]",

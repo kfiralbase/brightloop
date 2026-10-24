@@ -6,6 +6,8 @@ import Loading from "@/components/Loading";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
+const STATUS_LABEL = { running: "Running…", ok: "Ok", partial: "Partial", failed: "Failed" };
+
 export const Route = createFileRoute("/runs/")({
   head: () => ({ meta: [{ title: "Runs · Brightloop Pricing Watch" }] }),
   component: RunsPage,
@@ -41,7 +43,7 @@ function RunsPage() {
                   <td className="px-4 py-3 font-mono text-xs">{r.week || "—"}</td>
                   <td className="px-4 py-3">
                     <span className="inline-flex items-center gap-1.5 capitalize">
-                      <span className={`h-2 w-2 rounded-full ${STATUS_DOT[r.status] || "bg-slate-400"}`} />{r.status || "—"}
+                      <span className={`h-2 w-2 rounded-full ${STATUS_DOT[r.status] || "bg-slate-400"}`} />{STATUS_LABEL[r.status] || r.status || "—"}
                     </span>
                   </td>
                   <td className="px-4 py-3">{counts[r.run_key] ?? 0}</td>

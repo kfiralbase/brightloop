@@ -1,5 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useLatestRun, useRunChanges, useRunSnapshots } from "@/lib/queries";
+import { useEffect, useRef } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
+import { useLatestRun, useNewestRun, useRunChanges, useRunSnapshots } from "@/lib/queries";
+import { formatTime } from "@/lib/format";
 import RunBanner from "@/components/RunBanner";
 import ChangeCard from "@/components/ChangeCard";
 import SnapshotSection from "@/components/SnapshotSection";
@@ -12,8 +16,41 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
+// What the newest run is doing, when it isn't the run on screen: still going, or failed.
+function RunNotice({ newest, shown }) {
+  if (!newest || newest.run_key === shown?.run_key) return null;
+  const stale = Date.now() - Date.parse(newest.started_at || 0) > 30 * 60_000;
+  if (newest.status === "running" && !stale) {
+    return (
+      <p className="rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+        A new run started at {formatTime(newest.started_at)} and is still running. This page updates when it finishes.
+      </p>
+    );
+  }
+  if (newest.status === "failed" || (newest.status === "running" && stale)) {
+    return (
+      <p className="rounded-lg border border-[#E11D48]/30 bg-rose-50 px-4 py-3 text-sm text-[#9F1239]">
+        The run that started at {formatTime(newest.started_at)} didn't finish.{" "}
+        <Link to="/runs/$runKey" params={{ runKey: newest.run_key }} className="underline">See what happened</Link>.
+        Below is the last run that did.
+      </p>
+    );
+  }
+  return null;
+}
+
 function Home() {
   const run = useLatestRun();
+  const newest = useNewestRun();
+  const queryClient = useQueryClient();
+  const lastKey = useRef(null);
+  // When the newest run finishes, refresh everything so its results appear without a reload.
+  useEffect(() => {
+    const n = newest.data;
+    const key = n ? `${n.run_key}:${n.status}` : null;
+    if (lastKey.current && key !== lastKey.current) queryClient.invalidateQueries();
+    lastKey.current = key;
+  }, [newest.data, queryClient]);
   const changes = useRunChanges(run.data?.run_key);
   const snaps = useRunSnapshots(run.data?.run_key);
 
@@ -34,6 +71,7 @@ function Home() {
 
   return (
     <div className="space-y-6 md:space-y-8">
+      <RunNotice newest={newest.data} shown={run.data} />
       <RunBanner run={run.data} changeCount={list.length} snapshotCount={snapshots.length} action={<RunNowButton />} />
       {list.length > 0 ? (
         <div className="grid gap-6 lg:grid-cols-[65fr_35fr]">

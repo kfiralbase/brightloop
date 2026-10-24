@@ -27,6 +27,7 @@
     "status": {
       "type": "string",
       "enum": [
+        "running",
         "ok",
         "partial",
         "failed"
@@ -54,6 +55,9 @@
       "type": "number"
     },
     "deck_url": {
+      "type": "string"
+    },
+    "log_url": {
       "type": "string"
     }
   },

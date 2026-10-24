@@ -12,6 +12,7 @@ PNGs stay local (not committed) and the snapshot keeps their URLs.
 from __future__ import annotations
 
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -78,7 +79,9 @@ def live(config_path: Path, recordings: Path, output: Path | None, offline: bool
     cfg = _read(config_path)
     tz = cfg.get("timezone", "UTC")
     started = datetime.now(timezone.utc)
-    stamp = started.strftime("%Y-%m-%dT%H%MZ")
+    # The weekly workflow picks the key up front and marks the run "running" under it, so the
+    # app shows the run as soon as it starts; the results then land on that same record.
+    stamp = os.environ.get("BRIGHTLOOP_RUN_KEY") or started.strftime("%Y-%m-%dT%H%MZ")
     signals: list[dict] = []
     errors: list[str] = []
     baselines: list[str] = []
