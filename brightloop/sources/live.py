@@ -243,7 +243,14 @@ def capture(competitor: str, url: str, shots_dir: Path, *, homepage: str | None 
                               ".forEach(el => el.removeAttribute('data-bl-card'))")
                 _decline_cookies(page)
                 cards_y = [c for c in page.evaluate(_CARDS_JS, PLAN_NAMES) if is_plan(c["name"], _lines(c["text"]))]
-                yearly = [{"name": c["name"], "lines": _lines(c["text"])} for c in cards_y]
+                yearly = []
+                for c in cards_y:  # each card's own picture too, for the OCR check (brightloop/verify.py)
+                    shot = shots_dir / f"{_file_slug(c['name'])}-annual.png"
+                    try:
+                        page.locator(f"[data-bl-card='{c['index']}']").screenshot(path=str(shot), timeout=10000)
+                    except Exception:  # noqa: BLE001 - the check falls back to the section picture
+                        shot = None
+                    yearly.append({"name": c["name"], "lines": _lines(c["text"]), "screenshot": str(shot) if shot else None})
                 shot_y, _ = _section_shot(page, [c["index"] for c in cards_y], shots_dir / "pricing-annual.png")
                 annual = {"billing_view": "annual", "plans": yearly,
                           "pricing_screenshot": str(shot_y) if shot_y else None}

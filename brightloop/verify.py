@@ -58,7 +58,9 @@ def _norm(text: str) -> str:
     """Undo the usual OCR slips before comparing: S or § read for $, O for 0 inside numbers, $ read
     for S in a word, a word split over two lines at a hyphen."""
     text = re.sub(r"[S§](?=\s?\d)", "$", text)
+    text = re.sub(r"\b[S§$][Oo]\b", "$0", text)            # "$0" read as "SO"
     text = re.sub(r"(?<=\d)[Oo]|[Oo](?=\d)", "0", text)
+    text = re.sub(r"(?<=\$\d) (?=\d)", "", text)            # "$18" read as "$1 8"
     text = re.sub(r"\$(?=[A-Za-z])", "s", text)
     text = re.sub(r"-\s*\n\s*", "-", text)
     return re.sub(r"\s+", " ", text).strip().lower()
@@ -110,15 +112,22 @@ def check_snapshot(snapshot: dict, read=None) -> dict:
             continue
         checked += 1
         problems += check_card(plan, raw)
+    # Annual prices: each card's own picture when there is one (OCR reads a single card far better
+    # than the whole section: Bolt's "$18*" came back "$138" from the section, "$1 8" from the card).
     annual = snapshot.get("annual") or {}
-    raw = read(annual.get("pricing_screenshot")) if annual else None
-    if raw is not None:
+    section = None
+    for plan in annual.get("plans", []):
+        raw = read(plan.get("screenshot"))
+        if raw is None:
+            if section is None:
+                section = read(annual.get("pricing_screenshot")) or ""
+            raw = section
+        if not raw:
+            continue
         checked += 1
-        text = _norm(raw)
-        for plan in annual.get("plans", []):
-            price = headline_price(plan["lines"])
-            if not _shows_price(price, text):
-                problems.append(f"{plan['name']}: annual price {price} not visible in the annual screenshot")
+        price = headline_price(plan["lines"])
+        if not _shows_price(price, _norm(raw)):
+            problems.append(f"{plan['name']}: annual price {price} not visible in the annual screenshot")
     if snapshot.get("pricing_cropped"):
         problems.append("pricing section taller than the screenshot limit: the slide shows it cut off")
     if not checked:

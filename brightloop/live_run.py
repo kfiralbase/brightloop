@@ -100,6 +100,8 @@ def _relative(snapshot: dict, base: Path) -> dict:
         plan["screenshot"] = rel(plan.get("screenshot"))
     if snapshot.get("annual"):
         snapshot["annual"]["pricing_screenshot"] = rel(snapshot["annual"].get("pricing_screenshot"))
+        for plan in snapshot["annual"].get("plans", []):
+            plan["screenshot"] = rel(plan.get("screenshot"))
     return snapshot
 
 

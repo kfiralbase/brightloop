@@ -72,6 +72,13 @@ class Snapshot(unittest.TestCase):
         read = {"pro.png": PRO_OCR, "pricing-annual.png": "Pro $25 / month"}.get
         self.assertIn("annual price", check_snapshot(snap, read=read)["problems"][0])
 
+    def test_ocr_slips_seen_on_the_ci_runner(self):
+        free = {"name": "Free", "lines": ["Free", "$0", "Get started"]}
+        self.assertEqual(check_card(free, "Free\nSO\nGet started"), [])
+        snap = snapshot(annual={"plans": [{"name": "Pro", "lines": ["Pro", "$18", "*"], "screenshot": "pro-annual.png"}]})
+        read = {"pro.png": PRO_OCR, "pro-annual.png": "Pro\n$1 8: /month"}.get
+        self.assertEqual(check_snapshot(snap, read=read)["status"], "ok")
+
     def test_cropped_section_is_a_mismatch(self):
         result = check_snapshot(snapshot(pricing_cropped=True), read=lambda p: PRO_OCR)
         self.assertEqual(result["status"], "mismatch")
