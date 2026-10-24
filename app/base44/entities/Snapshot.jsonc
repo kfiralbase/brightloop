@@ -75,6 +75,17 @@
     "not_checked": {
       "type": "boolean",
       "description": "The site didn't load this run; these are the last good capture's pictures"
+    },
+    "verification_status": {
+      "type": "string",
+      "description": "OCR check of the screenshots against the page text: ok, mismatch or skipped"
+    },
+    "verification_problems": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "What the OCR check found missing"
     }
   },
   "required": [

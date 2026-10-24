@@ -1,0 +1,16 @@
+{
+  "built_for": "maya",
+  "items": [],
+  "skipped": [],
+  "run": {
+    "started_at": "2026-10-24T20:37:15+00:00",
+    "cost_usd": 0.0,
+    "errors": [],
+    "mode": "live",
+    "notes": [
+      "Lovable: the screenshot doesn't match the page text (Free: price $0 not visible in its screenshot); the slide is marked to check.",
+      "Lovable: homepage picture unavailable this week; reusing the one from 2026-10-24.",
+      "Bolt: the screenshot doesn't match the page text (Pro: annual price $18/month not visible in the annual screenshot); the slide is marked to check."
+    ]
+  }
+}

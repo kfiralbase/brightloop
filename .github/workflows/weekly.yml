@@ -62,6 +62,7 @@ jobs:
         run: |
           pip install -e '.[live]'
           python -m playwright install --with-deps chromium
+          sudo apt-get install -y -qq tesseract-ocr   # the OCR check before the deck (brightloop/verify.py)
 
       - name: Capture, compare, decide, publish
         if: steps.due.outputs.go == 'yes'

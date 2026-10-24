@@ -92,8 +92,16 @@ rectangle around all plan cards) and the homepage above the fold. Homepage chang
 tracked; the picture is only for the slide. Cookie banners are hidden for the screenshot, never
 accepted: Reject is pressed if the site offers it, otherwise the banner is just not shown.
 
+**A last check before the deck** (`brightloop/verify.py`): each plan card's screenshot is read
+back with OCR (Tesseract) and must show the price and every line that was read from the page
+text; the annual picture must show the annual prices, and the pricing section must not be cut
+off. On a mismatch the page is captured once more. If it still doesn't match, the slide goes in
+anyway, marked "check before 11", and the Slack message names it. Nothing it finds changes a
+decision. Without Tesseract the check is skipped and says so (`verification: skipped`).
+
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -e '.[live]' && .venv/bin/playwright install chromium
+brew install tesseract   # or: apt-get install tesseract-ocr (optional: the OCR check)
 .venv/bin/python -m brightloop live
 ```
 
@@ -224,6 +232,10 @@ from an earlier run because this week's page showed a bot check.
   (`10M tokens → 5M tokens`, `from 5 projects to 3`, a new plan with its price, a blog URL ending
   in `/pricing`, visible "ignore previous instructions", epoch timestamps). Each one that came out
   wrong was fixed and became a test (`UnseenPhrasings` in `tests/test_pipeline.py`).
+- **The screenshots show what was read:** before each deck, OCR checks every plan card's
+  picture against the text read from the page. On 282 lines from three real captures of all three
+  sites none was missed, and a price, line or annual price changed in the text alone is caught
+  (`tests/test_verify.py`).
 - **The browser copy matches the CLI:** a test runs only the files the app ships, isolated, and
   compares the result with the CLI's. The app page shows which commit its copy came from.
 - **Live runs on the real sites:** repeated captures of Lovable, Replit and Bolt minutes and

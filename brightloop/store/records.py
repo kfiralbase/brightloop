@@ -104,6 +104,9 @@ def to_records(run_key: str, result: dict, cases: dict, snapshots: list[dict]) -
             "annual_pricing_screenshot_url": (snap.get("annual") or {}).get("pricing_screenshot_url") or "",
             # The site didn't load this run: these are last week's pictures, and the deck says so.
             "not_checked": bool(snap.get("not_checked")),
+            # The OCR check before the deck: "ok", "mismatch" (the slide is marked) or "skipped".
+            "verification_status": (snap.get("verification") or {}).get("status", "skipped"),
+            "verification_problems": (snap.get("verification") or {}).get("problems", []),
             "plan_screenshots": [{"name": p["name"], "url": p["screenshot_url"]}
                                  for p in plans_of(snap) if p.get("screenshot_url")],
         })

@@ -24,6 +24,9 @@ def deck_message(deck: dict | None) -> str:
     out = [f"*{deck['name']}* is ready: <{deck['deck_url']}|open the deck>"]
     lines = deck.get("lines") or []
     out += [f"• {ln['competitor']}: {ln['deck_line']}" for ln in lines] or ["No pricing changes this week."]
+    if deck.get("unverified"):
+        out.append(f"Check before 11: the screenshot doesn't match the page text for {', '.join(deck['unverified'])} "
+                   f"(marked on the slide).")
     if deck.get("not_checked"):
         out.append(f"Not checked this week (site didn't load): {', '.join(deck['not_checked'])}. "
                    f"The slide shows the last screenshots, marked.")

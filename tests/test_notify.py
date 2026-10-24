@@ -23,6 +23,10 @@ class Message(unittest.TestCase):
         self.assertIn("Not checked this week (site didn't load): Bolt.", text)
         self.assertNotIn("No pricing changes", text)
 
+    def test_unverified_slides_are_named(self):
+        self.assertIn("Check before 11: the screenshot doesn't match the page text for Bolt",
+                      deck_message(dict(DECK, unverified=["Bolt"])))
+
     def test_failed_deck_says_so_and_points_to_the_app(self):
         for deck in (None, {"ok": False, "error": "Deck: Drive quota"}):
             text = deck_message(deck)

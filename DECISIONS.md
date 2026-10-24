@@ -80,6 +80,21 @@ output, it runs on unseen cases with no keys, and nothing can be invented. That'
 `predicted_ctr` is never used: it's a model score, and Daniel lost a brief to a tool that ranked a
 2-day-old ad first by it ("That ad died a week later").
 
+**The picture has to match the text.** The numbers come from the page text, but Maya presents the
+screenshot. So before the deck, OCR reads each plan card's picture back and checks that it shows
+the price and every line under it, that the annual picture shows the annual prices, and that the
+pricing section isn't cut off. OCR misreads (S for $, wrapped lines), so prices must match after
+cleanup and lines with a little tolerance. On a mismatch the page is captured once more; if it
+still doesn't match, the slide goes in marked "check before 11" rather than being dropped, since
+she'd rather have the slide than a gap. It adds about half a minute to a run and changes no
+decision. I first ran it on real captures and it flagged good cards: small screenshots lost big
+price digits and dark cards came back almost empty. Preparing each image (gray, inverted when
+dark, enlarged) fixed it: 282 lines from three captures, none missed, while a changed price, line
+or annual price is still caught. GitHub's runner has an older Tesseract, and its first run flagged
+two more good pictures ("$0" read as "SO", Bolt's "$18*" as "$138" from the whole annual section);
+reading each annual card on its own and two more cleanups fixed those, and the next run on the
+runner passed for all three sites.
+
 **The live capture never cheats.** If a site shows a bot check, the capture waits up to 20
 seconds for it to clear and otherwise doesn't use the page; it never tries to solve it. Cookie
 banners are rejected or hidden, never accepted on anyone's behalf.
