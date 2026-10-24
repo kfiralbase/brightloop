@@ -113,7 +113,8 @@ Competitors and pages are in `config/live.json`.
 After each weekly run, the workflow asks the app to build **"Competitor Deck Wk of
 &lt;Monday&gt;"** in the **Growth** folder of the connected Google Drive, in her layout: one slide
 per competitor (Lovable, Replit, Bolt), the homepage and pricing-section screenshots (stacked or
-side by side, whichever shows them bigger), and a red box under the pricing shot with each
+side by side, with the pricing shot taking about two thirds of the space so the cards are
+readable), and a red box under the pricing shot with each
 change's `deck_line` (short, e.g. `Pro: $25→$30/month`) only when something moved. The link
 appears on the app's home page.
 

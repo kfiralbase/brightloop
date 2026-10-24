@@ -121,7 +121,9 @@ the API don't fire workflows. Backend functions answer on the app's subdomain ev
 app is published (checked), so the workflow can call it. The function URL is public, so a shared
 secret guards it; I generated it and stored it in the app, the repo and `.env` without printing
 it. Stacked or side-by-side is decided per slide from the screenshots' sizes, as Maya does by
-eye ("depending on how the screenshots came out"). To check the red box before any real change
+eye ("depending on how the screenshots came out"). The pricing shot gets about two thirds of the
+space and the homepage a third: with an even split the pricing cards came out too small to read
+on screen-share, and the pricing page is what leadership reads; the homepage is context. To check the red box before any real change
 existed, I added one test change record, rebuilt, looked at the slide, then deleted the record
 and rebuilt clean.
 
