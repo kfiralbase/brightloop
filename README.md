@@ -8,7 +8,7 @@ so plainly when nothing moved.
 
 ## The proof command
 
-Needs only `python3` (3.10 or newer). No install, no keys, no network.
+Needs only `python3` (3.9 or newer, so the one that ships with macOS works). No install, no keys, no network.
 
 It always writes a valid `result.json`: a missing or broken input file, broken signals, or even a bug
 in the decision code end up in `run.errors`, with every input id still placed (in `skipped` if it
@@ -211,7 +211,7 @@ from an earlier run because this week's page showed a bot check.
 
 ## How I know it works
 
-- **The contract on the brief's example:** CI runs `./run` on it on every push (Python 3.10 and
+- **The contract on the brief's example:** CI runs `./run` on it on every push (Python 3.9 and
   3.13) and checks that every input id is placed exactly once. Only `pr-401` becomes an item;
   the sponsored claim, the ads, the launches, the rumor and the injected comment are skipped,
   each with a reason. The injected text never reaches the output.
@@ -219,6 +219,10 @@ from an earlier run because this week's page showed a bot check.
   (`5→3 projects`, `€`/`£` prices, `from 100 to 50` with the unit first) and broken input
   (bad JSON, missing or duplicate ids, unreadable timestamps). Nothing crashes; problems land in
   `run.errors`.
+- **Cases I hadn't written for:** I wrote new inputs against the rules, not against the code
+  (`10M tokens → 5M tokens`, `from 5 projects to 3`, a new plan with its price, a blog URL ending
+  in `/pricing`, visible "ignore previous instructions", epoch timestamps). Each one that came out
+  wrong was fixed and became a test (`UnseenPhrasings` in `tests/test_pipeline.py`).
 - **The browser copy matches the CLI:** a test runs only the files the app ships, isolated, and
   compares the result with the CLI's. The app page shows which commit its copy came from.
 - **Live runs on the real sites:** repeated captures of Lovable, Replit and Bolt minutes and
@@ -239,4 +243,5 @@ from an earlier run because this week's page showed a bot check.
 | Weekly schedule (GitHub Actions) | Done |
 | Monday Slack message with the deck link | Done; needs the `SLACK_WEBHOOK_URL` secret |
 
-See [DECISIONS.md](DECISIONS.md) for why it's built this way.
+See [DECISIONS.md](DECISIONS.md) for why it's built this way, and [SPOTTED.md](SPOTTED.md) for
+every trap found in the brief and its data, and what was done about each.

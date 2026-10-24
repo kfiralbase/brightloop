@@ -29,9 +29,11 @@ SOCIAL_DOMAINS = {
 _DOMAIN = re.compile(r"(?<![@\w])((?:[a-z0-9-]+\.)+[a-z]{2,})(/[^\s,;]*)?", re.IGNORECASE)
 _PAID = re.compile(r"\b(sponsored|promoted|advertorial|paid post|ad network|affiliate)\b", re.I)
 _UNVETTED = re.compile(r"\b(guest post|u/anon|anonymous|unverified|rumou?r|forum)\b", re.I)
-# The pricing page itself: "/pricing" as a whole path segment ("/pricing", "/en/pricing/",
-# "/pricing?ref=x"), not a blog post that happens to start with the word ("/pricing-update").
-_PRICING_PATH = re.compile(r"/(pricing|plans|price|billing)(?=/|\?|#|$)", re.I)
+# The pricing page itself: the path starts with "/pricing", optionally after a locale ("/pricing",
+# "/en/pricing/", "/pricing?ref=x"). Not a blog post that starts with the word ("/pricing-update")
+# or ends with it ("/blog/pricing"), and not on a blog or docs subdomain.
+_PRICING_PATH = re.compile(r"^/(?:[a-z]{2}(?:-[a-z]{2})?/)?(pricing|plans|price|billing)(?=/|\?|#|$)", re.I)
+_CONTENT_HOST = re.compile(r"^(blog|docs|help|support|community|changelog|news)\.", re.I)
 
 OFFICIAL_PRICING = "official_pricing_page"
 OFFICIAL_OTHER = "official_other"
@@ -73,5 +75,6 @@ def classify_source(raw: object, competitor: object) -> SourceInfo:
             if handle and slug(competitor).replace("-", "") in handle.group(1).lower():
                 tier = OFFICIAL_OTHER
         elif _is_official(domain, path, str(competitor or "")):
-            tier = OFFICIAL_PRICING if _PRICING_PATH.search(path) else OFFICIAL_OTHER
+            on_page = _PRICING_PATH.search(path) and not _CONTENT_HOST.match(domain)
+            tier = OFFICIAL_PRICING if on_page else OFFICIAL_OTHER
     return SourceInfo(tier, domain, path, paid, unvetted, placeholder)

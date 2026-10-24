@@ -28,14 +28,20 @@ _FROM_TO = re.compile(r"(?:from\s+)?" + _MONEY + r"\s*(?:→|->|=>|\bto\b)\s*" +
 # "100 credits (was 200)", "from 200 to 100 credits", "200 → 100 credits"
 _QTY_WAS = re.compile(_QTY + r"\s*" + _UNITS + r"[^\d]{0,30}?\(?\b(?:was|previously|up from|down from)\s+" + _QTY, re.I)
 _QTY_FROM_TO = re.compile(r"\bfrom\s+" + _QTY + r"\s*(?:" + _UNITS + r"\s*)?(?:→|->|\bto\b)\s*" + _QTY + r"\s*" + _UNITS, re.I)
+# "Free tier cut from 5 projects to 3": the unit only after the first number
+_QTY_FROM_UNIT_TO = re.compile(r"\bfrom\s+" + _QTY + r"\s*" + _UNITS + r"\s*(?:→|->|\bto\b)\s*" + _QTY + r"(?![\d$%])", re.I)
 # "Free tier: 5→3 projects" (Maya's own example), "200 -> 100 credits"
 _QTY_ARROW = re.compile(r"(?<![\d$.,])(\d[\d,]*(?:\.\d+)?)\s*(?:→|->|=>)\s*(\d[\d,]*(?:\.\d+)?)\s*" + _UNITS, re.I)
+# "10M tokens → 5M tokens", "500K → 250K credits": a k/M multiplier, the unit on one or both sides
+_SCALED_ARROW = re.compile(r"(?<![\d$.,])(\d[\d,]*(?:\.\d+)?)\s*([kKmM])\s*" + r"(?:" + _UNITS + r"\s*)?"
+                           r"(?:→|->|=>|\bto\b)\s*(\d[\d,]*(?:\.\d+)?)\s*([kKmM])\s*" + _UNITS, re.I)
+_SCALE = {"k": 1e3, "m": 1e6}
 # "Credits on Pro cut from 100 to 50"
 _UNIT_FROM_TO = re.compile(r"\b" + _UNITS + r"\b[^\d$]{0,40}?\bfrom\s+" + _QTY + r"\s*(?:→|->|\bto\b)\s*" + _QTY, re.I)
 _CURRENCY = re.compile(r"[€£₪]")
 _DOLLAR = re.compile(r"\$").search("$")
 # "SSO moved from Pro to Business"
-_TIER_MOVE = re.compile(r"(?:'[^']{1,90}'\s+)?\b(?:moved?|moves|now only on|restricted to)\b.{0,120}?\bfrom\s+"
+_TIER_MOVE = re.compile(r"(?:'[^']{1,90}'\s+|(?:[\w&/+-]+\s+){1,3}?)?\b(?:moved?|moves|now only on|restricted to)\b.{0,120}?\bfrom\s+"
                         + _PLAN + r"\s+to\s+" + _PLAN, re.I)
 # Phrasings written by the snapshot diff (brightloop/snapshots.py)
 _LINE_EDIT = re.compile(r"\b([\w][\w ]{0,40}?) plan: '(.+?)' is now '(.+?)'", re.I)
@@ -51,7 +57,10 @@ _QUALITATIVE = re.compile(
     r"(?:plan|tier) (?:removed|discontinued|retired|renamed|added))",
     re.I,
 )
-_RAISE_TO = re.compile(r"\b(?:raised|raises|increased|increases|cut|cuts|dropped|drops|lowered|lowers|reduced|reduces)\b[^$]{0,40}?\bto\s+" + _MONEY, re.I)
+_RAISE_TO = re.compile(r"\b(?:rais(?:ed|es|ing)|increas(?:ed|es|ing)|cut|cuts|cutting|drop(?:ped|s|ping)|lower(?:ed|s|ing)|"
+                       r"reduc(?:ed|es|ing))\b[^$]{0,40}?\bto\s+" + _MONEY, re.I)
+# "New Teams plan added at $40 per user per month", "New Teams plan added to the pricing page at $40/month."
+_NEW_PLAN = re.compile(r"\bnew\s+" + _PLAN + r"\s+(?:plan|tier)\b[^$]{0,40}?\bat\s+" + _MONEY + _PERIOD, re.I)
 # Maya: "Promos I ignore until they stick—if it says 'limited time,' it's noise."
 PROMO = re.compile(
     r"\blimited[- ]time\b|\b(?:promo(?:tion)?s?|promo code|coupon|flash sale|black friday|cyber monday)\b|"
@@ -70,7 +79,7 @@ def _num(raw: str) -> float:
 
 @dataclass(frozen=True)
 class Change:
-    field: str            # "price", a unit like "credits", "tier", or "packaging"
+    field: str            # "price", a unit like "credits", "tier", "plan" (a new plan), or "packaging"
     plan: str | None
     before: str | None
     after: str | None
@@ -155,6 +164,18 @@ def _find_change(text: str) -> Change | None:
         before, after, unit = _num(m.group(1)), _num(m.group(3)), m.group(4).lower()
         if before != after:
             return Change(unit, plan, f"{before:g}", f"{after:g}", _direction(before, after), quote(m))
+    m = _QTY_FROM_UNIT_TO.search(text)
+    if m:
+        before, unit, after = _num(m.group(1)), m.group(2).lower(), _num(m.group(3))
+        if before != after:
+            return Change(unit, plan, f"{before:g}", f"{after:g}", _direction(before, after), quote(m))
+    m = _SCALED_ARROW.search(text)
+    if m:
+        b_raw, b_sc, a_raw, a_sc, unit = m.group(1), m.group(2), m.group(4), m.group(5), m.group(6).lower()
+        before, after = _num(b_raw) * _SCALE[b_sc.lower()], _num(a_raw) * _SCALE[a_sc.lower()]
+        if before != after:
+            return Change(unit, plan, f"{b_raw}{b_sc.upper()}", f"{a_raw}{a_sc.upper()}",
+                          _direction(before, after), quote(m))
     m = _QTY_ARROW.search(text)
     if m:
         before, after, unit = _num(m.group(1)), _num(m.group(2)), m.group(3).lower()
@@ -165,6 +186,10 @@ def _find_change(text: str) -> Change | None:
         unit, before, after = m.group(1).lower(), _num(m.group(2)), _num(m.group(3))
         if before != after:
             return Change(unit, plan, f"{before:g}", f"{after:g}", _direction(before, after), quote(m))
+    m = _NEW_PLAN.search(text)
+    if m:
+        return Change("plan", m.group(1).title(), None, _money(_num(m.group(2)), m.group(3), currency), None,
+                      quote(m))
     m = _TIER_MOVE.search(text)
     if m:
         return Change("tier", None, m.group(1).title(), m.group(2).title(), None, quote(m))

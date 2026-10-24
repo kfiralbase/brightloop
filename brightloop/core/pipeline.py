@@ -71,6 +71,8 @@ def _summary(competitor: str, ch: Change) -> str:
     plan = f" {ch.plan}" if ch.plan else ""
     if ch.field == "tier":
         return f"{competitor}: {ch.quote.rstrip('.')}"
+    if ch.field == "plan":
+        return f"{competitor}: new {ch.plan} plan at {ch.after}"
     if ch.field == "packaging":
         if ch.before and ch.after:
             return f"{competitor}{plan}: '{ch.before}' is now '{ch.after}'"
@@ -78,7 +80,7 @@ def _summary(competitor: str, ch: Change) -> str:
             return f"{competitor}{plan}: '{ch.after}' added"
         if ch.before:
             return f"{competitor}{plan}: '{ch.before}' removed"
-        return f"{competitor}{plan}: packaging change (\"{ch.quote}\")"
+        return f"{competitor}{plan}: {ch.quote.rstrip('.')}"
     if ch.before and ch.after:
         bare = ch.before.replace(",", "").replace(".", "").isdigit()
         unit = f" {ch.field}" if bare and ch.field != "price" else ""
@@ -89,12 +91,15 @@ def _summary(competitor: str, ch: Change) -> str:
 
 
 _NUM = re.compile(r"\d[\d,.]*")
+_BARE = re.compile(r"\d[\d,.]*[KM]?")
 
 
 def _deck_line(ch: Change) -> str:
     """Maya's red box, as she writes it: short. "Pro: $25→$30/month", "Free: 5→3 projects"."""
     prefix = f"{ch.plan}: " if ch.plan else ""
     b, a = ch.before, ch.after
+    if ch.field == "plan":
+        return f"New {ch.plan} plan: {a}"
     if ch.field in ("tier", "packaging") or not (b and a):
         return _summary("", ch).lstrip(" :")
     if ch.field == "price":
@@ -102,7 +107,7 @@ def _deck_line(ch: Change) -> str:
         if b_per == a_per:
             return f"{prefix}{b_amt}→{a_amt}" + (f"/{a_per}" if a_per else "")
         return f"{prefix}{b}→{a}"
-    if b.replace(",", "").replace(".", "").isdigit():  # bare quantities: "5" → "3" projects
+    if _BARE.fullmatch(b) and _BARE.fullmatch(a):  # bare quantities: "5" → "3" projects, "10M" → "5M" tokens
         return f"{prefix}{b}→{a} {ch.field}"
     nb, na = _NUM.findall(b), _NUM.findall(a)
     if len(nb) == len(na) == 1 and _NUM.sub("#", b) == _NUM.sub("#", a):  # "100 monthly credits" → "50 …"
