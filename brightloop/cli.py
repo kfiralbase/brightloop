@@ -5,13 +5,11 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 
-from .core import run
 from .env import load_dotenv
+from .file_run import run_file
 from .live_run import ROOT, live
-from .sources import file as file_source
 from .store.base44 import Base44Store
 from .store.publish import publish_run
 
@@ -61,10 +59,7 @@ def main(argv: list[str] | None = None) -> int:
               f"{len(result['run']['errors'])} error(s).", file=sys.stderr)
         return 0
 
-    payload, load_errors = file_source.load(args.input)
-    result = run(payload, started_at=datetime.now(timezone.utc))
-    result["run"]["errors"][:0] = load_errors
-    result["run"]["mode"] = "file"
+    result = run_file(args.input)
 
     out = Path(args.output)
     out.parent.mkdir(parents=True, exist_ok=True)
