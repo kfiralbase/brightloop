@@ -55,6 +55,18 @@ jobs:
           BASE44_TOKEN: ${{ secrets.BASE44_TOKEN }}
         run: python -m brightloop live --output out/result.json
 
+      - name: Build Maya's deck in Google Slides
+        if: steps.due.outputs.go == 'yes'
+        continue-on-error: true   # a deck failure is recorded on the run; the recording still gets committed
+        env:
+          DECK_SECRET: ${{ secrets.DECK_SECRET }}
+          DECK_URL: https://bright-loop-watch.base44.app/functions/build-deck
+        run: |
+          run_key=$(ls -d recordings/runs/*Z | tail -1 | xargs basename)  # the run this job just recorded
+          curl -sS -m 180 --fail-with-body -X POST "$DECK_URL" \
+            -H "Content-Type: application/json" -H "X-Deck-Secret: $DECK_SECRET" \
+            -A "brightloop-pricing-watch/0.1" -d "{\"run_key\": \"$run_key\"}" | tee out/deck.json
+
       - name: Run summary
         if: steps.due.outputs.go == 'yes'
         run: |

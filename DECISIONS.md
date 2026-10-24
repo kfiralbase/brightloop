@@ -63,6 +63,18 @@ it's not already in Google Slides in my Drive when I open my laptop, it's not re
 much — I'd still be downloading, converting, checking it looks right." Slack is deferred: "Not
 noise if it's accurate and sourced, but I get a hundred pings a day."
 
+**The deck is built by a Base44 backend function, called at the end of the weekly run.** It's
+presentation, not a decision, so it can live outside the Python core without breaking "same
+logic". Base44's shared Google Slides and Drive connectors hold the OAuth, so no Google refresh
+token sits in GitHub. A Base44 trigger on new records wasn't an option: records written through
+the API don't fire workflows. Backend functions answer on the app's subdomain even before the
+app is published (checked), so the workflow can call it. The function URL is public, so a shared
+secret guards it; I generated it and stored it in the app, the repo and `.env` without printing
+it. Stacked or side-by-side is decided per slide from the screenshots' sizes, as Maya does by
+eye ("depending on how the screenshots came out"). To check the red box before any real change
+existed, I added one test change record, rebuilt, looked at the slide, then deleted the record
+and rebuilt clean.
+
 **The deck copies Maya's layout exactly.** "One slide per competitor, so three slides… Top of
 the slide is the homepage screenshot, bottom is the pricing page screenshot… If something
 moved, I add a red text box below the pricing shot with a one-liner… If nothing changed, the
