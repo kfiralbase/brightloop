@@ -84,14 +84,30 @@ This is also why the brief's "analytics dashboard" stays out.
 really owns them"), so a verified change says to update the comparison page. A price rise
 suggests checking whether we're now cheaper, which is an angle for Daniel only if it's true.
 
-**Weekly schedule, Monday before 08:30 Jerusalem time (planned).** Maya: "Monday's been working
-fine." GitHub's cron runs in UTC and Israel changes clocks on 2026-10-25, so the plan is to
-schedule both offsets and skip if it already ran that week. Midweek checks are a possible extension.
+**Weekly schedule, Monday 07:30 Jerusalem time.** Maya starts at 08:30 ("Monday's been working
+fine"). GitHub's cron runs in UTC and Israel changes clocks (2026-10-25), so the workflow is
+scheduled at both offsets and only proceeds at 07:xx–08:xx local time, once a day. The same
+workflow has a manual "Run workflow" trigger, which is also the "run now" for anyone with repo
+access. After each run it commits the JSON recording, so next week's diff has its "before".
+Midweek checks are a possible extension.
 
 ## Engineering
 
 **Core and test path use only the Python standard library.** The examiners run a fresh clone with
 none of our keys; `python3` is the only requirement. Playwright is needed only for live runs.
+
+**The app's file test runs our Python in the browser.** The brief allows a command or an upload
+page, and asks for the same logic as the live app. Rewriting the core in JavaScript would make
+two implementations; a server-side Python run through GitHub Actions would take a minute or two
+and need a token. Pyodide runs the exact modules behind `./run` in the page: no server, no
+keys, the file stays on the computer, about 2 seconds including the first load. The modules are
+copied into the app as one bundle stamped with its source commit, and a test checks the bundle
+alone matches the CLI. The cost is a copy that can go stale; the commit stamp makes that visible.
+
+**Run now is open to anyone, but throttled.** The app has no sign-in (Maya won't log in), so
+the button's server function refuses while a run is in progress and for 30 minutes after the
+last one started. The GitHub token is an app secret scoped to Actions on this one repo, never
+sent to the browser. The weekly cron and the button run the same workflow.
 
 **Python backend on GitHub Actions, front end on Base44.** Same code runs on the schedule and in
 the CLI. No always-on server: a "run now" press starts a workflow, so it takes a minute, not a
