@@ -43,6 +43,10 @@ lower confidence and a "confirm first" action. Maya's rule is binary ("pricing p
 nothing"), and she said Monday is soon enough, so they go to skipped with the reason "not on
 the pricing page yet". If the price really moved, the live run catches it on the page.
 
+**No launch de-duplication.** I had built detection of the same launch reported twice (Noa's
+pain). For Maya every launch is skipped anyway, so it only added a sentence to a skip reason.
+Removed. What Maya needs stays: two reports of the same pricing change become one item.
+
 **One generic extractor, not a scraper per competitor.** It finds plan cards by plan names and
 prices, not by a site's HTML structure, so a redesign is less likely to break it and a new
 competitor is one line in `config/live.json`. It worked on all three sites as is. If a site
