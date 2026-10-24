@@ -59,8 +59,13 @@ they're on"), so a card counts as a plan only if it has a known plan name or sho
 The student discount ("up to 50% off Lovable Pro") is pricing of a sort; left out to keep to
 what Maya asked for.
 
-**Competitors: Lovable, Replit, Bolt.** Maya: "Always Lovable, Replit, and Bolt in the deck." v0
-is in the brief's list, so it's in config but off. The core handles any competitor in the input.
+**Competitors: Lovable, Replit, Bolt.** Maya: "Always Lovable, Replit, and Bolt in the deck." The
+brief also names v0, Codex and Claude Code, so I asked: "Always just those three. Leadership
+doesn't think of v0 or coding agents as direct pricing competitors—they're more 'developer tools'
+in their minds." v0 stays in config, turned off: switching it on adds a fourth slide with no code
+change. Codex and Claude Code aren't configured; they're sold inside ChatGPT and Claude plans and
+have no app-builder pricing page to watch. The core handles any competitor that appears in an
+input file.
 
 ## Trust
 
