@@ -38,6 +38,16 @@ that said a competitor "cut prices 30%"; leadership drafted a promo before it wa
 then: "no link, no number." Third-party pricing claims go to skipped with the reason, so nothing
 disappears.
 
+**The competitor's own blog or X account isn't enough either.** I first made these items with
+lower confidence and a "confirm first" action. Maya's rule is binary ("pricing page or
+nothing"), and she said Monday is soon enough, so they go to skipped with the reason "not on
+the pricing page yet". If the price really moved, the live run catches it on the page.
+
+**One generic extractor, not a scraper per competitor.** It finds plan cards by plan names and
+prices, not by a site's HTML structure, so a redesign is less likely to break it and a new
+competitor is one line in `config/live.json`. It worked on all three sites as is. If a site
+ever needs special handling, that goes in its config entry, not a new module.
+
 **Precision over recall.** Maya: "Flagging a false one is worse." The cost was credibility: "we
 looked dumb in front of the whole team."
 

@@ -110,11 +110,13 @@ class PricingRules(unittest.TestCase):
         self.assertEqual(r["items"], [])
         self.assertIn("No change", r["skipped"][0]["reason"])
 
-    def test_official_announcement_off_the_pricing_page_needs_confirmation(self):
-        r = case(pricing("a", "We raised Pro prices to $30.", source="blog.replit.com/new-pricing", competitor="Replit"))
-        item = r["items"][0]
-        self.assertLessEqual(item["confidence"], 0.7)
-        self.assertTrue(item["action"].startswith("Confirm on"))
+    def test_official_channel_off_the_pricing_page_is_skipped(self):
+        # Maya: pricing page or nothing. Their own blog or X account isn't the pricing page.
+        r = case(pricing("a", "We raised Pro prices to $30.", source="blog.replit.com/new-pricing", competitor="Replit"),
+                 pricing("b", "Pro now $30/month (was $25).", source="x.com/@replit", competitor="Replit"))
+        self.assertEqual(r["items"], [])
+        for s in r["skipped"]:
+            self.assertIn("not on the pricing page yet", s["reason"])
 
     def test_real_news_site_is_still_third_party(self):
         r = case(pricing("a", "Lovable raised prices from $20 to $25.", source="techcrunch.com/2026/10/lovable"))

@@ -14,12 +14,13 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from .dedup import SAME_CHANGE_WINDOW, product_tokens, same_event
 from .normalize import clean_text, iso_utc, parse_ts, slug, week_bounds
 from .pricing import Change, find_change
-from .sources import OFFICIAL_OTHER, OFFICIAL_PRICING, THIRD_PARTY, SourceInfo, classify_source
+from .trust import OFFICIAL_OTHER, THIRD_PARTY, SourceInfo, classify_source
 
 BUILT_FOR = "maya"
 
 # Confidence is computed from the evidence, never read from the input.
-BASE_CONFIDENCE = {OFFICIAL_PRICING: 0.9, OFFICIAL_OTHER: 0.6}
+# Only the competitor's own pricing page can produce an item, so it's the base.
+PRICING_PAGE_CONFIDENCE = 0.9
 NUMBERS_BONUS = 0.05       # before and after values both stated
 CORROBORATION_BONUS = 0.04  # per extra independent domain reporting the same change
 INJECTION_PENALTY = 0.2    # the text tried to instruct an AI; trust it less
@@ -91,14 +92,13 @@ def _scrub(text: str, banned: list[str]) -> str:
 
 
 def _build_item(group: _Group, used_ids: set[str], week: str, utm_source: str, banned: list[str]) -> dict:
-    # Lead with the pricing page, then the earliest report.
-    members = sorted(group.members, key=lambda c: (c.info.tier != OFFICIAL_PRICING, c.ts is None, iso_utc(c.ts) or ""))
+    # Lead with the earliest report.
+    members = sorted(group.members, key=lambda c: (c.ts is None, iso_utc(c.ts) or ""))
     lead = members[0]
     ch, comp = lead.change, lead.competitor
-    tier = OFFICIAL_PRICING if any(m.info.tier == OFFICIAL_PRICING for m in members) else OFFICIAL_OTHER
     domains = {m.info.domain for m in members if m.info.domain}
 
-    confidence = BASE_CONFIDENCE[tier]
+    confidence = PRICING_PAGE_CONFIDENCE
     if ch.has_numbers:
         confidence += NUMBERS_BONUS
     confidence += CORROBORATION_BONUS * max(0, len(domains) - 1)
@@ -109,24 +109,17 @@ def _build_item(group: _Group, used_ids: set[str], week: str, utm_source: str, b
     confidence = round(min(MAX_CONFIDENCE, max(0.0, confidence)), 2)
 
     summary = _summary(comp, ch)
-    if tier == OFFICIAL_PRICING:
-        action = (f"Add a slide to Monday's deck: {summary}, with a screenshot of {lead.source}. "
-                  f"Then update the Brightloop vs {comp} comparison page.")
-        if ch.direction == "up":
-            action += (f" Price went up: check whether Brightloop is now cheaper on this plan; "
-                       f"if it is, that's a 'cheaper than {comp}' angle for Daniel.")
-        elif ch.direction == "down":
-            action += f" Price went down: re-check any 'cheaper than {comp}' claims in our ads and pages."
-    else:
-        action = (f"Confirm on {comp}'s pricing page before it goes in the deck: {summary} "
-                  f"(announced on {lead.source}, not yet seen on the pricing page).")
+    action = (f"Add a slide to Monday's deck: {summary}, with a screenshot of {lead.source}. "
+              f"Then update the Brightloop vs {comp} comparison page.")
+    if ch.direction == "up":
+        action += (f" Price went up: check whether Brightloop is now cheaper on this plan; "
+                   f"if it is, that's a 'cheaper than {comp}' angle for Daniel.")
+    elif ch.direction == "down":
+        action += f" Price went down: re-check any 'cheaper than {comp}' claims in our ads and pages."
 
     seen_on = ", ".join(dict.fromkeys(m.source for m in members if m.source)) or "an unnamed source"
-    why = f"{summary}, stated on {seen_on} ({iso_utc(lead.ts) or 'time not given'})."
-    if tier == OFFICIAL_PRICING:
-        why += " Source is the competitor's own pricing page, with the numbers next to it."
-    else:
-        why += " Official channel but not the pricing page, so confidence stays below the deck bar."
+    why = (f"{summary}, stated on {seen_on} ({iso_utc(lead.ts) or 'time not given'}). "
+           f"Source is the competitor's own pricing page, with the numbers next to it.")
     if len(domains) > 1:
         why += f" {len(domains)} independent sources report the same change."
     if any(m.injected for m in members):
@@ -255,6 +248,9 @@ def run(payload: object, *, started_at: datetime) -> dict:
                      info.domain or "an unknown source")
             skip(sid, f"Unverified pricing claim from {where}, not {competitor}'s own pricing page. "
                       f"Check the pricing page before it goes anywhere.", injected)
+        elif info.tier == OFFICIAL_OTHER:
+            skip(sid, f"Announced on {competitor}'s own channel ({info.domain}), but not on the pricing "
+                      f"page yet. The live run will flag it once the pricing page changes.", injected)
         elif bounds and ts and not (bounds[0] <= ts < bounds[1]):
             skip(sid, f"Outside {week} ({tz}).", injected)
         else:
