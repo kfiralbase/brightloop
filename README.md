@@ -28,6 +28,20 @@ Tests:
 python3 -m unittest -v
 ```
 
+## Running it
+
+| What | How |
+|---|---|
+| **Test on a file** (what reviewers run) | `./run --input cases.json --output result.json`. No install, no keys, no network. |
+| **Scan now, from GitHub** | Actions → **weekly** → **Run workflow**, or `gh workflow run weekly`. Captures, decides, publishes to the app, commits the recording. |
+| **Scan now, on your machine** | `.venv/bin/python -m brightloop live` (setup below). Publishes too if `.env` has the Base44 keys; add `--no-publish` to keep it local. |
+| **Every Monday** | Automatic: `.github/workflows/weekly.yml`, ready by 07:30 Jerusalem time. |
+
+The weekly workflow needs two repository secrets: `BASE44_APP_ID` and `BASE44_TOKEN`.
+GitHub's cron runs in UTC and Israel changes clocks, so it's scheduled at both 04:30 and 05:30
+UTC on Mondays and proceeds only when it's 07:xx or 08:xx in Jerusalem and hasn't run that day.
+GitHub can start scheduled jobs late; the hour window absorbs ordinary delays.
+
 ## Live mode
 
 The weekly run opens each competitor's pricing page in a headless browser, switches to monthly
@@ -122,6 +136,6 @@ In live runs each evidence entry also has `screenshot`: the cropped plan card.
 | Google Slides deck from Maya's template, Slack message | Planned |
 | Base44 app (this week, history, run log) and publishing to it | In progress |
 | Run now button | Planned |
-| Weekly schedule (GitHub Actions) | Planned |
+| Weekly schedule and run-now button (GitHub Actions) | Done; needs the two secrets |
 
 See [DECISIONS.md](DECISIONS.md) for why it's built this way.
