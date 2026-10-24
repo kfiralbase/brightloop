@@ -2,7 +2,7 @@
 name = "brightloop"
 version = "0.1.0"
 description = "Competitor pricing watch for Brightloop's Head of Growth"
-requires-python = ">=3.10"
+requires-python = ">=3.9"
 # The core and the file-mode CLI use the standard library only.
 dependencies = []
 

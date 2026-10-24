@@ -8,7 +8,7 @@ so plainly when nothing moved.
 
 ## The proof command
 
-Needs only `python3` (3.10 or newer). No install, no keys, no network.
+Needs only `python3` (3.9 or newer, so the one that ships with macOS works). No install, no keys, no network.
 
 It always writes a valid `result.json`: a missing or broken input file, broken signals, or even a bug
 in the decision code end up in `run.errors`, with every input id still placed (in `skipped` if it
@@ -211,7 +211,7 @@ from an earlier run because this week's page showed a bot check.
 
 ## How I know it works
 
-- **The contract on the brief's example:** CI runs `./run` on it on every push (Python 3.10 and
+- **The contract on the brief's example:** CI runs `./run` on it on every push (Python 3.9 and
   3.13) and checks that every input id is placed exactly once. Only `pr-401` becomes an item;
   the sponsored claim, the ads, the launches, the rumor and the injected comment are skipped,
   each with a reason. The injected text never reaches the output.
