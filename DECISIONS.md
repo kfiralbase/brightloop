@@ -75,6 +75,14 @@ eye ("depending on how the screenshots came out"). To check the red box before a
 existed, I added one test change record, rebuilt, looked at the slide, then deleted the record
 and rebuilt clean.
 
+**Maya never connects anything.** The Google connector is shared, connected once by whoever
+sets the tool up: in production a Brightloop team account with edit rights on the Growth folder,
+so decks land where she already looks every Monday ("anything that gets me there without adding
+another tab") and nothing depends on one person's login. In this demo my personal Google account
+stands in for that team account, and its Growth folder is shared view-only by link so reviewers
+can open the deck from the app. Switching to a real account is reconnecting the connector; no
+code change.
+
 **The deck copies Maya's layout exactly.** "One slide per competitor, so three slides… Top of
 the slide is the homepage screenshot, bottom is the pricing page screenshot… If something
 moved, I add a red text box below the pricing shot with a one-liner… If nothing changed, the
