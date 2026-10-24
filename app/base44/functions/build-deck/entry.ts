@@ -234,11 +234,21 @@ export default async function (req: Request): Promise<Response> {
           { bold: true, fontSize: { magnitude: 11, unit: "PT" }, foregroundColor: { opaqueColor: { rgbColor: RED } } }));
       }
       const lines = changes.filter((c: any) => c.competitor === snap.competitor).map((c: any) => c.deck_line).filter(Boolean);
+      // The slide shows the monthly view, what loads by default. If only the annual price moved, it
+      // shows the annual view instead, so the number in the red box is in the picture (Maya: "If only
+      // the annual moved, I'd want to see that").
+      const annualOnly = lines.length > 0 && lines.every((ln: string) => ln.includes("(annual)"));
+      const pricingUrl = annualOnly && snap.annual_pricing_screenshot_url ? snap.annual_pricing_screenshot_url : snap.pricing_screenshot_url;
+      if (pricingUrl && pricingUrl === snap.annual_pricing_screenshot_url && !snap.not_checked) {
+        requests.push(...textBox(`a${i}_${tag}`, slide, { x: pageW / 2, y: margin * 0.6, w: pageW / 2 - margin, h: titleH },
+          "Pricing shown in the annual billing view",
+          { italic: true, fontSize: { magnitude: 11, unit: "PT" } }));
+      }
       const noteH = lines.length ? IN(0.32) * lines.length + IN(0.15) : 0;
       const area = { x: margin, y: margin * 0.6 + titleH, w: pageW - 2 * margin, h: pageH - (margin * 0.6 + titleH) - margin * 0.6 };
       const [homeSize, priceSize] = await Promise.all([
         snap.homepage_screenshot_url ? pngSize(snap.homepage_screenshot_url) : null,
-        snap.pricing_screenshot_url ? pngSize(snap.pricing_screenshot_url) : null,
+        pricingUrl ? pngSize(pricingUrl) : null,
       ]);
       const l = layout(homeSize || { w: 16, h: 10 }, priceSize || { w: 16, h: 9 }, area, noteH);
       const missing = { italic: true, fontSize: { magnitude: 12, unit: "PT" } };
@@ -254,7 +264,7 @@ export default async function (req: Request): Promise<Response> {
       } else {
         requests.push(...textBox(`h${i}_${tag}`, slide, l.home, "Homepage screenshot unavailable this week", missing));
       }
-      if (snap.pricing_screenshot_url) requests.push(image(`p${i}_${tag}`, slide, snap.pricing_screenshot_url, l.pricing));
+      if (pricingUrl) requests.push(image(`p${i}_${tag}`, slide, pricingUrl, l.pricing));
       else requests.push(...textBox(`p${i}_${tag}`, slide, l.pricing, "Pricing screenshot unavailable this week", missing));
       if (lines.length) {
         const note = { x: l.pricing.x, y: l.pricing.y + l.pricing.h + IN(0.08), w: Math.max(l.pricing.w, IN(3)), h: noteH - IN(0.08) };

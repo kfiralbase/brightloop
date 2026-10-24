@@ -43,6 +43,11 @@ money."
 **Monthly and annual.** "Annual price changes count, I look at both monthly and annual." The
 capture reads each page in its monthly view and then its yearly view. An annual move gets its own
 line, like `Pro (annual): $21→$23/month`. Replit shows no annual plans, so it has monthly only.
+The slide shows the monthly view, because that's what she screenshots today ("whatever the default
+view is when the page loads—usually monthly"). But she admitted the gap that leaves: "If only the
+annual moved, I'd want to see that... I'd probably miss an annual-only change." So the capture
+also photographs the annual view, and when only annual prices moved, that slide shows it instead,
+labeled, so the number in the red box is in the picture.
 
 **Promos are noise.** "Promos I ignore until they stick—if it says 'limited time,' it's noise."
 Anything with limited-time, promo, coupon or "first month" wording is skipped. If the price stays

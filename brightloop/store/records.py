@@ -100,6 +100,8 @@ def to_records(run_key: str, result: dict, cases: dict, snapshots: list[dict]) -
             # When the homepage picture is older than this run (bot check), the deck says so.
             "homepage_captured_at": snap.get("homepage_captured_at") or snap.get("fetched_at"),
             "pricing_screenshot_url": snap.get("pricing_screenshot_url") or "",
+            # The annual view of the same section, for a slide where only the annual price moved.
+            "annual_pricing_screenshot_url": (snap.get("annual") or {}).get("pricing_screenshot_url") or "",
             # The site didn't load this run: these are last week's pictures, and the deck says so.
             "not_checked": bool(snap.get("not_checked")),
             "plan_screenshots": [{"name": p["name"], "url": p["screenshot_url"]}
