@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from .core import run
+from .live_run import ROOT, live
 from .sources import file as file_source
 
 
@@ -18,7 +19,19 @@ def main(argv: list[str] | None = None) -> int:
     run_cmd = sub.add_parser("run", help="Process a cases.json file into result.json")
     run_cmd.add_argument("--input", required=True, help="Path to cases.json")
     run_cmd.add_argument("--output", required=True, help="Where to write result.json")
+    live_cmd = sub.add_parser("live", help="Capture pricing pages, diff against the last recording, decide")
+    live_cmd.add_argument("--config", default=str(ROOT / "config/live.json"))
+    live_cmd.add_argument("--recordings", default=str(ROOT / "recordings"))
+    live_cmd.add_argument("--output", help="Also write result.json here")
+    live_cmd.add_argument("--offline", action="store_true", help="No network: replay the two latest recordings")
     args = parser.parse_args(argv)
+
+    if args.command == "live":
+        result = live(Path(args.config), Path(args.recordings), Path(args.output) if args.output else None,
+                      args.offline)
+        print(f"{result['run']['mode']}: {len(result['items'])} item(s), {len(result['skipped'])} skipped, "
+              f"{len(result['run']['errors'])} error(s).", file=sys.stderr)
+        return 0
 
     payload, load_errors = file_source.load(args.input)
     result = run(payload, started_at=datetime.now(timezone.utc))
