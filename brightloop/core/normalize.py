@@ -34,18 +34,27 @@ def clean_text(raw: object) -> tuple[str, bool]:
     visible = _HTML_TAG.sub(" ", _HTML_COMMENT.sub(" ", text))
     visible = _WS.sub(" ", visible).strip()
     injected = bool(_INJECTION.search(hidden) or _INJECTION.search(visible))
+    if _INJECTION.search(visible):  # an order in plain sight: drop that sentence, keep the rest
+        visible = " ".join(s for s in _SENTENCE.split(visible) if not _INJECTION.search(s))
     return visible, injected
 
 
+_SENTENCE = re.compile(r"(?<=[.!?])\s+")
 _UTC_SUFFIX = re.compile(r"\s*(UTC|GMT|Z)$", re.IGNORECASE)
 
 
 def parse_ts(raw: object, default_tz: str) -> datetime | None:
     """Parse the timestamp shapes seen in the wild into an aware UTC datetime.
 
-    Accepts ISO 8601 with offset or Z, "YYYY-MM-DD HH:MM UTC", and naive values
-    (read in the input's timezone). Returns None when it can't be parsed.
+    Accepts ISO 8601 with offset or Z, "YYYY-MM-DD HH:MM UTC", naive values (read in the
+    input's timezone) and Unix epoch numbers in seconds or milliseconds. Returns None when it
+    can't be parsed.
     """
+    if isinstance(raw, (int, float)) and not isinstance(raw, bool):
+        try:
+            return datetime.fromtimestamp(raw / 1000 if raw > 1e11 else raw, tz=timezone.utc)
+        except (OverflowError, OSError, ValueError):
+            return None
     if not isinstance(raw, str) or not raw.strip():
         return None
     s = raw.strip()

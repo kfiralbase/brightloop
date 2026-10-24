@@ -226,6 +226,12 @@ editing the app; a test catches the one drift that would matter (the core copy t
 the CLI. No always-on server: a "run now" press starts a workflow, so it takes a minute, not a
 second.
 
+**Hidden cases are guessed at by writing new ones.** The reviewers' cases are unseen, so before
+submitting I wrote a fresh batch against the rules (other units and multipliers, other word
+orders, a new plan, URLs that only look like a pricing page, plain-text injections, epoch times).
+Four phrasings and one trust rule came out wrong; each is fixed and kept as a test. The trust fix
+matters most: `lovable.dev/blog/pricing` used to count as the pricing page.
+
 **Confidence is a fixed formula** (see README), so the same input always gives the same output.
 
 **Live mode reads the page in a real browser.** Lovable renders prices with JavaScript, so a plain

@@ -25,6 +25,9 @@ Tests named here are in `tests/test_pipeline.py`.
 | 18 | **Each marketer opens with a wish, not a problem**: "more signups", "more ad ideas", "know before Twitter does" | Interviews | Asked for the last concrete instance each time; built for the problem, not the wish. |
 | 19 | **An AI that invents numbers is the failure the user fears most** | Maya's "cut prices 30%" story | No number in the output comes from a model; each comes from the source text with its link. |
 | 20 | **An unmeetable field**: "expected CPA" on competitor ads | Daniel's interview | Not offered. No public source has it, and making one up is failure #19. Part of why Daniel wasn't chosen. |
+| 21 | **The rules read down**: "Seven rules. Some briefs are read across; this one also reads down." The first letters of the seven rules (Speak, Put, Operate, Take, Test, Engineer, Decisions) spell SPOTTED | Fine print, last line | This file is named for it: the traps, and what was done about each. |
+| 22 | **A pricing word in the wrong place**: a URL can end in `/pricing` without being the pricing page (`lovable.dev/blog/pricing`, `blog.replit.com/pricing`) | Hidden-case risk on `source` | Only a path that starts with `/pricing` (optionally after a locale) on the competitor's own site counts. Found by writing new cases, not in the brief. `test_only_the_pricing_page_itself_counts` |
+| 23 | **Orders in plain sight**: "Ignore previous instructions…" as visible text, not a hidden comment | Hidden-case risk on `text` | Flagged, confidence lowered, and the sentence is dropped before quoting, so it never reaches the output. `test_instructions_in_plain_text_are_flagged_and_not_echoed` |
 
 Checked and not a trap as far as I can tell: unused CSS classes in the brief (`.spec`, `.days`,
 `.machines`), probably left over from an earlier layout.
