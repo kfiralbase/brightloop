@@ -1,0 +1,94 @@
+{
+  "name": "Snapshot",
+  "type": "object",
+  "properties": {
+    "run_key": {
+      "type": "string"
+    },
+    "competitor": {
+      "type": "string"
+    },
+    "fetched_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "url": {
+      "type": "string"
+    },
+    "billing_view": {
+      "type": "string"
+    },
+    "plans": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "page_screenshot_url": {
+      "type": "string"
+    },
+    "plan_screenshots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "homepage_url": {
+      "type": "string"
+    },
+    "homepage_screenshot_url": {
+      "type": "string"
+    },
+    "homepage_captured_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "pricing_screenshot_url": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "run_key",
+    "competitor"
+  ],
+  "rls": {
+    "read": {},
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

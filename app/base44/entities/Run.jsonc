@@ -1,0 +1,81 @@
+{
+  "name": "Run",
+  "type": "object",
+  "properties": {
+    "run_key": {
+      "type": "string"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "live",
+        "replay",
+        "file"
+      ]
+    },
+    "week": {
+      "type": "string"
+    },
+    "week_of": {
+      "type": "string",
+      "format": "date"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "partial",
+        "failed"
+      ]
+    },
+    "items_count": {
+      "type": "number"
+    },
+    "skipped_count": {
+      "type": "number"
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "baselines": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "cost_usd": {
+      "type": "number"
+    },
+    "deck_url": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "run_key"
+  ],
+  "rls": {
+    "read": {},
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

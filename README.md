@@ -97,6 +97,13 @@ A deck failure is recorded on the run; the recording is still committed.
 
 ## Base44 app
 
+**Its code is in [`app/`](app/)**: the React front end (`app/src/`), the entity schemas
+(`app/base44/entities/`), the `build-deck` backend function (`app/base44/functions/`) and the
+connector declarations. The app is edited in Base44; `python3 scripts/export_app.py` copies its
+current source here (Base44's export API, with the PAT from `.env`), and the result is committed.
+`tests/test_app_copy.py` fails if the core copy the app runs in the browser
+(`app/public/py/bundle.json`) drifts from `brightloop/`.
+
 The web app ([bright-loop-watch.base44.app](https://bright-loop-watch.base44.app)) shows this
 week's changes with their screenshots, the change history, and the run log. It reads four
 entities: `Run`, `Change`, `Skipped`, `Snapshot`. The Python job writes them through the Base44
