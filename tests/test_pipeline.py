@@ -201,6 +201,26 @@ class BadInput(unittest.TestCase):
         self.assertIn("Unknown signal type", r["skipped"][0]["reason"])
 
 
+class CrashGuard(unittest.TestCase):
+    def test_a_bug_in_the_decision_code_still_writes_a_valid_result(self):
+        from unittest import mock
+        import brightloop.file_run as fr
+        with mock.patch.object(fr, "run", side_effect=RuntimeError("boom")):
+            r = fr.run_file(str(ROOT / "tests/fixtures/brief_example.json"))
+        self.assertEqual(r["built_for"], "maya")
+        self.assertEqual(r["items"], [])
+        self.assertEqual(sorted(s["id"] for s in r["skipped"]), sorted(s["id"] for s in BRIEF["signals"]))
+        self.assertIn("RuntimeError: boom", r["run"]["errors"][0])
+        self.assertEqual(r["run"]["mode"], "file")
+
+    def test_unwritable_output_is_a_clear_message(self):
+        proc = subprocess.run([str(ROOT / "run"), "--input", str(ROOT / "tests/fixtures/brief_example.json"),
+                               "--output", "/proc/nope/result.json"], capture_output=True, text=True)
+        self.assertEqual(proc.returncode, 2)
+        self.assertIn("Couldn't write", proc.stderr)
+        self.assertNotIn("Traceback", proc.stderr)
+
+
 class Cli(unittest.TestCase):
     def test_run_command_writes_result_file(self):
         with tempfile.TemporaryDirectory() as tmp:
