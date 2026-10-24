@@ -54,7 +54,10 @@ _CARDS_JS = r"""
     seen.add(card);
     seenNames.add(name);
     card.setAttribute('data-bl-card', String(i));
-    out.push({ name: h.innerText.trim(), text, index: i });
+    // Values shown in selection controls (a "credit tier" dropdown) are choices, not features.
+    const controls = [...card.querySelectorAll('select, [role=combobox], [aria-haspopup="listbox"]')]
+      .map(c => (c.innerText || '').trim()).filter(Boolean);
+    out.push({ name: h.innerText.trim(), text, index: i, controls });
   });
   return out;
 }
@@ -215,7 +218,9 @@ def capture(competitor: str, url: str, shots_dir: Path, *, homepage: str | None 
                     shot_path = str(shot)
                 except Exception:  # noqa: BLE001 - keep the text even if the picture fails
                     shot_path = None
-                plans.append({"name": card["name"], "lines": _lines(card["text"]), "screenshot": shot_path})
+                controls = [ln for c in card.get("controls", []) for ln in _lines(c)]
+                plans.append({"name": card["name"], "lines": _lines(card["text"]), "controls": controls,
+                              "screenshot": shot_path})
             full = shots_dir / "page.png"
             page.screenshot(path=str(full), full_page=True)
             section = None

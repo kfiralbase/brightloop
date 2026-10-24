@@ -27,10 +27,11 @@ claims, an out-of-week change, a bad timestamp, missing and duplicate ids, a non
 
 ```bash
 ./run --input tests/fixtures/brief_example.json --output result.json
-./run --input examples/tricky_cases.json --output result.json
+./run --input examples/valid_cases.json --output result.json     # clean input, no errors
+./run --input examples/tricky_cases.json --output result.json    # traps and broken entries
 ```
 
-The expected output for the harder one is in `examples/tricky_result.json`.
+Expected outputs: `examples/valid_result.json` and `examples/tricky_result.json`.
 
 Tests:
 
