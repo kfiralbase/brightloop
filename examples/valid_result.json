@@ -10,7 +10,7 @@
       "action": "Add a slide to Monday's deck: Bolt Free: 5 projects → 3 projects, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page. Price went down: re-check any 'cheaper than Bolt' claims in our ads and pages.",
       "why": "Bolt Free: 5 projects → 3 projects, stated on bolt.new/pricing (2026-10-26T05:31:00Z). Source is the competitor's own pricing page, with the numbers next to it.",
       "competitor": "Bolt",
-      "deck_line": "Free: 5 projects → 3 projects",
+      "deck_line": "Free: 5→3 projects",
       "change": {
         "field": "projects",
         "plan": "Free",
@@ -41,7 +41,7 @@
       "action": "Add a slide to Monday's deck: Lovable Pro: $25/month → $30/month, with a screenshot of lovable.dev/pricing. Then update the Brightloop vs Lovable comparison page. Price went up: check whether Brightloop is now cheaper on this plan; if it is, that's a 'cheaper than Lovable' angle for Daniel.",
       "why": "Lovable Pro: $25/month → $30/month, stated on lovable.dev/pricing (2026-10-26T05:30:00Z). Source is the competitor's own pricing page, with the numbers next to it.",
       "competitor": "Lovable",
-      "deck_line": "Pro: $25/month → $30/month",
+      "deck_line": "Pro: $25→$30/month",
       "change": {
         "field": "price",
         "plan": "Pro",
@@ -83,7 +83,7 @@
     }
   ],
   "run": {
-    "started_at": "2026-10-24T13:18:54+00:00",
+    "started_at": "2026-10-24T13:48:23+00:00",
     "cost_usd": 0.0,
     "errors": [],
     "mode": "file"

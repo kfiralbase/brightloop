@@ -21,7 +21,7 @@ RESULT = {
     "built_for": "maya",
     "items": [{"id": "chg-lovable-pro-price-30-month", "source_ids": ["live-lovable-1"], "confidence": 0.95,
                "action": "Add a slide", "why": "Pro went up", "competitor": "Lovable",
-               "deck_line": "Pro: $25/month → $30/month",
+               "deck_line": "Pro: $25→$30/month",
                "change": {"field": "price", "plan": "Pro", "before": "$25/month", "after": "$30/month",
                           "direction": "up"},
                "evidence": [{"source_id": "live-lovable-1", "source": "lovable.dev/pricing",
@@ -70,7 +70,7 @@ class Records(unittest.TestCase):
     def test_deck_fields(self):
         r = to_records("k", RESULT, CASES, [SNAP])
         self.assertEqual(r["Run"][0]["week_of"], "2026-10-26")  # Monday of 2026-W44
-        self.assertEqual(r["Change"][0]["deck_line"], "Pro: $25/month → $30/month")
+        self.assertEqual(r["Change"][0]["deck_line"], "Pro: $25→$30/month")
         self.assertEqual(r["Snapshot"][0]["homepage_url"], "https://lovable.dev/")
         self.assertEqual(week_of("not a week"), "")
 

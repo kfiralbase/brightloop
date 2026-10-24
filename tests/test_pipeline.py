@@ -63,7 +63,7 @@ class BriefExample(unittest.TestCase):
         self.assertEqual([i["source_ids"] for i in self.result["items"]], [["pr-401"]])
         item = self.result["items"][0]
         self.assertEqual((item["change"]["before"], item["change"]["after"]), ("$20/month", "$25/month"))
-        self.assertEqual(item["deck_line"], "Pro: $20/month → $25/month")
+        self.assertEqual(item["deck_line"], "Pro: $20→$25/month")  # Maya: "keep it short"
         self.assertGreaterEqual(item["confidence"], 0.9)
 
     def test_sponsored_free_forever_is_not_trusted(self):
@@ -126,8 +126,8 @@ class PricingRules(unittest.TestCase):
             self.assertEqual((got[sid]["field"], got[sid]["plan"], got[sid]["before"], got[sid]["after"],
                               got[sid]["direction"]), (field, plan, before, after, direction), sid)
         lines = {i["source_ids"][0]: i["deck_line"] for i in r["items"]}
-        self.assertEqual(lines["a"], "Free: 5 projects → 3 projects")
-        self.assertEqual(lines["b"], "Pro: €20/month → €25/month")
+        self.assertEqual(lines["a"], "Free: 5→3 projects")
+        self.assertEqual(lines["b"], "Pro: €20→€25/month")
 
     def test_price_without_previous_value_is_not_a_change(self):
         r = case(pricing("a", "Pro plan shown at $25/month."))
