@@ -84,9 +84,12 @@ This is also why the brief's "analytics dashboard" stays out.
 really owns them"), so a verified change says to update the comparison page. A price rise
 suggests checking whether we're now cheaper, which is an angle for Daniel only if it's true.
 
-**Weekly schedule, Monday before 08:30 Jerusalem time (planned).** Maya: "Monday's been working
-fine." GitHub's cron runs in UTC and Israel changes clocks on 2026-10-25, so the plan is to
-schedule both offsets and skip if it already ran that week. Midweek checks are a possible extension.
+**Weekly schedule, Monday 07:30 Jerusalem time.** Maya starts at 08:30 ("Monday's been working
+fine"). GitHub's cron runs in UTC and Israel changes clocks (2026-10-25), so the workflow is
+scheduled at both offsets and only proceeds at 07:xx–08:xx local time, once a day. The same
+workflow has a manual "Run workflow" trigger, which is also the "run now" for anyone with repo
+access. After each run it commits the JSON recording, so next week's diff has its "before".
+Midweek checks are a possible extension.
 
 ## Engineering
 
