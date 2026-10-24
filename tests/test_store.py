@@ -104,6 +104,15 @@ class Publish(unittest.TestCase):
         self.assertEqual(run_record["status"], "partial")
         self.assertTrue(run_record["errors"])
 
+    def test_failed_publishes_replace_their_errors_instead_of_piling_up(self):
+        for _ in range(3):
+            publish_run(FakeStore(fail={"upload"}), self.rec / "runs/S", self.rec, self.root, ["Lovable"])
+        saved = json.loads((self.rec / "runs/S/result.json").read_text())
+        self.assertEqual(len(saved["run"]["errors"]), 2)  # the two failed uploads, once
+        self.assertTrue(all(e.startswith("Publish: ") for e in saved["run"]["errors"]))
+        snap = json.loads((self.rec / "lovable/S/snapshot.json").read_text())
+        self.assertNotIn("page_screenshot_url", snap)  # nothing gained, file untouched
+
     def test_republishing_does_not_reupload(self):
         publish_run(FakeStore(), self.rec / "runs/S", self.rec, self.root, ["Lovable"])
         again = FakeStore()

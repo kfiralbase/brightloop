@@ -13,6 +13,8 @@ from ..core.normalize import slug
 from .base44 import Base44Error, Base44Store
 from .records import KEYS, to_records
 
+PUBLISH_PREFIX = "Publish: "
+
 
 def _read(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
@@ -49,12 +51,16 @@ def publish_run(store: Base44Store, run_dir: Path, recordings: Path, root: Path,
         if not snap_path.exists():
             continue
         snap = _read(snap_path)
-        snap["page_screenshot_url"] = snap.get("page_screenshot_url") or upload(snap.get("page_screenshot"))
+        gained = False
+        if not snap.get("page_screenshot_url") and (url := upload(snap.get("page_screenshot"))):
+            snap["page_screenshot_url"], gained = url, True
         for plan in snap.get("plans", []):
-            plan["screenshot_url"] = plan.get("screenshot_url") or upload(plan.get("screenshot"))
-            if plan["screenshot_url"] and plan.get("screenshot"):
+            if not plan.get("screenshot_url") and (url := upload(plan.get("screenshot"))):
+                plan["screenshot_url"], gained = url, True
+            if plan.get("screenshot_url") and plan.get("screenshot"):
                 urls.setdefault(plan["screenshot"], plan["screenshot_url"])
-        _write(snap_path, snap)  # keep the URLs with the recording
+        if gained:
+            _write(snap_path, snap)  # keep the URLs with the recording
         snapshots.append(snap)
 
     for item in result["items"]:
@@ -70,13 +76,15 @@ def publish_run(store: Base44Store, run_dir: Path, recordings: Path, root: Path,
             except Base44Error as exc:
                 errors.append(f"Writing {entity} records failed: {exc}")
 
-    # The Run record goes last and carries any publishing errors, so the app shows them.
-    result["run"]["errors"] = result["run"].get("errors", []) + errors
+    # The Run record goes last and carries this publish's errors, so the app shows them.
+    # Errors from an earlier publish attempt are replaced, not piled up.
+    decided = [e for e in result["run"].get("errors", []) if not e.startswith(PUBLISH_PREFIX)]
+    result["run"]["errors"] = decided + [PUBLISH_PREFIX + e for e in errors]
     run_record = to_records(stamp, result, cases, snapshots)["Run"]
     try:
         store.upsert("Run", KEYS["Run"], run_record)
     except Base44Error as exc:
         errors.append(f"Writing the Run record failed: {exc}")
-        result["run"]["errors"].append(errors[-1])
+        result["run"]["errors"].append(PUBLISH_PREFIX + errors[-1])
     _write(run_dir / "result.json", result)
     return errors

@@ -10,6 +10,7 @@ from __future__ import annotations
 import json
 import mimetypes
 import os
+import ssl
 import uuid
 from pathlib import Path
 from urllib import request
@@ -17,15 +18,31 @@ from urllib.error import HTTPError, URLError
 
 API = "https://app.base44.com"
 UPSERT_BATCH = 500  # the API's per-call maximum
+USER_AGENT = "brightloop-pricing-watch/0.1 (+https://github.com/kfiralbase/brightloop)"
 
 
 class Base44Error(RuntimeError):
     pass
 
 
+def _tls_context() -> ssl.SSLContext:
+    """Default TLS context, falling back to the OS bundle when Python ships without CA certs
+    (the python.org macOS installer does until "Install Certificates" is run)."""
+    ctx = ssl.create_default_context()
+    if not ctx.get_ca_certs():
+        for bundle in ("/etc/ssl/cert.pem", "/etc/ssl/certs/ca-certificates.crt"):
+            if Path(bundle).exists():
+                ctx.load_verify_locations(bundle)
+                break
+    return ctx
+
+
 class Base44Store:
-    def __init__(self, app_id: str, token: str, *, api: str = API, opener=request.urlopen, timeout: int = 60):
+    def __init__(self, app_id: str, token: str, *, api: str = API, opener=None, timeout: int = 60):
         self.app_id, self._token, self.api = app_id, token, api.rstrip("/")
+        if opener is None:
+            ctx = _tls_context()
+            opener = lambda req, timeout: request.urlopen(req, timeout=timeout, context=ctx)  # noqa: E731
         self._open, self._timeout = opener, timeout
 
     @classmethod
@@ -36,7 +53,9 @@ class Base44Store:
 
     def _call(self, method: str, path: str, body: bytes, content_type: str) -> object:
         req = request.Request(self.api + path, data=body, method=method, headers={
-            "Authorization": f"Bearer {self._token}", "Content-Type": content_type, "Accept": "application/json"})
+            "Authorization": f"Bearer {self._token}", "Content-Type": content_type, "Accept": "application/json",
+            # urllib's default "Python-urllib/x.y" is refused by Base44's Cloudflare (error 1010).
+            "User-Agent": USER_AGENT})
         try:
             with self._open(req, timeout=self._timeout) as resp:
                 raw = resp.read()

@@ -22,7 +22,8 @@
         "Cloud",
         "Community support"
       ],
-      "screenshot": "recordings/lovable/2026-10-23T1508Z/free.png"
+      "screenshot": "recordings/lovable/2026-10-23T1508Z/free.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/4bc5e375d_free.png"
     },
     {
       "name": "Pro",
@@ -47,7 +48,8 @@
         "Email support",
         "Design systems"
       ],
-      "screenshot": "recordings/lovable/2026-10-23T1508Z/pro.png"
+      "screenshot": "recordings/lovable/2026-10-23T1508Z/pro.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/f7c2f202e_pro.png"
     },
     {
       "name": "Business",
@@ -70,7 +72,8 @@
         "Design templates",
         "Priority support"
       ],
-      "screenshot": "recordings/lovable/2026-10-23T1508Z/business.png"
+      "screenshot": "recordings/lovable/2026-10-23T1508Z/business.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/e17094172_business.png"
     },
     {
       "name": "Enterprise",
@@ -96,7 +99,8 @@
         "Named CSM, onboarding and deployment",
         "Custom SLA"
       ],
-      "screenshot": "recordings/lovable/2026-10-23T1508Z/enterprise.png"
+      "screenshot": "recordings/lovable/2026-10-23T1508Z/enterprise.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/5fe1c4d0c_enterprise.png"
     },
     {
       "name": "Lovable for campus",
@@ -105,8 +109,10 @@
         "Billing and administrative controls for universities and colleges.",
         "Contact sales"
       ],
-      "screenshot": "recordings/lovable/2026-10-23T1508Z/lovable-for-campus.png"
+      "screenshot": "recordings/lovable/2026-10-23T1508Z/lovable-for-campus.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/c653c47d0_lovable-for-campus.png"
     }
   ],
-  "page_screenshot": "recordings/lovable/2026-10-23T1508Z/page.png"
+  "page_screenshot": "recordings/lovable/2026-10-23T1508Z/page.png",
+  "page_screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/2b20f47a4_page.png"
 }
