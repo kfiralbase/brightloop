@@ -1,7 +1,8 @@
 // Builds Maya's Monday deck in Google Slides, in the "Growth" folder of the connected Google Drive.
 //
 // Her layout, exactly: one slide per competitor (Lovable, Replit, Bolt); the homepage screenshot
-// and the pricing-section screenshot, stacked or side by side, whichever shows them bigger; a red
+// and the pricing-section screenshot, stacked or side by side, with the pricing shot getting about
+// two thirds of the space; a red
 // text box under the pricing shot only when something moved, nothing when it didn't. File name
 // "Competitor Deck Wk of <Monday>". Re-running for the same week refills the same file.
 // A site that didn't load keeps its slide with last week's pictures, marked "not checked" (Maya:
@@ -58,27 +59,44 @@ function fit(img: { w: number; h: number }, box: Box): Box {
   return { x: box.x + (box.w - w) / 2, y: box.y, w, h };
 }
 
-// Stacked (homepage on top) or side by side (homepage left): pick the one with more picture.
+// Stacked (homepage on top) or side by side (homepage left). The pricing shot is what leadership
+// reads, so it gets about two thirds of the slide and the homepage, context only, about a third.
+// With the real captures that's roughly 40-46% of the slide for pricing (was about 25% with an even
+// split) while the homepage stays about 3 inches wide. Whichever arrangement shows pricing bigger wins.
+const HOME_SHARES = [0.35];
+const HOME_WEIGHT = 0.3;
+
 function layout(home: { w: number; h: number }, pricing: { w: number; h: number }, area: Box, noteH: number) {
   const gap = IN(0.15);
-  const stackH = (area.h - noteH - gap) / 2;
-  const stacked = {
-    home: fit(home, { x: area.x, y: area.y, w: area.w, h: stackH }),
-    pricing: fit(pricing, { x: area.x, y: area.y + stackH + gap, w: area.w, h: stackH }),
-  };
-  const colW = (area.w - gap) / 2;
-  const side = {
-    home: fit(home, { x: area.x, y: area.y, w: colW, h: area.h }),
-    pricing: fit(pricing, { x: area.x + colW + gap, y: area.y, w: colW, h: area.h - noteH }),
-  };
-  const size = (l: typeof side) => l.home.w * l.home.h + l.pricing.w * l.pricing.h;
-  if (size(stacked) >= size(side)) return stacked;
+  type L = { home: Box; pricing: Box; side: boolean };
+  const options: L[] = [];
+  for (const share of HOME_SHARES) {
+    const homeH = (area.h - noteH - gap) * share;
+    options.push({
+      side: false,
+      home: fit(home, { x: area.x, y: area.y, w: area.w, h: homeH }),
+      pricing: fit(pricing, { x: area.x, y: area.y + homeH + gap, w: area.w, h: area.h - noteH - gap - homeH }),
+    });
+    const homeW = (area.w - gap) * share;
+    options.push({
+      side: true,
+      home: fit(home, { x: area.x, y: area.y, w: homeW, h: area.h }),
+      pricing: fit(pricing, { x: area.x + homeW + gap, y: area.y, w: area.w - gap - homeW, h: area.h - noteH }),
+    });
+  }
+  const score = (l: L) => l.pricing.w * l.pricing.h + HOME_WEIGHT * l.home.w * l.home.h;
+  const best = options.reduce((a, b) => (score(b) > score(a) ? b : a));
+  if (!best.side) {
+    // Stacked: keep the homepage directly above the pricing shot.
+    best.pricing.y = best.home.y + best.home.h + gap;
+    return best;
+  }
   // Side by side: center the pair vertically, so the slide isn't top-heavy.
-  const used = Math.max(side.home.h, side.pricing.h + noteH);
+  const used = Math.max(best.home.h, best.pricing.h + noteH);
   const shift = Math.max(0, (area.h - used) / 2);
-  side.home.y += shift + (used - side.home.h) / 2;
-  side.pricing.y += shift;
-  return side;
+  best.home.y += shift + (used - best.home.h) / 2;
+  best.pricing.y += shift;
+  return best;
 }
 
 function image(id: string, slide: string, url: string, b: Box) {
