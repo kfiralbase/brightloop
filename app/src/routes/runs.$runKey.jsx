@@ -35,11 +35,14 @@ function RunDetail() {
               <span className="capitalize">Mode: {r.mode || "—"}</span>
               <span>Week: {r.week || "—"}</span>
               {r.cost_usd != null && <span>Cost: ${r.cost_usd.toFixed(2)}</span>}
+              {r.deck_url && <a href={r.deck_url} target="_blank" rel="noreferrer" className="text-[#4F46E5] underline">Deck</a>}
+              {r.log_url && <a href={r.log_url} target="_blank" rel="noreferrer" className="text-[#4F46E5] underline">Workflow log</a>}
             </div>
           </div>
           <section>
             <h2 className="font-display text-xl font-bold text-[#0F172A]">Errors</h2>
-            {(r.errors || []).length === 0 ? <p className="mt-2 text-[#64748B]">No errors in this run.</p> : (
+            {r.status === "running" ? <p className="mt-2 text-[#64748B]">Still running. Errors, if any, appear here when it finishes.</p>
+              : (r.errors || []).length === 0 ? <p className="mt-2 text-[#64748B]">No errors in this run.</p> : (
               <ul className="mt-3 space-y-2">
                 {r.errors.map((e, i) => (
                   <li key={i} className="rounded-lg border border-[#E11D48]/30 bg-rose-50 p-3 font-mono text-xs text-[#9F1239] break-words">{e}</li>

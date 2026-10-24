@@ -14,7 +14,19 @@ export default function RunNowButton() {
   const [state, setState] = useState({ phase: "idle" });
   const timer = useRef(null);
 
-  useEffect(() => () => clearTimeout(timer.current), []);
+  // Opening the page while a run is going (from this button, the schedule, or GitHub) shows it.
+  useEffect(() => {
+    let alive = true;
+    status().then((s) => {
+      const run = s?.run;
+      if (alive && run && run.status !== "completed") {
+        setState({ phase: "running", message: "A run is in progress." });
+        poll(Date.parse(run.startedAt));
+      }
+    }).catch(() => {});
+    return () => { alive = false; clearTimeout(timer.current); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function poll(sinceMs) {
     timer.current = setTimeout(async () => {

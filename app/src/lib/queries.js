@@ -1,10 +1,22 @@
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 
+// The newest run that produced results. A run that is still going, or one that failed before
+// capturing anything, doesn't replace what the page shows.
 export function useLatestRun() {
   return useQuery({
     queryKey: ["latestRun"],
+    queryFn: async () =>
+      (await base44.entities.Run.filter({ status: { $in: ["ok", "partial"] } }, { sort: "-started_at", limit: 1 })).items[0] || null,
+  });
+}
+
+// The newest run of any status, polled, so the page can say "running" or "last run failed".
+export function useNewestRun() {
+  return useQuery({
+    queryKey: ["newestRun"],
     queryFn: async () => (await base44.entities.Run.filter({}, { sort: "-started_at", limit: 1 })).items[0] || null,
+    refetchInterval: 15000,
   });
 }
 
@@ -47,6 +59,7 @@ export function useRuns() {
     initialPageParam: undefined,
     queryFn: ({ pageParam }) => base44.entities.Run.filter({}, { sort: "-started_at", limit: 50, cursor: pageParam }),
     getNextPageParam: (last) => (last.has_more ? last.next_cursor : undefined),
+    refetchInterval: 15000, // a running run turns into ok/failed without a reload
   });
 }
 

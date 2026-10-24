@@ -50,7 +50,7 @@ function TestFile() {
       >
         <FileJson className="mx-auto h-8 w-8 text-[#64748B]" />
         <p className="mt-3 font-semibold text-[#0F172A]">Drop cases.json here</p>
-        <input ref={input} type="file" accept=".json,application/json" className="hidden"
+        <input ref={input} type="file" accept=".json,application/json,text/json,text/plain" className="hidden"
           onChange={(e) => { handle(e.target.files?.[0]); e.target.value = ""; }} />
         <button type="button" onClick={() => input.current?.click()} disabled={state.phase === "running"}
           className="mt-4 inline-flex min-h-[40px] items-center gap-2 rounded-lg bg-[#4F46E5] px-4 text-sm font-semibold text-white hover:bg-[#4338CA] disabled:opacity-60">

@@ -5,12 +5,13 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 from .env import load_dotenv
 from .file_run import run_file
 from .live_run import ROOT, live
-from .store.base44 import Base44Store
+from .store.base44 import Base44Error, Base44Store
 from .store.publish import publish_run
 
 
@@ -30,8 +31,31 @@ def main(argv: list[str] | None = None) -> int:
     pub_cmd.add_argument("--run", help="Run folder name under recordings/runs (default: the latest)")
     pub_cmd.add_argument("--config", default=str(ROOT / "config/live.json"))
     pub_cmd.add_argument("--recordings", default=str(ROOT / "recordings"))
+    mark_cmd = sub.add_parser("mark", help="Set a run's status in Base44 (used by the weekly workflow)")
+    mark_cmd.add_argument("--run-key", required=True)
+    mark_cmd.add_argument("--status", required=True, choices=["running", "failed"])
+    mark_cmd.add_argument("--error", help="Why it failed")
+    mark_cmd.add_argument("--log-url", help="Link to the workflow log")
     args = parser.parse_args(argv)
     load_dotenv(ROOT / ".env")
+
+    if args.command == "mark":
+        store = Base44Store.from_env()
+        if store is None:
+            print("No Base44 keys; nothing to mark.", file=sys.stderr)
+            return 0
+        record = {"run_key": args.run_key, "status": args.status, "mode": "live"}
+        if args.status == "running":
+            record["started_at"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        if args.error:
+            record["errors"] = [args.error]
+        if args.log_url:
+            record["log_url"] = args.log_url
+        try:
+            store.upsert("Run", "run_key", [record])
+        except Base44Error as exc:  # never fail the workflow over a status write
+            print(f"Couldn't mark the run: {exc}", file=sys.stderr)
+        return 0
 
     if args.command == "publish":
         store = Base44Store.from_env()
