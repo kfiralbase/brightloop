@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from brightloop.core import run
+from brightloop.core.normalize import parse_ts
 
 ROOT = Path(__file__).resolve().parent.parent
 BRIEF = json.loads((ROOT / "tests/fixtures/brief_example.json").read_text())
@@ -76,8 +77,13 @@ class BriefExample(unittest.TestCase):
         self.assertIn("hidden instructions", reason)
 
     def test_same_launch_from_two_sources_and_timezones(self):
-        reason = next(s["reason"] for s in self.result["skipped"] if s["id"] == "sg-302")
-        self.assertIn("sg-301", reason)
+        # 23:30+03:00 and "20:30 UTC" are the same instant. For Maya both are launches with no
+        # price change, so both are skipped for that reason; nothing to merge.
+        a, b = (next(s for s in BRIEF["signals"] if s["id"] == i)["ts"] for i in ("sg-301", "sg-302"))
+        self.assertEqual(parse_ts(a, "Asia/Jerusalem"), parse_ts(b, "Asia/Jerusalem"))
+        for sid in ("sg-301", "sg-302"):
+            reason = next(s["reason"] for s in self.result["skipped"] if s["id"] == sid)
+            self.assertIn("Feature launch with no price change", reason)
 
     def test_rumor_is_skipped(self):
         reason = next(s["reason"] for s in self.result["skipped"] if s["id"] == "sg-304")
