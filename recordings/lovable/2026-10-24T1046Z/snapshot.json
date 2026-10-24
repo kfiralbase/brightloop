@@ -106,8 +106,10 @@
   "page_screenshot": "recordings/lovable/2026-10-24T1046Z/page.png",
   "pricing_screenshot": "recordings/lovable/2026-10-24T1046Z/pricing.png",
   "homepage_url": "https://lovable.dev/",
-  "homepage_screenshot": "recordings/lovable/2026-10-24T1046Z/homepage.png",
+  "homepage_screenshot": null,
   "page_screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/7ec891db9_page.png",
   "pricing_screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/c7596b150_pricing.png",
-  "homepage_screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/e6ab60d8f_homepage.png"
+  "homepage_screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/4e58de0d2_homepage.png",
+  "homepage_captured_at": "2026-10-24T10:04:35Z",
+  "homepage_note": "This run's homepage picture was a Cloudflare bot check; replaced with the 10:04 picture."
 }

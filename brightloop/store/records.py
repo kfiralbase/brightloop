@@ -97,6 +97,8 @@ def to_records(run_key: str, result: dict, cases: dict, snapshots: list[dict]) -
             # The two pictures on Maya's slide: homepage on top, pricing section below.
             "homepage_url": snap.get("homepage_url") or "",
             "homepage_screenshot_url": snap.get("homepage_screenshot_url") or "",
+            # When the homepage picture is older than this run (bot check), the deck says so.
+            "homepage_captured_at": snap.get("homepage_captured_at") or snap.get("fetched_at"),
             "pricing_screenshot_url": snap.get("pricing_screenshot_url") or "",
             "plan_screenshots": [{"name": p["name"], "url": p["screenshot_url"]}
                                  for p in plans_of(snap) if p.get("screenshot_url")],

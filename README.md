@@ -156,17 +156,37 @@ In live runs each evidence entry also has `screenshot`: the cropped plan card.
 
 `run.cost_usd` is 0.0: the decision path uses no paid API. `run.mode` is `file`, `live` or
 `replay`. `run.baselines` lists competitors captured for the first time (nothing to compare yet).
+`run.notes` lists things that were degraded but didn't fail, such as a homepage picture reused
+from an earlier run because this week's page showed a bot check.
+
+## How I know it works
+
+- **The contract on the brief's example:** CI runs `./run` on it on every push (Python 3.10 and
+  3.13) and checks that every input id is placed exactly once. Only `pr-401` becomes an item;
+  the sponsored claim, the ads, the launches, the rumor and the injected comment are skipped,
+  each with a reason. The injected text never reaches the output.
+- **Unit tests for each rule and each trap** (`tests/`), including phrasings not in the example
+  (`5→3 projects`, `€`/`£` prices, `from 100 to 50` with the unit first) and broken input
+  (bad JSON, missing or duplicate ids, unreadable timestamps). Nothing crashes; problems land in
+  `run.errors`.
+- **The browser copy matches the CLI:** a test runs only the files the app ships, isolated, and
+  compares the result with the CLI's. The app page shows which commit its copy came from.
+- **Live runs on the real sites:** repeated captures of Lovable, Replit and Bolt minutes and
+  hours apart produced zero changes, so there's no noise to cause false flags. The diff that
+  finds real changes is tested on snapshots built from the real cards; no competitor has changed
+  a price since recording started, so a real change hasn't been seen live yet.
+- **End to end:** one press of Run now in the app started the GitHub workflow, which captured,
+  decided, published to Base44, built the deck in Google Slides and committed the recording.
 
 ## Status
 
 | Part | State |
 |---|---|
 | Core rules, CLI, tests, CI | Done |
-| Live collection of pricing pages (Playwright), recorded snapshots, offline replay | Done |
-| History from the Wayback Machine | Next |
-| Google Slides deck from Maya's template, Slack message | Planned |
-| Base44 app (this week, history, run log) and publishing to it | In progress |
-| Run now button | Planned |
-| Weekly schedule and run-now button (GitHub Actions) | Done; needs the two secrets |
+| Live collection (Playwright), recordings, offline replay | Done |
+| Base44 app: this week, history, run log, Test a file, Run now | Done (not yet published) |
+| Google Slides deck in Maya's layout, built after each run | Done |
+| Weekly schedule (GitHub Actions) | Done |
+| Slack message | Deferred: Maya gets "a hundred pings a day" |
 
 See [DECISIONS.md](DECISIONS.md) for why it's built this way.
