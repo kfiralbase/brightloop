@@ -55,6 +55,9 @@ def publish_run(store: Base44Store, run_dir: Path, recordings: Path, root: Path,
         for key in ("page_screenshot", "pricing_screenshot", "homepage_screenshot"):
             if not snap.get(f"{key}_url") and (url := upload(snap.get(key))):
                 snap[f"{key}_url"], gained = url, True
+        annual = snap.get("annual") or {}
+        if annual and not annual.get("pricing_screenshot_url") and (url := upload(annual.get("pricing_screenshot"))):
+            annual["pricing_screenshot_url"], gained = url, True
         for plan in snap.get("plans", []):
             if not plan.get("screenshot_url") and (url := upload(plan.get("screenshot"))):
                 plan["screenshot_url"], gained = url, True

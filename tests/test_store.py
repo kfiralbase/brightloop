@@ -129,6 +129,17 @@ class Publish(unittest.TestCase):
         snap = json.loads((self.rec / "lovable/S/snapshot.json").read_text())
         self.assertNotIn("page_screenshot_url", snap)  # nothing gained, file untouched
 
+    def test_annual_pricing_picture_is_uploaded_and_recorded(self):
+        snap = dict(SNAP, annual={"billing_view": "annual", "plans": [],
+                                  "pricing_screenshot": "rec/lovable/S/pricing-annual.png"})
+        (self.rec / "lovable/S/snapshot.json").write_text(json.dumps(snap))
+        (self.rec / "lovable/S/pricing-annual.png").write_bytes(b"png")
+        store = FakeStore()
+        publish_run(store, self.rec / "runs/S", self.rec, self.root, ["Lovable"])
+        self.assertIn("pricing-annual.png", store.uploads)
+        self.assertEqual(store.upserts[0][2][0]["annual_pricing_screenshot_url"],
+                         "https://cdn.example/pricing-annual.png")
+
     def test_republishing_does_not_reupload(self):
         publish_run(FakeStore(), self.rec / "runs/S", self.rec, self.root, ["Lovable"])
         again = FakeStore()

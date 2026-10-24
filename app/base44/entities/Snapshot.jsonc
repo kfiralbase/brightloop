@@ -68,6 +68,10 @@
     "pricing_screenshot_url": {
       "type": "string"
     },
+    "annual_pricing_screenshot_url": {
+      "type": "string",
+      "description": "The pricing section in its yearly billing view, for a slide where only the annual price moved"
+    },
     "not_checked": {
       "type": "boolean",
       "description": "The site didn't load this run; these are the last good capture's pictures"
