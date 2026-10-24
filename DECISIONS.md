@@ -105,8 +105,9 @@ copied into the app as one bundle stamped with its source commit, and a test che
 alone matches the CLI. The cost is a copy that can go stale; the commit stamp makes that visible.
 
 **Run now is open to anyone, but throttled.** The app has no sign-in (Maya won't log in), so
-the button's server function refuses while a run is in progress and for 30 minutes after the
-last one started. The GitHub token is an app secret scoped to Actions on this one repo, never
+the button's server function refuses while a run is in progress and for 10 minutes after the
+last one started (a run takes about 2 minutes; I first set 30, which was more than needed,
+since a running run already blocks a second one). The GitHub token is an app secret scoped to Actions on this one repo, never
 sent to the browser. The weekly cron and the button run the same workflow.
 
 **Python backend on GitHub Actions, front end on Base44.** Same code runs on the schedule and in
