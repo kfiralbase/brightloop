@@ -134,6 +134,37 @@
       }
     },
     {
+      "id": "chg-lovable-business-annual-price-45-month",
+      "source_ids": [
+        "t-26"
+      ],
+      "confidence": 0.95,
+      "action": "Add a slide to Monday's deck: Lovable Business (annual): $42/month → $45/month, with a screenshot of lovable.dev/pricing. Then update the Brightloop vs Lovable comparison page. Price went up: check whether Brightloop is now cheaper on this plan; if it is, that's a 'cheaper than Lovable' angle for Daniel.",
+      "why": "Lovable Business (annual): $42/month → $45/month, stated on lovable.dev/pricing (2026-10-28T08:00:00Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Lovable",
+      "deck_line": "Business (annual): $42→$45/month",
+      "change": {
+        "field": "price",
+        "plan": "Business (annual)",
+        "before": "$42/month",
+        "after": "$45/month",
+        "direction": "up"
+      },
+      "evidence": [
+        {
+          "source_id": "t-26",
+          "source": "lovable.dev/pricing",
+          "ts_utc": "2026-10-28T08:00:00Z",
+          "quote": "Business plan, billed annually, shown at $45/month (was $42/month last week).",
+          "source_tier": "official_pricing_page"
+        }
+      ],
+      "cta": {
+        "label": "Review the Lovable pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w44-lovable-pricing"
+      }
+    },
+    {
       "id": "chg-replit-pro-price-90-month",
       "source_ids": [
         "t-04"
@@ -333,10 +364,14 @@
     {
       "id": "t-23",
       "reason": "Unverified pricing claim from techcrunch.com, not Bolt's own pricing page. Check the pricing page before it goes anywhere."
+    },
+    {
+      "id": "t-25",
+      "reason": "Limited-time promo, not a lasting price change. Flagged only once it sticks."
     }
   ],
   "run": {
-    "started_at": "2026-10-24T13:48:23+00:00",
+    "started_at": "2026-10-24T14:14:20+00:00",
     "cost_usd": 0.0,
     "errors": [
       "t-16: unreadable timestamp 'yesterday'.",

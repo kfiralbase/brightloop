@@ -64,12 +64,20 @@ _CARDS_JS = r"""
 """
 
 _MONTHLY = re.compile(r"^\s*monthly\s*$", re.IGNORECASE)
+# "Yearly 2 months free", "YEARLY SAVE UP TO 28%": the toggle's label starts with the period.
+_YEARLY = re.compile(r"^\s*(yearly|annual(ly)?|billed (annually|yearly))\b", re.IGNORECASE)
 
 
 def _prefer_monthly(page) -> bool:
     """Click a Monthly billing toggle if there is one, so weeks compare like for like."""
+    return _choose_billing(page, _MONTHLY, any_text=True)
+
+
+def _choose_billing(page, label: re.Pattern, any_text: bool = False) -> bool:
+    """Click a billing toggle by its label. Plain text (not a control) is clicked only when
+    any_text is set: a stray "Annual plans" link must never take the page somewhere else."""
     for role in ("tab", "radio", "button", "switch"):
-        loc = page.get_by_role(role, name=_MONTHLY)
+        loc = page.get_by_role(role, name=label)
         if loc.count():
             try:
                 loc.first.click(timeout=3000)
@@ -77,8 +85,8 @@ def _prefer_monthly(page) -> bool:
                 return True
             except Exception:  # noqa: BLE001 - a missing toggle is not an error
                 pass
-    loc = page.get_by_text(_MONTHLY)
-    if loc.count():
+    loc = page.get_by_text(label)
+    if any_text and loc.count():
         try:
             loc.first.click(timeout=3000)
             page.wait_for_timeout(800)
@@ -233,6 +241,15 @@ def capture(competitor: str, url: str, shots_dir: Path, *, homepage: str | None 
                     page.screenshot(path=str(section), full_page=True, clip=clip)
                 except Exception:  # noqa: BLE001
                     section = None
+            # Maya looks at monthly and annual. Screenshots stay monthly; the annual view only
+            # adds each plan's yearly price. Only when the page has both toggles, so the two
+            # views are known to be different.
+            annual = None
+            if monthly and _choose_billing(page, _YEARLY):
+                page.wait_for_timeout(1000)
+                yearly = [{"name": c["name"], "lines": _lines(c["text"])}
+                          for c in page.evaluate(_CARDS_JS, PLAN_NAMES) if is_plan(c["name"], _lines(c["text"]))]
+                annual = {"billing_view": "annual", "plans": yearly}
             home = _homepage_shot(browser, homepage, shots_dir / "homepage.png", timeout_ms) if homepage else None
             return {
                 "competitor": competitor,
@@ -243,6 +260,7 @@ def capture(competitor: str, url: str, shots_dir: Path, *, homepage: str | None 
                 "billing_view": "monthly" if monthly else "default",
                 "method": "playwright",
                 "plans": plans,
+                "annual": annual,
                 "page_screenshot": str(full),
                 "pricing_screenshot": str(section) if section else None,
                 "homepage_url": homepage,

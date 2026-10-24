@@ -24,6 +24,9 @@ from brightloop.env import load_dotenv  # noqa: E402
 from brightloop.store.base44 import USER_AGENT, _tls_context  # noqa: E402
 
 DEST = ROOT / "app"
+# Files every real export of this app has. Base44's export sometimes returns a stale starter
+# template instead; without these, app/ is left untouched rather than overwritten with it.
+MUST_HAVE = ("base44/functions/build-deck/entry.ts", "public/py/bundle.json", "src/routes/index.jsx")
 SKIP = ("node_modules/", "dist/", ".wrangler/", ".output/", ".vinxi/", ".tanstack/", ".DS_Store")
 
 
@@ -41,6 +44,11 @@ def main() -> int:
     names = [n for n in archive.namelist() if not n.endswith("/")]
     # Strip a single top-level folder if the archive has one.
     prefix = os.path.commonprefix(names).rpartition("/")[0] + "/" if len({n.split("/")[0] for n in names}) == 1 else ""
+    missing = [m for m in MUST_HAVE if prefix + m not in names]
+    if missing:
+        print(f"The export looks wrong (missing {', '.join(missing)}); app/ left as it was. Try again.",
+              file=sys.stderr)
+        return 1
     if DEST.exists():
         shutil.rmtree(DEST)
     written = 0
