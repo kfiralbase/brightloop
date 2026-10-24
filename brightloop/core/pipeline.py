@@ -8,10 +8,9 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
-from .dedup import SAME_CHANGE_WINDOW, product_tokens, same_event
 from .normalize import clean_text, iso_utc, parse_ts, slug, week_bounds
 from .pricing import Change, find_change
 from .trust import OFFICIAL_OTHER, THIRD_PARTY, SourceInfo, classify_source
@@ -26,6 +25,10 @@ CORROBORATION_BONUS = 0.04  # per extra independent domain reporting the same ch
 INJECTION_PENALTY = 0.2    # the text tried to instruct an AI; trust it less
 PACKAGING_PENALTY = 0.15   # a feature line moved but no number changed; worth a look, less certain
 MAX_CONFIDENCE = 0.99
+
+# Two reports of the same change (same competitor, plan, field and new value) this close
+# together are one change, so Maya gets one slide, not two.
+SAME_CHANGE_WINDOW = timedelta(days=7)
 
 _RUMOR = re.compile(
     r"\?\?|\b(heard|rumou?rs?|allegedly|reportedly|unconfirmed|word is|apparently|might be|could be)\b",
@@ -187,7 +190,6 @@ def run(payload: object, *, started_at: datetime) -> dict:
         skipped.append({"id": sid, "reason": _scrub(reason, banned)})
 
     seen: list[str] = []
-    launches: list[tuple[str, str, set[str], datetime | None]] = []
     candidates: list[_Candidate] = []
 
     for index, s in enumerate(signals):
@@ -232,14 +234,7 @@ def run(payload: object, *, started_at: datetime) -> dict:
             who = " from an anonymous source" if info.unvetted else ""
             skip(sid, f"Rumor{who} (speculative wording), not a confirmed change.", injected)
         elif change is None and kind == "launch":
-            tokens = product_tokens(text, competitor)
-            twin = next((other for other, other_comp, toks, other_ts in launches
-                         if other_comp == slug(competitor) and same_event(tokens, ts, toks, other_ts)), None)
-            launches.append((sid, slug(competitor), tokens, ts))
-            reason = "Feature launch with no price change: product's area, not the pricing deck."
-            if twin:
-                reason += f" Same event as {twin}, reported by another source."
-            skip(sid, reason, injected)
+            skip(sid, "Feature launch with no price change: product's area, not the pricing deck.", injected)
         elif change is None:
             skip(sid, "No change stated. A price with no previous value isn't a change.", injected)
         elif info.tier == THIRD_PARTY:
