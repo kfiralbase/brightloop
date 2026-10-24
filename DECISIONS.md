@@ -156,6 +156,12 @@ last one started (a run takes about 2 minutes; I first set 30, which was more th
 since a running run already blocks a second one). The GitHub token is an app secret scoped to Actions on this one repo, never
 sent to the browser. The weekly cron and the button run the same workflow.
 
+**The app's code is exported into `app/`, not synced.** The brief wants all the code in the
+repo. Base44's two-way GitHub sync needs its own new repository and can't attach to this one,
+and once connected it can't be undone. Instead, a script pulls the app's source through Base44's
+export API into `app/` and it's committed like any other change. The cost is a manual step after
+editing the app; a test catches the one drift that would matter (the core copy the app runs).
+
 **Python backend on GitHub Actions, front end on Base44.** Same code runs on the schedule and in
 the CLI. No always-on server: a "run now" press starts a workflow, so it takes a minute, not a
 second.

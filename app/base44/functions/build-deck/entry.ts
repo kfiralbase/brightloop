@@ -1,0 +1,219 @@
+// Builds Maya's Monday deck in Google Slides, in the "Growth" folder of the connected Google Drive.
+//
+// Her layout, exactly: one slide per competitor (Lovable, Replit, Bolt); the homepage screenshot
+// and the pricing-section screenshot, stacked or side by side, whichever shows them bigger; a red
+// text box under the pricing shot only when something moved, nothing when it didn't. File name
+// "Competitor Deck Wk of <Monday>". Re-running for the same week refills the same file.
+//
+// Called by the weekly GitHub workflow after a run is published. Every function URL is public,
+// so it requires the X-Deck-Secret header to match the DECK_SECRET app secret.
+import { createClientFromRequest } from "npm:@base44/sdk";
+import { secrets } from "base44:runtime";
+
+const FOLDER = "Growth";
+const ORDER = ["Lovable", "Replit", "Bolt"];
+const EMU_PER_INCH = 914400;
+const IN = (n: number) => Math.round(n * EMU_PER_INCH);
+const RED = { red: 0.8, green: 0.1, blue: 0.1 };
+
+type Box = { x: number; y: number; w: number; h: number };
+
+function sameSecret(a: string, b: string): boolean {
+  if (!a || !b || a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+
+const items = (res: any) => (Array.isArray(res) ? res : res?.items ?? []);
+
+async function google(token: string, url: string, init: RequestInit = {}) {
+  const res = await fetch(url, {
+    ...init,
+    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json", ...(init.headers || {}) },
+  });
+  const body = res.status === 204 ? null : await res.json().catch(() => null);
+  if (!res.ok) throw new Error(`${init.method || "GET"} ${url.split("?")[0]} → ${res.status}: ${JSON.stringify(body?.error?.message ?? body).slice(0, 300)}`);
+  return body;
+}
+
+// Width and height from a PNG header, so the layout can keep each screenshot's shape.
+async function pngSize(url: string): Promise<{ w: number; h: number } | null> {
+  try {
+    const res = await fetch(url, { headers: { Range: "bytes=0-31" } });
+    const b = new Uint8Array(await res.arrayBuffer());
+    if (b.length < 24) return null;
+    const v = new DataView(b.buffer);
+    return { w: v.getUint32(16), h: v.getUint32(20) };
+  } catch {
+    return null;
+  }
+}
+
+function fit(img: { w: number; h: number }, box: Box): Box {
+  const scale = Math.min(box.w / img.w, box.h / img.h);
+  const w = img.w * scale, h = img.h * scale;
+  return { x: box.x + (box.w - w) / 2, y: box.y, w, h };
+}
+
+// Stacked (homepage on top) or side by side (homepage left): pick the one with more picture.
+function layout(home: { w: number; h: number }, pricing: { w: number; h: number }, area: Box, noteH: number) {
+  const gap = IN(0.15);
+  const stackH = (area.h - noteH - gap) / 2;
+  const stacked = {
+    home: fit(home, { x: area.x, y: area.y, w: area.w, h: stackH }),
+    pricing: fit(pricing, { x: area.x, y: area.y + stackH + gap, w: area.w, h: stackH }),
+  };
+  const colW = (area.w - gap) / 2;
+  const side = {
+    home: fit(home, { x: area.x, y: area.y, w: colW, h: area.h }),
+    pricing: fit(pricing, { x: area.x + colW + gap, y: area.y, w: colW, h: area.h - noteH }),
+  };
+  const size = (l: typeof side) => l.home.w * l.home.h + l.pricing.w * l.pricing.h;
+  if (size(stacked) >= size(side)) return stacked;
+  // Side by side: center the pair vertically, so the slide isn't top-heavy.
+  const used = Math.max(side.home.h, side.pricing.h + noteH);
+  const shift = Math.max(0, (area.h - used) / 2);
+  side.home.y += shift + (used - side.home.h) / 2;
+  side.pricing.y += shift;
+  return side;
+}
+
+function image(id: string, slide: string, url: string, b: Box) {
+  return {
+    createImage: {
+      objectId: id, url,
+      elementProperties: {
+        pageObjectId: slide,
+        size: { width: { magnitude: Math.round(b.w), unit: "EMU" }, height: { magnitude: Math.round(b.h), unit: "EMU" } },
+        transform: { scaleX: 1, scaleY: 1, translateX: Math.round(b.x), translateY: Math.round(b.y), unit: "EMU" },
+      },
+    },
+  };
+}
+
+function textBox(id: string, slide: string, b: Box, text: string, style: Record<string, unknown>, outline = false) {
+  const reqs: any[] = [
+    {
+      createShape: {
+        objectId: id, shapeType: "TEXT_BOX",
+        elementProperties: {
+          pageObjectId: slide,
+          size: { width: { magnitude: Math.round(b.w), unit: "EMU" }, height: { magnitude: Math.round(b.h), unit: "EMU" } },
+          transform: { scaleX: 1, scaleY: 1, translateX: Math.round(b.x), translateY: Math.round(b.y), unit: "EMU" },
+        },
+      },
+    },
+    { insertText: { objectId: id, text } },
+    { updateTextStyle: { objectId: id, style, fields: Object.keys(style).join(",") } },
+  ];
+  if (outline) {
+    reqs.push({
+      updateShapeProperties: {
+        objectId: id, fields: "outline.outlineFill.solidFill.color,outline.weight",
+        shapeProperties: { outline: { outlineFill: { solidFill: { color: { rgbColor: RED } } }, weight: { magnitude: 1.5, unit: "PT" } } },
+      },
+    });
+  }
+  return reqs;
+}
+
+function mondayLabel(weekOf: string): string {
+  const d = new Date(`${weekOf}T12:00:00Z`);
+  return isNaN(d.getTime()) ? weekOf : d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+}
+
+export default async function (req: Request): Promise<Response> {
+  if (req.method !== "POST") return Response.json({ ok: false, error: "POST only" }, { status: 405 });
+  if (!sameSecret(req.headers.get("x-deck-secret") || "", (await secrets.get("DECK_SECRET")) || "")) {
+    return Response.json({ ok: false, error: "Unauthorized" }, { status: 401 });
+  }
+  const { run_key: runKey } = await req.json().catch(() => ({}));
+  const sr = createClientFromRequest(req).asServiceRole;
+
+  const run = runKey
+    ? items(await sr.entities.Run.filter({ run_key: runKey }))[0]
+    : items(await sr.entities.Run.filter({}, "-started_at", 1))[0];
+  if (!run) return Response.json({ ok: false, error: `No run ${runKey || "(latest)"}` }, { status: 404 });
+
+  try {
+    const snaps = items(await sr.entities.Snapshot.filter({ run_key: run.run_key }));
+    const changes = items(await sr.entities.Change.filter({ run_key: run.run_key }));
+    snaps.sort((a: any, b: any) => (ORDER.indexOf(a.competitor) + 1 || 99) - (ORDER.indexOf(b.competitor) + 1 || 99));
+    if (!snaps.length) throw new Error("This run has no snapshots to put on slides.");
+
+    const drive = (await sr.connectors.getConnection("googledrive")).accessToken;
+    const slidesTok = (await sr.connectors.getConnection("googleslides")).accessToken;
+    const D = "https://www.googleapis.com/drive/v3/files";
+    const q = (s: string) => `${D}?q=${encodeURIComponent(s)}&fields=files(id,name,webViewLink)&supportsAllDrives=true&includeItemsFromAllDrives=true`;
+
+    const folders = (await google(drive, q(`mimeType='application/vnd.google-apps.folder' and name='${FOLDER}' and trashed=false`))).files;
+    const folderId = folders[0]?.id
+      ?? (await google(drive, `${D}?fields=id`, { method: "POST", body: JSON.stringify({ name: FOLDER, mimeType: "application/vnd.google-apps.folder" }) })).id;
+
+    const name = `Competitor Deck Wk of ${mondayLabel(run.week_of || "")}`;
+    const existing = (await google(drive, q(`name='${name.replace(/'/g, "\\'")}' and '${folderId}' in parents and mimeType='application/vnd.google-apps.presentation' and trashed=false`))).files[0];
+    const file = existing ?? await google(drive, `${D}?fields=id,webViewLink&supportsAllDrives=true`, {
+      method: "POST", body: JSON.stringify({ name, mimeType: "application/vnd.google-apps.presentation", parents: [folderId] }),
+    });
+
+    const S = `https://slides.googleapis.com/v1/presentations/${file.id}`;
+    const pres = await google(slidesTok, S);
+    const oldSlides = (pres.slides || []).map((s: any) => s.objectId);
+    const pageW = pres.pageSize.width.magnitude, pageH = pres.pageSize.height.magnitude;
+    const margin = IN(0.3), titleH = IN(0.5);
+    const tag = crypto.randomUUID().replace(/-/g, "").slice(0, 8);
+
+    const requests: any[] = [];
+    for (const [i, snap] of snaps.entries()) {
+      const slide = `s${i}_${tag}`;
+      requests.push({ createSlide: { objectId: slide, insertionIndex: i, slideLayoutReference: { predefinedLayout: "BLANK" } } });
+      requests.push(...textBox(`t${i}_${tag}`, slide, { x: margin, y: margin * 0.6, w: pageW - 2 * margin, h: titleH },
+        snap.competitor, { bold: true, fontSize: { magnitude: 20, unit: "PT" } }));
+
+      const lines = changes.filter((c: any) => c.competitor === snap.competitor).map((c: any) => c.deck_line).filter(Boolean);
+      const noteH = lines.length ? IN(0.32) * lines.length + IN(0.15) : 0;
+      const area = { x: margin, y: margin * 0.6 + titleH, w: pageW - 2 * margin, h: pageH - (margin * 0.6 + titleH) - margin * 0.6 };
+      const [homeSize, priceSize] = await Promise.all([
+        snap.homepage_screenshot_url ? pngSize(snap.homepage_screenshot_url) : null,
+        snap.pricing_screenshot_url ? pngSize(snap.pricing_screenshot_url) : null,
+      ]);
+      const l = layout(homeSize || { w: 16, h: 10 }, priceSize || { w: 16, h: 9 }, area, noteH);
+      const missing = { italic: true, fontSize: { magnitude: 12, unit: "PT" } };
+      if (snap.homepage_screenshot_url) {
+        requests.push(image(`h${i}_${tag}`, slide, snap.homepage_screenshot_url, l.home));
+        // A bot check blocked this week's homepage, so last good picture is reused: say how old it is.
+        const taken = (snap.homepage_captured_at || "").slice(0, 10), run = (snap.fetched_at || "").slice(0, 10);
+        if (taken && run && taken !== run) {
+          requests.push(...textBox(`c${i}_${tag}`, slide, { x: l.home.x, y: l.home.y + l.home.h + IN(0.03), w: l.home.w, h: IN(0.3) },
+            `Homepage as of ${mondayLabel(taken)} (this week's page showed a bot check)`,
+            { italic: true, fontSize: { magnitude: 9, unit: "PT" } }));
+        }
+      } else {
+        requests.push(...textBox(`h${i}_${tag}`, slide, l.home, "Homepage screenshot unavailable this week", missing));
+      }
+      if (snap.pricing_screenshot_url) requests.push(image(`p${i}_${tag}`, slide, snap.pricing_screenshot_url, l.pricing));
+      else requests.push(...textBox(`p${i}_${tag}`, slide, l.pricing, "Pricing screenshot unavailable this week", missing));
+      if (lines.length) {
+        const note = { x: l.pricing.x, y: l.pricing.y + l.pricing.h + IN(0.08), w: Math.max(l.pricing.w, IN(3)), h: noteH - IN(0.08) };
+        requests.push(...textBox(`n${i}_${tag}`, slide, note, lines.join("\n"),
+          { bold: true, fontSize: { magnitude: 14, unit: "PT" }, foregroundColor: { opaqueColor: { rgbColor: RED } } }, true));
+      }
+    }
+    // New slides first, then remove last week's (or the blank default), so the file is never empty.
+    requests.push(...oldSlides.map((id: string) => ({ deleteObject: { objectId: id } })));
+    await google(slidesTok, `${S}:batchUpdate`, { method: "POST", body: JSON.stringify({ requests }) });
+
+    const deckUrl = file.webViewLink || `https://docs.google.com/presentation/d/${file.id}/edit`;
+    // Clear a deck error left by an earlier failed attempt for this run.
+    await sr.entities.Run.update(run.id, {
+      deck_url: deckUrl,
+      errors: (run.errors || []).filter((e: string) => !e.startsWith("Deck: ")),
+    });
+    return Response.json({ ok: true, deck_url: deckUrl, name, slides: snaps.length, changes: changes.length, reused: !!existing });
+  } catch (err) {
+    const message = `Deck: ${(err as Error).message}`;
+    await sr.entities.Run.update(run.id, { errors: [...(run.errors || []).filter((e: string) => !e.startsWith("Deck: ")), message] }).catch(() => {});
+    return Response.json({ ok: false, error: message }, { status: 500 });
+  }
+}
