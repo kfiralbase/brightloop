@@ -112,6 +112,23 @@ class PricingRules(unittest.TestCase):
         self.assertEqual((changes["b"]["field"], changes["b"]["before"], changes["b"]["after"]), ("credits", "200", "100"))
         self.assertEqual((changes["c"]["field"], changes["c"]["before"], changes["c"]["after"]), ("tier", "Pro", "Business"))
 
+    def test_more_phrasings(self):
+        cases = {
+            "a": ("Free tier: 5→3 projects", ("projects", "Free", "5", "3", "down")),       # Maya's own example
+            "b": ("Pro €25/month (was €20)", ("price", "Pro", "€20/month", "€25/month", "up")),
+            "c": ("Pro £20/mo (was £15)", ("price", "Pro", "£15/month", "£20/month", "up")),
+            "d": ("Credits on Pro cut from 100 to 50", ("credits", "Pro", "100", "50", "down")),
+            "e": ("Pro plan now $30/mo, previously $25", ("price", "Pro", "$25/month", "$30/month", "up")),
+        }
+        r = case(*[pricing(sid, text) for sid, (text, _) in cases.items()])
+        got = {i["source_ids"][0]: i["change"] for i in r["items"]}
+        for sid, (_, (field, plan, before, after, direction)) in cases.items():
+            self.assertEqual((got[sid]["field"], got[sid]["plan"], got[sid]["before"], got[sid]["after"],
+                              got[sid]["direction"]), (field, plan, before, after, direction), sid)
+        lines = {i["source_ids"][0]: i["deck_line"] for i in r["items"]}
+        self.assertEqual(lines["a"], "Free: 5 projects → 3 projects")
+        self.assertEqual(lines["b"], "Pro: €20/month → €25/month")
+
     def test_price_without_previous_value_is_not_a_change(self):
         r = case(pricing("a", "Pro plan shown at $25/month."))
         self.assertEqual(r["items"], [])

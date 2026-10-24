@@ -136,13 +136,44 @@ def _decline_cookies(page) -> None:
         pass
 
 
+# Bot-check interstitials (Cloudflare and similar). We never solve or work around them: we give
+# the site's own check a few seconds to clear by itself, and otherwise don't use the page.
+_CHALLENGE = re.compile(
+    r"performing security verification|verify(ing)? (that )?you are (a )?human|checking your browser"
+    r"|just a moment\.\.\.|attention required|are you a robot",
+    re.IGNORECASE,
+)
+CHALLENGE_WAIT_S = 20
+
+
+def _challenged(page) -> bool:
+    try:
+        return bool(_CHALLENGE.search(f"{page.title()} {page.inner_text('body')[:3000]}"))
+    except Exception:  # noqa: BLE001 - mid-navigation; treat as not challenged and let the caller wait
+        return False
+
+
+def _still_challenged(page) -> bool:
+    """True if a bot check is still showing after waiting CHALLENGE_WAIT_S seconds for it to clear."""
+    for _ in range(CHALLENGE_WAIT_S):
+        if not _challenged(page):
+            return False
+        page.wait_for_timeout(1000)
+    return _challenged(page)
+
+
 def _homepage_shot(browser, homepage: str, path: Path, timeout_ms: int) -> str | None:
-    """Above-the-fold screenshot of the homepage, for the deck only (homepage changes aren't tracked)."""
+    """Above-the-fold screenshot of the homepage, for the deck only (homepage changes aren't tracked).
+    None when the page fails or a bot check doesn't clear: never a picture of the check itself."""
     page = browser.new_page(viewport={"width": 1440, "height": 900}, user_agent=USER_AGENT)
     try:
         page.goto(homepage, wait_until="load", timeout=timeout_ms)
+        if _still_challenged(page):
+            return None
         page.wait_for_timeout(2500)  # hero animations and late images
         _decline_cookies(page)
+        if _challenged(page):
+            return None
         page.screenshot(path=str(path))
         return str(path)
     except Exception:  # noqa: BLE001 - a missing homepage picture must not fail the pricing capture
@@ -165,6 +196,8 @@ def capture(competitor: str, url: str, shots_dir: Path, *, homepage: str | None 
             page = browser.new_page(viewport={"width": 1440, "height": 1000}, user_agent=USER_AGENT)
             response = page.goto(url, wait_until="load", timeout=timeout_ms)
             status = response.status if response else None
+            if _still_challenged(page):
+                raise RuntimeError(f"a bot check didn't clear within {CHALLENGE_WAIT_S}s (not solved by design)")
             page.wait_for_function(r"() => /\$\s?\d/.test(document.body.innerText)", timeout=timeout_ms)
             _decline_cookies(page)
             monthly = _prefer_monthly(page)

@@ -6,13 +6,33 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from brightloop.live_run import live
+from brightloop.live_run import carry_homepage, live
 from tests.test_snapshots import LOVABLE
 
 
 def write(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data))
+
+
+class HomepageCarry(unittest.TestCase):
+    def test_fresh_picture_is_dated_now(self):
+        cur = {"fetched_at": "2026-10-26T04:30:00Z", "homepage_url": "https://x.dev/", "homepage_screenshot": "h.png"}
+        self.assertIsNone(carry_homepage(None, cur))
+        self.assertEqual(cur["homepage_captured_at"], "2026-10-26T04:30:00Z")
+
+    def test_blocked_homepage_reuses_last_weeks_picture_and_says_so(self):
+        prev = {"fetched_at": "2026-10-19T04:30:00Z", "homepage_screenshot_url": "https://cdn/h.png"}
+        cur = {"fetched_at": "2026-10-26T04:30:00Z", "homepage_url": "https://x.dev/", "homepage_screenshot": None}
+        note = carry_homepage(prev, cur)
+        self.assertEqual(cur["homepage_screenshot_url"], "https://cdn/h.png")
+        self.assertEqual(cur["homepage_captured_at"], "2026-10-19T04:30:00Z")
+        self.assertIn("2026-10-19", note)
+
+    def test_nothing_to_reuse(self):
+        cur = {"fetched_at": "2026-10-26T04:30:00Z", "homepage_url": "https://x.dev/", "homepage_screenshot": None}
+        self.assertIn("none from earlier", carry_homepage({}, cur))
+        self.assertNotIn("homepage_screenshot_url", cur)
 
 
 class Replay(unittest.TestCase):

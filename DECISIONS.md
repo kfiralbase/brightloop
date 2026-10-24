@@ -92,6 +92,14 @@ per competitor, each change carries a `deck_line` for the red box, and each run 
 `week_of` (the Monday) for the file name. Homepage pictures are for the slide only; homepage
 changes stay untracked ("features are product's problem").
 
+**Bot checks are waited out, never solved.** From GitHub's servers, Lovable's homepage showed a
+Cloudflare check ("Performing security verification") and the first deck carried a picture of
+it. Now the capture gives a check 20 seconds to clear by itself and otherwise doesn't use the
+page: a blocked pricing page fails that competitor's capture with a clear error (no screenshot of
+the check, no guessed data); a blocked homepage reuses the last good homepage picture, and the
+slide says how old it is. That one bad recording was corrected by hand to point at the earlier
+good picture.
+
 **Cookie banners are hidden, never accepted.** Lovable's banner offers only "OK", which would
 mean consenting on our behalf. The capture presses Reject/Decline when a site has it and
 otherwise hides the banner before the screenshot.

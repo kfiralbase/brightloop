@@ -43,6 +43,22 @@ def _write(path: Path, data: dict) -> None:
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
+def carry_homepage(prev: dict | None, cur: dict) -> str | None:
+    """Keep the deck's homepage picture when this week's couldn't be taken (a bot check that
+    didn't clear): reuse the last good one and say how old it is. Returns a note, or None."""
+    if cur.get("homepage_screenshot"):
+        cur["homepage_captured_at"] = cur.get("fetched_at")
+        return None
+    if not cur.get("homepage_url"):
+        return None
+    old_url = (prev or {}).get("homepage_screenshot_url")
+    if not old_url:
+        return "homepage picture unavailable this week (blocked or failed); none from earlier weeks to reuse."
+    cur["homepage_screenshot_url"] = old_url
+    cur["homepage_captured_at"] = prev.get("homepage_captured_at") or prev.get("fetched_at")
+    return f"homepage picture unavailable this week; reusing the one from {cur['homepage_captured_at'][:10]}."
+
+
 def _relative(snapshot: dict, base: Path) -> dict:
     """Store screenshot paths relative to the repo so recordings work on any clone."""
     def rel(p):
@@ -66,6 +82,7 @@ def live(config_path: Path, recordings: Path, output: Path | None, offline: bool
     signals: list[dict] = []
     errors: list[str] = []
     baselines: list[str] = []
+    notes: list[str] = []  # degraded but not failed, e.g. last week's homepage picture reused
     captured: list[datetime] = []
 
     for comp in (c for c in cfg.get("competitors", []) if c.get("enabled")):
@@ -85,6 +102,9 @@ def live(config_path: Path, recordings: Path, output: Path | None, offline: bool
             except Exception as exc:  # noqa: BLE001 - one site failing must not stop the others
                 errors.append(f"{name}: capture failed ({type(exc).__name__}: {str(exc).splitlines()[0][:160]}).")
                 continue
+            note = carry_homepage(prev, cur)
+            if note:
+                notes.append(f"{name}: {note}")
             _write(shots / "snapshot.json", cur)
             if prev is None:
                 baselines.append(name)
@@ -103,6 +123,8 @@ def live(config_path: Path, recordings: Path, output: Path | None, offline: bool
     result["run"]["mode"] = "replay" if offline else "live"
     if baselines:
         result["run"]["baselines"] = baselines  # first capture for these: nothing to compare yet
+    if notes:
+        result["run"]["notes"] = notes
 
     if not offline:  # a replay reproduces a recorded run; it doesn't add a new one
         run_dir = recordings / "runs" / stamp
