@@ -186,11 +186,15 @@ This is also why the brief's "analytics dashboard" stays out.
 really owns them"), so a verified change says to update the comparison page. A price rise
 suggests checking whether we're now cheaper, which is an angle for Daniel only if it's true.
 
-**Weekly schedule, Monday 07:30 Jerusalem time.** Maya starts at 08:30 ("Monday's been working
-fine"). GitHub's cron runs in UTC and Israel changes clocks (2026-10-25), so the workflow is
-scheduled at both offsets and only proceeds at 07:xx–08:xx local time, once a day. The same
-workflow has a manual "Run workflow" trigger, which is also the "run now" for anyone with repo
-access. After each run it commits the JSON recording, so next week's diff has its "before".
+**Weekly schedule, Monday 07:30 Jerusalem time, on two clocks.** Maya starts at 08:30 ("Monday's
+been working fine"). GitHub's cron alone isn't reliable enough for "if it's not on the slide, it
+didn't happen": a one-off test schedule (15:15 UTC on 2026-10-24) still hadn't started more than
+15 minutes later. So the Base44 app's scheduled workflow ("Monday pricing run", 07:30
+`Asia/Jerusalem`) starts the GitHub run, the same call as Run now plus the Slack message, and
+GitHub's cron stays as the fallback at 07:45. The run itself stays in GitHub because it needs a
+real browser. Base44's workflows API is in beta, which is why it isn't the only clock. GitHub's
+cron runs in UTC and Israel changes clocks (2026-10-25), so it's scheduled at both offsets and
+only proceeds at 07:xx–08:xx local time if nothing ran that day. After each run it commits the JSON recording, so next week's diff has its "before".
 Midweek checks are a possible extension.
 
 ## Engineering

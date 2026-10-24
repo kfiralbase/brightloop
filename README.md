@@ -55,13 +55,19 @@ python3 -m unittest -v
 | **Scan now, from the app** | **Run now** on the home page. Starts the weekly workflow; refused while one is running or within 10 minutes of the last. |
 | **Scan now, from GitHub** | Actions → **weekly** → **Run workflow**, or `gh workflow run weekly`. Captures, decides, publishes to the app, commits the recording. |
 | **Scan now, on your machine** | `.venv/bin/python -m brightloop live` (setup below). Publishes too if `.env` has the Base44 keys; add `--no-publish` to keep it local. |
-| **Every Monday** | Automatic: `.github/workflows/weekly.yml`, ready by 07:30 Jerusalem time. |
+| **Every Monday** | Automatic: the Base44 app's **Monday pricing run** workflow starts `.github/workflows/weekly.yml` at 07:30 Jerusalem time; GitHub's own cron is the fallback at 07:45. |
 
 The weekly workflow needs the repository secrets `BASE44_APP_ID`, `BASE44_TOKEN` and
 `DECK_SECRET`; `SLACK_WEBHOOK_URL` is optional (the Monday message).
-GitHub's cron runs in UTC and Israel changes clocks, so it's scheduled at both 04:30 and 05:30
-UTC on Mondays and proceeds only when it's 07:xx or 08:xx in Jerusalem and hasn't run that day.
-GitHub can start scheduled jobs late; the hour window absorbs ordinary delays.
+
+**Two clocks for the Monday run.** GitHub can start scheduled jobs late (a test schedule here
+started more than 15 minutes late), so the main trigger is a scheduled workflow in the Base44 app:
+Mondays 07:30, `Asia/Jerusalem` (Base44 handles the clock change). It calls the app's
+`/api/start-weekly` route, which starts the GitHub workflow the same way Run now does, with
+`notify` on; only the app's admin can call it. GitHub's cron is the fallback at 07:45: it runs in
+UTC and Israel changes clocks, so it's scheduled at both 04:45 and 05:45 UTC and proceeds only
+when it's 07:xx or 08:xx in Jerusalem and nothing has run that day. Both clocks would have to fail
+the same morning for the deck to be missing.
 
 **Run now** needs an app secret `GITHUB_TOKEN` in Base44: a fine-grained GitHub token for this
 repository only, with Actions read and write. It stays on the server; the button only gets

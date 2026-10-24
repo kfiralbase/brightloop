@@ -1,14 +1,15 @@
 name: weekly
 
 # Every Monday, ready before Maya starts at 08:30 Jerusalem time.
-# GitHub cron runs in UTC and Israel changes clocks, so both offsets are scheduled
-# and the job only proceeds at 07:xx–08:xx local time, once per day.
+# The Base44 app's "Monday pricing run" workflow starts this at 07:30 Israel time (through
+# workflow_dispatch, like Run now, with notify on). GitHub's own cron is the fallback at 07:45:
+# in a test it started over 15 minutes late. It runs in UTC and Israel changes clocks, so both
+# offsets are scheduled, and it only proceeds at 07:xx–08:xx local time if nothing ran that day.
 on:
   schedule:
-    - cron: "30 4 * * 1"   # 07:30 in summer (UTC+3)
-    - cron: "30 5 * * 1"   # 07:30 in winter (UTC+2)
-    - cron: "15 15 * * *"  # TEMPORARY: one-off schedule test, reverted right after
-  workflow_dispatch:         # "Run workflow" button (and the app's Run now): run now, any day
+    - cron: "45 4 * * 1"   # 07:45 in summer (UTC+3)
+    - cron: "45 5 * * 1"   # 07:45 in winter (UTC+2)
+  workflow_dispatch:         # Run workflow button, the app's Run now, and the Base44 Monday workflow
     inputs:
       notify:
         description: "Also send the Slack message (normally only the Monday run does)"
@@ -34,7 +35,6 @@ jobs:
         run: |
           echo "run_key=$(date -u +%Y-%m-%dT%H%MZ)" >> "$GITHUB_OUTPUT"   # one key for the whole run
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then echo "go=yes" >> "$GITHUB_OUTPUT"; exit 0; fi
-          if [ "${{ github.event.schedule }}" = "15 15 * * *" ]; then echo "go=yes" >> "$GITHUB_OUTPUT"; exit 0; fi  # TEMPORARY
           hour=$(TZ=Asia/Jerusalem date +%H)
           today=$(date -u +%F)
           if [ "$hour" != "07" ] && [ "$hour" != "08" ]; then

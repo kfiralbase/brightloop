@@ -1,0 +1,45 @@
+{
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "recurring",
+      "cron_expression": "30 7 * * 1",
+      "one_time_date": null,
+      "timezone": "Asia/Jerusalem",
+      "interval_value": null,
+      "interval_unit": null,
+      "interval_anchor": null,
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "monday_pricing_run",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "start_weekly": {
+          "call": "invoke_server_route",
+          "with": {
+            "path": "/api/start-weekly",
+            "method": "POST",
+            "body": {}
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Start weekly GitHub run"
+          }
+        }
+      }
+    ]
+  },
+  "description": "Starts the weekly GitHub pricing run every Monday at 07:30 Israel time",
+  "name": "Monday pricing run"
+}
