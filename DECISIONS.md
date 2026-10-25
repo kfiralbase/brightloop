@@ -130,7 +130,11 @@ last real one.
 **One Slack message on Monday.** I held off on Slack at first because she gets "a hundred pings a
 day". When I asked, she said: "File in the folder plus one Slack message with the link would be
 ideal—I'm not hunting through Drive on Monday morning." So only the Monday run posts, once, with
-the link and the red-box lines. Run now stays quiet.
+the link and the red-box lines. Run now stays quiet. Brightloop's Slack doesn't exist, so the demo
+posts to a Slack workspace of my own through an incoming webhook. I know reviewers can't open it;
+it's there to show the delivery works end to end (the screen recording shows a message landing),
+and pointing it at a real team's channel is a new webhook URL in the repo secrets, no code change.
+Without the secret the step is skipped, so a fresh clone never needs Slack.
 
 **She'll still check it.** "If something's off, it's my name on it." So the deck has to be easy
 to check, not perfect: a site that didn't load is labeled on its slide, and every change links to

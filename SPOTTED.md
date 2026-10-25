@@ -19,7 +19,7 @@ Tests named here are in `tests/test_pipeline.py`.
 | 12 | **Placeholder domains** | `ads.example`, `techblog.example`, `launchpad.example` | Treated as third-party, never official. |
 | 13 | **Every id exactly once** | Output contract | Checked at the end of every run; a mismatch is reported. Duplicate and missing ids in the input are reported too. `test_every_id_exactly_once`, `test_duplicate_and_missing_ids` |
 | 14 | **UTM in the config** | `config.utm_source` | Every item's `cta` carries a UTM string for the Brightloop link it points to. |
-| 15 | **Video length contradicts itself**: "up to 5 minutes" in the email, "10-minute" on the page | Email vs brief | Recording kept to 5 minutes, which satisfies both. |
+| 15 | **Video length contradicts itself**: "up to 5 minutes" in the email, "10-minute" on the page | Email vs brief | Recording kept under 5 minutes, which satisfies both. |
 | 16 | **"No mock data" vs "run without keys"** | Rules 4 and 5 | Recordings are real snapshots captured by live runs, with their URL and time, not invented data. |
 | 17 | **Contact contradicts itself**: the email invites questions; the brief says there's no contact | Email vs fine print | Decided on my own and logged decisions in DECISIONS.md. |
 | 18 | **Each marketer opens with a wish, not a problem**: "more signups", "more ad ideas", "know before Twitter does" | Interviews | Asked for the last concrete instance each time; built for the problem, not the wish. |
