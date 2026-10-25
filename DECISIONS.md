@@ -150,7 +150,9 @@ first relied on GitHub's scheduler, then tested it: a one-off schedule still had
 minutes after its time. So a scheduled workflow in the Base44 app starts the run at 07:30 Israel
 time, and GitHub's own schedule is a fallback at 07:45 that skips itself if a run already
 happened that day. Base44's workflows are in beta, which is exactly why they aren't the only
-clock. Both would have to fail the same morning for the deck to be missing.
+clock. Two clocks, one engine: both schedulers would have to fail the same morning, or GitHub
+Actions itself would have to be down, for the deck to be missing. In that case last week's deck is
+still in Drive and the app shows no run for that day.
 
 ## How it's built
 
