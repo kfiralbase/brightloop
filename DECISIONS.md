@@ -202,9 +202,7 @@ GitHub sync can only create a new repository. A script exports the app's source 
 ## What I chose not to build
 
 - **The brief's nice-to-haves** (multi-language, SSO, dark mode, an analytics dashboard, A/B
-  auto-winner, a mobile app). Maya won't open another tool: "New login, new tab, it's dead."
-- **Merging duplicate launches.** I built it for Noa's problem, then removed it: for Maya every
-  launch is skipped anyway. Two reports of the same pricing change are still merged into one item.
+  auto-winner, a mobile app).
 - **Replit's bigger credit packs** ($225, $440… in a dropdown). Maya: "I'd probably miss it—I
   screenshot the main pricing page, not every dropdown." She didn't ask for it; it's easy to add.
 - **Side programs** (Lovable for students, campus and kids). They aren't steps on the price ladder
