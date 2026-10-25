@@ -158,11 +158,6 @@ function dayLabel(isoDay: string): string {
   return new Date(`${isoDay}T12:00:00Z`).toLocaleDateString("en-GB", { weekday: "short", timeZone: "UTC" });
 }
 
-function dayMonth(isoDay: string): string {
-  const d = new Date(`${isoDay}T12:00:00Z`);
-  return isNaN(d.getTime()) ? isoDay : d.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
-}
-
 function mondayLabel(weekOf: string): string {
   const d = new Date(`${weekOf}T12:00:00Z`);
   return isNaN(d.getTime()) ? weekOf : d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
@@ -266,15 +261,9 @@ export default async function (req: Request): Promise<Response> {
       const l = layout(homeSize || { w: 16, h: 10 }, priceSize || { w: 16, h: 9 }, area, noteH);
       const missing = { italic: true, fontSize: { magnitude: 12, unit: "PT" } };
       if (snap.homepage_screenshot_url) {
+        // When a bot check blocked this run's homepage, this is the last good picture. The slide doesn't
+        // caption it (the homepage is context only); the run's notes record it.
         requests.push(image(`h${i}_${tag}`, slide, snap.homepage_screenshot_url, l.home));
-        // A bot check blocked this week's homepage, so last good picture is reused: say how old it is.
-        const taken = (snap.homepage_captured_at || "").slice(0, 10), run = (snap.fetched_at || "").slice(0, 10);
-        if (taken && run && taken !== run && !snap.not_checked) {
-          // Short enough for one line under a homepage picture that's only about 3 inches wide.
-          requests.push(...textBox(`c${i}_${tag}`, slide, { x: l.home.x, y: l.home.y + l.home.h + IN(0.03), w: l.home.w, h: IN(0.3) },
-            `Homepage from ${dayMonth(taken)} (bot check this time)`,
-            { italic: true, fontSize: { magnitude: 9, unit: "PT" } }));
-        }
       } else {
         requests.push(...textBox(`h${i}_${tag}`, slide, l.home, "Homepage screenshot unavailable this week", missing));
       }

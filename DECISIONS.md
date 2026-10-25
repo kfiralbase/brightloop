@@ -97,7 +97,10 @@ runner passed for all three sites.
 
 **The live capture never cheats.** If a site shows a bot check, the capture waits up to 20
 seconds for it to clear and otherwise doesn't use the page; it never tries to solve it. Cookie
-banners are rejected or hidden, never accepted on anyone's behalf. Site headers pinned to the top
+banners are rejected or hidden, never accepted on anyone's behalf. From GitHub's servers Lovable's
+homepage often shows a bot check; the slide then reuses the last good homepage picture. I first
+captioned it with its date, then dropped the caption: the homepage is only context on the slide,
+and the run's notes still record it. Site headers pinned to the top
 of the screen are hidden for the pricing pictures (on GitHub's runner Replit's nav sat on top of
 the cards); the homepage picture keeps its nav.
 
@@ -130,7 +133,8 @@ ideal—I'm not hunting through Drive on Monday morning." So only the Monday run
 the link and the red-box lines. Run now stays quiet.
 
 **She'll still check it.** "If something's off, it's my name on it." So the deck has to be easy
-to check, not perfect: reused pictures are dated, and every change links to its source.
+to check, not perfect: a site that didn't load is labeled on its slide, and every change links to
+its source.
 
 **Maya never connects anything.** The Google connection is set up once by whoever runs the tool.
 In this demo that's my personal Google account standing in for a team account.
