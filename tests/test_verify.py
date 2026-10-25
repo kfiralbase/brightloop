@@ -79,6 +79,15 @@ class Snapshot(unittest.TestCase):
         read = {"pro.png": PRO_OCR, "pro-annual.png": "Pro\n$1 8: /month"}.get
         self.assertEqual(check_snapshot(snap, read=read)["status"], "ok")
 
+    def test_zero_needs_its_dollar_sign(self):
+        free = {"name": "Free", "lines": ["Free", "$0", "100 credits"]}
+        self.assertEqual(check_card(free, "Free\n$0\n100 credits"), [])
+        self.assertIn("price $0", check_card(free, "Free\n$5\n100 credits")[0])
+
+    def test_a_price_is_not_found_inside_a_longer_number(self):
+        card = {"name": "Pro", "lines": ["Pro", "$25", "1025 credits"]}
+        self.assertIn("price $25", check_card(card, "Pro\n$30\n1025 credits")[0])
+
     def test_cropped_section_is_a_mismatch(self):
         result = check_snapshot(snapshot(pricing_cropped=True), read=lambda p: PRO_OCR)
         self.assertEqual(result["status"], "mismatch")
@@ -98,6 +107,13 @@ class Retry(unittest.TestCase):
             out = _verified(snapshot(), recapture)
         recapture.assert_not_called()
         self.assertEqual(out["verification"]["status"], "ok")
+
+    def test_a_cut_off_section_alone_does_not_recapture(self):
+        recapture = mock.Mock()
+        with mock.patch("brightloop.verify.ocr", return_value=PRO_OCR):
+            out = _verified(snapshot(pricing_cropped=True), recapture)
+        recapture.assert_not_called()
+        self.assertEqual(out["verification"]["status"], "mismatch")
 
     def test_a_failed_recapture_keeps_the_first_capture_marked(self):
         with mock.patch("brightloop.verify.ocr", return_value=PRO_OCR.replace("S25", "S30")):

@@ -22,6 +22,7 @@ from .snapshots import features, headline_price, plans_of
 # An OCR'd line this similar to a feature line counts as showing it. Every line under the price must
 # be shown: on 282 lines from three real captures of all three sites, none was missed.
 LINE_MATCH = 0.8
+CROPPED = "pricing section taller than the screenshot limit: the slide shows it cut off"
 _AMOUNT = re.compile(r"\$\s?(\d[\d,]*(?:\.\d+)?)")
 
 
@@ -72,7 +73,11 @@ def _shows_price(price: str | None, text: str) -> bool:
     m = _AMOUNT.search(price)
     if not m:  # "Custom", "Platform Fee": the words themselves
         return _norm(price) in text
-    return re.search(r"\$?\s?" + re.escape(m.group(1)) + r"(?![\d.])", text) is not None
+    amount = re.escape(m.group(1))
+    # Not part of a longer number ("$25" isn't found in "1025"), and "$0" needs its dollar sign:
+    # a bare 0 is in nearly every card ("100 credits").
+    pattern = r"\$\s?0" if m.group(1) == "0" else r"(?<![\d.,])\$?\s?" + amount
+    return re.search(pattern + r"(?![\d.])", text) is not None
 
 
 def _shows_line(line: str, text: str, ocr_lines: list[str]) -> bool:
@@ -129,7 +134,7 @@ def check_snapshot(snapshot: dict, read=None) -> dict:
         if not _shows_price(price, _norm(raw)):
             problems.append(f"{plan['name']}: annual price {price} not visible in the annual screenshot")
     if snapshot.get("pricing_cropped"):
-        problems.append("pricing section taller than the screenshot limit: the slide shows it cut off")
+        problems.append(CROPPED)
     if not checked:
         return {"status": "skipped", "problems": []}
     return {"status": "mismatch" if problems else "ok", "problems": problems}
