@@ -22,7 +22,7 @@ from .core.normalize import slug
 from .snapshots import diff
 from .store.base44 import Base44Store
 from .store.publish import publish_run
-from .verify import check_snapshot
+from .verify import CROPPED, check_snapshot
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -76,7 +76,8 @@ def _verified(snapshot: dict, recapture) -> dict:
     (brightloop/verify.py). On a mismatch, capture once more and keep that capture, whatever its
     check says; a capture that fails the second time keeps the first. Decisions don't change."""
     check = check_snapshot(snapshot)
-    if check["status"] == "mismatch":
+    # A section taller than the limit is the page's height, not a glitch: capturing again won't help.
+    if check["status"] == "mismatch" and check["problems"] != [CROPPED]:
         try:
             again = recapture()
         except Exception:  # noqa: BLE001 - the first capture still stands
