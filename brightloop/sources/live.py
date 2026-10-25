@@ -129,6 +129,46 @@ _HIDE_COOKIE_BANNERS_JS = r"""
 """
 
 
+# Hide top bars pinned to the screen (a sticky or fixed site header): when a card is scrolled into
+# view for its screenshot, Replit's nav sits on top of it. Runs after the text is read, before the
+# pricing pictures only (the homepage keeps its nav). Never touches anything holding a plan card.
+_HIDE_PINNED_BARS_JS = r"""
+() => {
+  let hidden = 0;
+  for (const el of document.querySelectorAll('body *')) {
+    const pos = getComputedStyle(el).position;
+    if (pos !== 'fixed' && pos !== 'sticky') continue;
+    const r = el.getBoundingClientRect();
+    if (r.height === 0 || r.height > 200 || el.querySelector('[data-bl-card]') || el.closest('[data-bl-card]')) continue;
+    el.style.setProperty('visibility', 'hidden', 'important');
+    el.setAttribute('data-bl-hidden', '');
+    hidden++;
+  }
+  return hidden;
+}
+"""
+# Put them back: the billing toggle can live in a pinned bar, and it has to be clickable.
+_SHOW_PINNED_BARS_JS = r"""
+() => document.querySelectorAll('[data-bl-hidden]').forEach(el => {
+  el.style.removeProperty('visibility'); el.removeAttribute('data-bl-hidden');
+})
+"""
+
+
+def _hide_pinned_bars(page) -> None:
+    try:
+        page.evaluate(_HIDE_PINNED_BARS_JS)
+    except Exception:  # noqa: BLE001 - worst case the picture shows the bar, as before
+        pass
+
+
+def _show_pinned_bars(page) -> None:
+    try:
+        page.evaluate(_SHOW_PINNED_BARS_JS)
+    except Exception:  # noqa: BLE001
+        pass
+
+
 def _decline_cookies(page) -> None:
     """Get a cookie banner out of the screenshot without consenting: press Reject/Decline if
     there is one, otherwise hide the banner. Never presses OK or Accept."""
@@ -215,6 +255,7 @@ def capture(competitor: str, url: str, shots_dir: Path, *, homepage: str | None 
             page.wait_for_timeout(1000)
             cards = page.evaluate(_CARDS_JS, PLAN_NAMES)
             _decline_cookies(page)  # banners can appear late; clear them right before the screenshots
+            _hide_pinned_bars(page)
             plans, kept = [], []
             for card in cards:
                 if not is_plan(card["name"], _lines(card["text"])):
@@ -237,12 +278,14 @@ def capture(competitor: str, url: str, shots_dir: Path, *, homepage: str | None 
             # for a slide where only the annual price moved ("If only the annual moved, I'd want to see
             # that"). Only when the page has both toggles, so the two views are known to be different.
             annual = None
+            _show_pinned_bars(page)
             if monthly and _choose_billing(page, _YEARLY):
                 page.wait_for_timeout(1000)
                 page.evaluate("() => document.querySelectorAll('[data-bl-card]')"
                               ".forEach(el => el.removeAttribute('data-bl-card'))")
                 _decline_cookies(page)
                 cards_y = [c for c in page.evaluate(_CARDS_JS, PLAN_NAMES) if is_plan(c["name"], _lines(c["text"]))]
+                _hide_pinned_bars(page)
                 yearly = []
                 for c in cards_y:  # each card's own picture too, for the OCR check (brightloop/verify.py)
                     shot = shots_dir / f"{_file_slug(c['name'])}-annual.png"
