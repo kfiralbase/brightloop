@@ -5,7 +5,6 @@ Field names match the app's entities: Run, Change, Skipped, Snapshot.
 
 from __future__ import annotations
 
-from datetime import date
 
 from ..snapshots import features, headline_price, plans_of
 
@@ -16,15 +15,6 @@ KEYS = {
     "Skipped": ["run_key", "signal_id"],
     "Snapshot": ["run_key", "competitor"],
 }
-
-
-def week_of(week: str) -> str:
-    """Monday of an ISO week ("2026-W44" → "2026-10-26"), or "" when the week is unreadable."""
-    try:
-        year, num = week.split("-W")
-        return date.fromisocalendar(int(year), int(num), 1).isoformat()
-    except (ValueError, AttributeError):
-        return ""
 
 
 def run_status(result: dict, snapshots: list[dict]) -> str:
@@ -44,7 +34,6 @@ def to_records(run_key: str, result: dict, cases: dict, snapshots: list[dict]) -
             "started_at": run.get("started_at"),
             "mode": run.get("mode", "live"),
             "week": week,
-            "week_of": week_of(week),  # the deck's name: "Competitor Deck Wk of <this date>"
             "status": run_status(result, snapshots),
             "items_count": len(result["items"]),
             "skipped_count": len(result["skipped"]),

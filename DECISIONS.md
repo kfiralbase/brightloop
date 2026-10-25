@@ -150,7 +150,9 @@ first relied on GitHub's scheduler, then tested it: a one-off schedule still had
 minutes after its time. So a scheduled workflow in the Base44 app starts the run at 07:30 Israel
 time, and GitHub's own schedule is a fallback at 07:45 that skips itself if a run already
 happened that day. Base44's workflows are in beta, which is exactly why they aren't the only
-clock. Both would have to fail the same morning for the deck to be missing.
+clock. Two clocks, one engine: both schedulers would have to fail the same morning, or GitHub
+Actions itself would have to be down, for the deck to be missing. In that case last week's deck is
+still in Drive and the app shows no run for that day.
 
 ## How it's built
 
@@ -183,6 +185,12 @@ app, and publishing the same run twice updates rather than duplicates. Run now i
 broken input, a duplicate id or even a bug in the code still produces a valid result file, with
 every input id placed and the problem listed in `run.errors`.
 
+**The deck week lives in one place.** The Monday a run feeds (on or after the run, Jerusalem time)
+is computed only by the deck function, from `started_at`. The Run record used to carry a `week_of`
+field that computed the Monday of the run's ISO week instead, a different day for any run not on a
+Monday, and nothing read it. Removed rather than fixed, in the app's schema as well: the function
+that builds the deck owns that rule.
+
 **One extractor for every site.** It finds plan cards by plan names and prices, not by a site's
 HTML, so a redesign is less likely to break it and a new competitor is one line of config. To
 avoid false flags it compares the same billing view every week, treats more than half the plans
@@ -202,9 +210,7 @@ GitHub sync can only create a new repository. A script exports the app's source 
 ## What I chose not to build
 
 - **The brief's nice-to-haves** (multi-language, SSO, dark mode, an analytics dashboard, A/B
-  auto-winner, a mobile app). Maya won't open another tool: "New login, new tab, it's dead."
-- **Merging duplicate launches.** I built it for Noa's problem, then removed it: for Maya every
-  launch is skipped anyway. Two reports of the same pricing change are still merged into one item.
+  auto-winner, a mobile app).
 - **Replit's bigger credit packs** ($225, $440… in a dropdown). Maya: "I'd probably miss it—I
   screenshot the main pricing page, not every dropdown." She didn't ask for it; it's easy to add.
 - **Side programs** (Lovable for students, campus and kids). They aren't steps on the price ladder

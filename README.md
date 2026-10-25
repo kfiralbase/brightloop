@@ -72,8 +72,9 @@ Mondays 07:30, `Asia/Jerusalem` (Base44 handles the clock change). It calls the 
 `/api/start-weekly` route, which starts the GitHub workflow the same way Run now does, with
 `notify` on; only the app's admin can call it. GitHub's cron is the fallback at 07:45: it runs in
 UTC and Israel changes clocks, so it's scheduled at both 04:45 and 05:45 UTC and proceeds only
-when it's 07:xx or 08:xx in Jerusalem and nothing has run that day. Both clocks would have to fail
-the same morning for the deck to be missing.
+when it's 07:xx or 08:xx in Jerusalem and nothing has run that day. Both clocks start the same GitHub workflow, so this guards against GitHub's scheduler being
+late, not against GitHub Actions being down; in that case last week's deck is still in Drive and
+the app shows no run for the day.
 
 **Run now** needs an app secret `GITHUB_TOKEN` in Base44: a fine-grained GitHub token for this
 repository only, with Actions read and write. It stays on the server; the button only gets

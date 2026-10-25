@@ -10,7 +10,7 @@ from urllib.error import HTTPError
 
 from brightloop.store.base44 import Base44Error, Base44Store
 from brightloop.store.publish import publish_run
-from brightloop.store.records import KEYS, to_records, week_of
+from brightloop.store.records import KEYS, to_records
 
 SNAP = {"competitor": "Lovable", "url": "https://lovable.dev/pricing", "fetched_at": "2026-10-26T04:30:00Z",
         "billing_view": "monthly", "page_screenshot": "rec/lovable/S/page.png",
@@ -69,10 +69,9 @@ class Records(unittest.TestCase):
 
     def test_deck_fields(self):
         r = to_records("k", RESULT, CASES, [SNAP])
-        self.assertEqual(r["Run"][0]["week_of"], "2026-10-26")  # Monday of 2026-W44
+        self.assertNotIn("week_of", r["Run"][0])  # the deck's Monday is the deck function's rule
         self.assertEqual(r["Change"][0]["deck_line"], "Pro: $25→$30/month")
         self.assertEqual(r["Snapshot"][0]["homepage_url"], "https://lovable.dev/")
-        self.assertEqual(week_of("not a week"), "")
 
     def test_local_screenshot_paths_never_reach_base44(self):
         r = to_records("k", RESULT, CASES, [SNAP])
