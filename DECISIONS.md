@@ -190,7 +190,11 @@ vanishing as a broken read rather than removals, and ignores buttons, badges and
 
 **Tested on cases I hadn't seen.** Before submitting I wrote new inputs against the rules rather
 than the code: other units, other word orders, a new plan, URLs that only look like a pricing
-page, plain-text injections. Each one that came out wrong was fixed and kept as a test.
+page, plain-text injections. Each one that came out wrong was fixed and kept as a test. A later
+review found three more ways of writing a credit cut that were missed ("80 monthly credits (was
+100)", "100 monthly credits → 80 monthly credits", "monthly credits 100→80"), which would have
+broken "the whole plan, not just the headline price". Fixed and kept as tests; without "from", only
+an arrow counts, so a range like "5 to 50 seats" is never read as a change.
 
 **The app's code is copied into `app/`.** The brief wants all the code in the repo, and Base44's
 GitHub sync can only create a new repository. A script exports the app's source into `app/`.

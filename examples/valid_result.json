@@ -67,7 +67,7 @@
   "skipped": [
     {
       "id": "pr-503",
-      "reason": "No change stated. A price with no previous value isn't a change."
+      "reason": "No change stated: the text has no before-and-after values."
     },
     {
       "id": "ad-201",
@@ -83,7 +83,7 @@
     }
   ],
   "run": {
-    "started_at": "2026-10-24T13:48:23+00:00",
+    "started_at": "2026-10-25T18:48:11+00:00",
     "cost_usd": 0.0,
     "errors": [],
     "mode": "file"

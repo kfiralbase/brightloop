@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from .normalize import clean_text, iso_utc, parse_ts, slug, week_bounds
-from .pricing import PROMO, Change, find_change
+from .pricing import PROMO, Change, find_change, states_no_change
 from .trust import OFFICIAL_OTHER, THIRD_PARTY, SourceInfo, classify_source
 
 BUILT_FOR = "maya"
@@ -183,6 +183,7 @@ def _build_item(group: _Group, used_ids: set[str], week: str, utm_source: str, b
 
 def run(payload: object, *, started_at: datetime) -> dict:
     errors: list[str] = []
+    notes: list[str] = []  # not failures, worth knowing (run.notes, only when there are any)
     skipped: list[dict] = []
     out = {"built_for": BUILT_FOR, "items": [], "skipped": skipped,
            "run": {"started_at": started_at.isoformat(timespec="seconds"), "cost_usd": 0.0, "errors": errors}}
@@ -266,8 +267,10 @@ def run(payload: object, *, started_at: datetime) -> dict:
             skip(sid, "Limited-time promo, not a lasting price change. Flagged only once it sticks.", injected)
         elif change is None and kind == "launch":
             skip(sid, "Feature launch with no price change: product's area, not the pricing deck.", injected)
+        elif change is None and states_no_change(text):
+            skip(sid, "Same value as before: nothing moved.", injected)
         elif change is None:
-            skip(sid, "No change stated. A price with no previous value isn't a change.", injected)
+            skip(sid, "No change stated: the text has no before-and-after values.", injected)
         elif info.tier == THIRD_PARTY:
             where = ("a sponsored post" if info.paid else
                      "a placeholder domain" if info.placeholder else
@@ -280,6 +283,8 @@ def run(payload: object, *, started_at: datetime) -> dict:
         elif bounds and ts and not (bounds[0] <= ts < bounds[1]):
             skip(sid, f"Outside {week} ({tz}).", injected)
         else:
+            if ts is None and bounds:
+                notes.append(f"{sid}: no timestamp, so its week wasn't checked.")
             shot = s.get("screenshot") if isinstance(s.get("screenshot"), str) else None
             candidates.append(_Candidate(sid, competitor, change, text, source, info, ts, injected, shot))
 
@@ -297,6 +302,8 @@ def run(payload: object, *, started_at: datetime) -> dict:
     items.sort(key=lambda i: (-i["confidence"], i["id"]))
     out["items"] = items
 
+    if notes:
+        out["run"]["notes"] = notes
     placed = [sid for i in items for sid in i["source_ids"]] + [k["id"] for k in skipped]
     if sorted(placed) != sorted(seen):
         errors.append("Internal check failed: not every input id was placed exactly once.")

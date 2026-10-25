@@ -168,7 +168,7 @@ def live(config_path: Path, recordings: Path, output: Path | None, offline: bool
     if baselines:
         result["run"]["baselines"] = baselines  # first capture for these: nothing to compare yet
     if notes:
-        result["run"]["notes"] = notes
+        result["run"]["notes"] = result["run"].get("notes", []) + notes
 
     if not offline:  # a replay reproduces a recorded run; it doesn't add a new one
         run_dir = recordings / "runs" / stamp

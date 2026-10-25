@@ -220,6 +220,30 @@ class UnseenPhrasings(unittest.TestCase):
             self.assertNotEqual(classify_source(src, "Lovable" if "lovable" in src else "Replit").tier,
                                 OFFICIAL_PRICING, src)
 
+    def test_credit_cut_in_every_wording_is_one_change(self):
+        texts = ["Pro: 80 monthly credits (was 100).", "Pro: 100 monthly credits → 80 monthly credits",
+                 "Pro monthly credits 100→80", "Pro credits cut from 100 to 80", "Pro: 100 → 80 credits"]
+        for t in texts:
+            self.assertEqual(self.line(t), "Pro: 100→80 credits", t)
+
+    def test_ranges_and_lists_are_not_changes(self):
+        for t in ("Teams: unlimited credits, 5 to 50 seats", "Pro: 100 monthly credits, 20 users, 5 domains",
+                  "Free: 5 projects. Pro: 20 projects", "20 → 20 users"):
+            self.assertEqual(case(pricing("x1", t))["items"], [], t)
+
+    def test_skip_reason_says_whether_values_were_given(self):
+        same = case(pricing("x1", "Pro plan shown at $25/month (was $25 last week)."))["skipped"][0]["reason"]
+        none = case(pricing("x1", "Pro plan shown at $25/month."))["skipped"][0]["reason"]
+        self.assertEqual(same, "Same value as before: nothing moved.")
+        self.assertEqual(none, "No change stated: the text has no before-and-after values.")
+
+    def test_missing_timestamp_is_noted(self):
+        sig = pricing("x1", "Pro plan shown at $30/month (was $25).")
+        del sig["ts"]
+        r = case(sig)
+        self.assertEqual(len(r["items"]), 1)
+        self.assertEqual(r["run"]["notes"], ["x1: no timestamp, so its week wasn't checked."])
+
     def test_epoch_timestamps(self):
         self.assertEqual(parse_ts(1792742400, "UTC").isoformat(), "2026-10-23T08:00:00+00:00")
         self.assertEqual(parse_ts(1792742400000, "UTC").isoformat(), "2026-10-23T08:00:00+00:00")

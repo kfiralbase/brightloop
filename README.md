@@ -225,7 +225,8 @@ In live runs each evidence entry also has `screenshot`: the cropped plan card.
 `run.cost_usd` is 0.0: the decision path uses no paid API. `run.mode` is `file`, `live` or
 `replay`. `run.baselines` lists competitors captured for the first time (nothing to compare yet).
 `run.notes` lists things that were degraded but didn't fail, such as a homepage picture reused
-from an earlier run because this week's page showed a bot check.
+from an earlier run because this week's page showed a bot check, or a signal with no timestamp
+(so its week couldn't be checked).
 
 ## How I know it works
 
