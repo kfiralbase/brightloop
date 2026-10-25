@@ -183,6 +183,12 @@ app, and publishing the same run twice updates rather than duplicates. Run now i
 broken input, a duplicate id or even a bug in the code still produces a valid result file, with
 every input id placed and the problem listed in `run.errors`.
 
+**The deck week lives in one place.** The Monday a run feeds (on or after the run, Jerusalem time)
+is computed only by the deck function, from `started_at`. The Run record used to carry a `week_of`
+field that computed the Monday of the run's ISO week instead, a different day for any run not on a
+Monday, and nothing read it. Removed rather than fixed, in the app's schema as well: the function
+that builds the deck owns that rule.
+
 **One extractor for every site.** It finds plan cards by plan names and prices, not by a site's
 HTML, so a redesign is less likely to break it and a new competitor is one line of config. To
 avoid false flags it compares the same billing view every week, treats more than half the plans
