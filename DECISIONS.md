@@ -97,7 +97,9 @@ runner passed for all three sites.
 
 **The live capture never cheats.** If a site shows a bot check, the capture waits up to 20
 seconds for it to clear and otherwise doesn't use the page; it never tries to solve it. Cookie
-banners are rejected or hidden, never accepted on anyone's behalf.
+banners are rejected or hidden, never accepted on anyone's behalf. Site headers pinned to the top
+of the screen are hidden for the pricing pictures (on GitHub's runner Replit's nav sat on top of
+the cards); the homepage picture keeps its nav.
 
 ## The deck and how it reaches her
 
