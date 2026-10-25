@@ -1,5 +1,11 @@
 # Brightloop pricing watch
 
+```bash
+git clone https://github.com/kfiralbase/brightloop && cd brightloop
+./run --input tests/fixtures/brief_example.json --output result.json
+# → Wrote result.json: 1 item(s), 7 skipped, 0 error(s).   (python3 only, no keys, no network)
+```
+
 Built for **Maya, Head of Growth**. Every Monday she spends 08:30 to 10:30 rebuilding a competitor
 deck by hand for the 11:00 leadership sync, and the only thing that ever moves a decision in that
 room is a pricing or packaging change. This tool tells her what moved on Lovable's, Replit's and
@@ -105,9 +111,12 @@ brew install tesseract   # or: apt-get install tesseract-ocr (optional: the OCR 
 .venv/bin/python -m brightloop live
 ```
 
-Every live run is recorded in `recordings/`: a snapshot and cropped screenshots per competitor,
-plus `runs/<stamp>/cases.json` and `result.json`. These are real captures, so the live logic also
-runs with no keys and no network:
+Every live run is recorded in `recordings/`: a JSON snapshot per competitor, plus
+`runs/<stamp>/cases.json` and `result.json`. These are real captures, so the live logic also
+runs with no keys and no network. The screenshots aren't in the repo: they're uploaded to Base44
+and each snapshot keeps their URLs (`screenshot_url`, `pricing_screenshot_url`; see DECISIONS.md).
+The OCR check runs at capture time, and its result is saved in each snapshot's `verification`; a
+replay uses the JSON only and doesn't run it again.
 
 ```bash
 python3 -m brightloop live --offline   # replays the two latest recordings
