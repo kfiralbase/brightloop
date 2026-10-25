@@ -351,7 +351,7 @@
     },
     {
       "id": "t-15",
-      "reason": "No change stated. A price with no previous value isn't a change."
+      "reason": "No change stated: the text has no before-and-after values."
     },
     {
       "id": "t-20",
@@ -371,13 +371,16 @@
     }
   ],
   "run": {
-    "started_at": "2026-10-24T14:14:20+00:00",
+    "started_at": "2026-10-25T18:48:11+00:00",
     "cost_usd": 0.0,
     "errors": [
       "t-16: unreadable timestamp 'yesterday'.",
       "Duplicate id 't-01' at signals[16]; only the first one was used.",
       "signals[17] has no id; it can't be placed in items or skipped.",
       "signals[18] is not an object; it has no id to report."
+    ],
+    "notes": [
+      "t-16: no timestamp, so its week wasn't checked."
     ],
     "mode": "file"
   }

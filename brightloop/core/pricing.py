@@ -26,18 +26,23 @@ _AFTER_WAS = re.compile(_MONEY + _PERIOD + r"[^$]{0,40}?\(?\b(?:was|previously|u
 # "from $20 to $25", "$20 → $25", "$20 -> $25"
 _FROM_TO = re.compile(r"(?:from\s+)?" + _MONEY + r"\s*(?:→|->|=>|\bto\b)\s*" + _MONEY + _PERIOD, re.I)
 # "100 credits (was 200)", "from 200 to 100 credits", "200 → 100 credits"
-_QTY_WAS = re.compile(_QTY + r"\s*" + _UNITS + r"[^\d]{0,30}?\(?\b(?:was|previously|up from|down from)\s+" + _QTY, re.I)
+# "80 monthly credits (was 100)": a word may sit between the number and the unit
+_QTY_WAS = re.compile(_QTY + r"\s*(?:[a-z]+\s+)?" + _UNITS + r"[^\d]{0,30}?\(?\b(?:was|previously|up from|down from)\s+" + _QTY, re.I)
 _QTY_FROM_TO = re.compile(r"\bfrom\s+" + _QTY + r"\s*(?:" + _UNITS + r"\s*)?(?:→|->|\bto\b)\s*" + _QTY + r"\s*" + _UNITS, re.I)
 # "Free tier cut from 5 projects to 3": the unit only after the first number
 _QTY_FROM_UNIT_TO = re.compile(r"\bfrom\s+" + _QTY + r"\s*" + _UNITS + r"\s*(?:→|->|\bto\b)\s*" + _QTY + r"(?![\d$%])", re.I)
 # "Free tier: 5→3 projects" (Maya's own example), "200 -> 100 credits"
-_QTY_ARROW = re.compile(r"(?<![\d$.,])(\d[\d,]*(?:\.\d+)?)\s*(?:→|->|=>)\s*(\d[\d,]*(?:\.\d+)?)\s*" + _UNITS, re.I)
+# ...and "100 monthly credits → 80 monthly credits", the unit on both sides
+_QTY_ARROW = re.compile(r"(?<![\d$.,])(\d[\d,]*(?:\.\d+)?)\s*(?:(?:[a-z]+\s+)?" + _UNITS + r"\s*)?(?:→|->|=>)\s*"
+                        r"(\d[\d,]*(?:\.\d+)?)\s*(?:[a-z]+\s+)?" + _UNITS, re.I)
 # "10M tokens → 5M tokens", "500K → 250K credits": a k/M multiplier, the unit on one or both sides
 _SCALED_ARROW = re.compile(r"(?<![\d$.,])(\d[\d,]*(?:\.\d+)?)\s*([kKmM])\s*" + r"(?:" + _UNITS + r"\s*)?"
                            r"(?:→|->|=>|\bto\b)\s*(\d[\d,]*(?:\.\d+)?)\s*([kKmM])\s*" + _UNITS, re.I)
 _SCALE = {"k": 1e3, "m": 1e6}
 # "Credits on Pro cut from 100 to 50"
 _UNIT_FROM_TO = re.compile(r"\b" + _UNITS + r"\b[^\d$]{0,40}?\bfrom\s+" + _QTY + r"\s*(?:→|->|\bto\b)\s*" + _QTY, re.I)
+# "monthly credits 100→80": no "from", so an arrow only ("5 to 50 seats" is a range, not a change)
+_UNIT_ARROW = re.compile(r"\b" + _UNITS + r"\b[^\d$]{0,40}?" + _QTY + r"\s*(?:→|->|=>)\s*" + _QTY, re.I)
 _CURRENCY = re.compile(r"[€£₪]")
 _DOLLAR = re.compile(r"\$").search("$")
 # "SSO moved from Pro to Business"
@@ -178,14 +183,15 @@ def _find_change(text: str) -> Change | None:
                           _direction(before, after), quote(m))
     m = _QTY_ARROW.search(text)
     if m:
-        before, after, unit = _num(m.group(1)), _num(m.group(2)), m.group(3).lower()
+        before, after, unit = _num(m.group(1)), _num(m.group(3)), m.group(4).lower()
         if before != after:
             return Change(unit, plan, f"{before:g}", f"{after:g}", _direction(before, after), quote(m))
-    m = _UNIT_FROM_TO.search(text)
-    if m:
-        unit, before, after = m.group(1).lower(), _num(m.group(2)), _num(m.group(3))
-        if before != after:
-            return Change(unit, plan, f"{before:g}", f"{after:g}", _direction(before, after), quote(m))
+    for rx in (_UNIT_FROM_TO, _UNIT_ARROW):
+        m = rx.search(text)
+        if m:
+            unit, before, after = m.group(1).lower(), _num(m.group(2)), _num(m.group(3))
+            if before != after:
+                return Change(unit, plan, f"{before:g}", f"{after:g}", _direction(before, after), quote(m))
     m = _NEW_PLAN.search(text)
     if m:
         return Change("plan", m.group(1).title(), None, _money(_num(m.group(2)), m.group(3), currency), None,
@@ -202,3 +208,16 @@ def _find_change(text: str) -> Change | None:
     if m:
         return Change("packaging", plan, None, None, None, quote(m))
     return None
+
+
+def states_no_change(text: str) -> bool:
+    """True when the text gives a before and an after that are the same ("$25 (was $25)"), so a skip
+    can say "nothing moved" rather than "no values given"."""
+    t = _CURRENCY.sub("$", text)
+    pairs = ((_AFTER_WAS, 3, 1), (_FROM_TO, 1, 2), (_QTY_WAS, 3, 1), (_QTY_ARROW, 1, 3), (_QTY_FROM_TO, 1, 3),
+             (_UNIT_FROM_TO, 2, 3), (_UNIT_ARROW, 2, 3))
+    for rx, before, after in pairs:
+        m = rx.search(t)
+        if m and _num(m.group(before)) == _num(m.group(after)):
+            return True
+    return False
