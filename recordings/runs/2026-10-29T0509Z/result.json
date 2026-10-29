@@ -1,0 +1,239 @@
+{
+  "built_for": "maya",
+  "items": [
+    {
+      "id": "chg-replit-core-packaging-change",
+      "source_ids": [
+        "live-replit-2026-10-29-5"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Replit Core: 'Plan mode' removed, with a screenshot of replit.com/pricing. Then update the Brightloop vs Replit comparison page.",
+      "why": "Replit Core: 'Plan mode' removed, stated on replit.com/pricing (2026-10-29T05:10:31Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Replit",
+      "deck_line": "Core: 'Plan mode' removed",
+      "change": {
+        "field": "packaging",
+        "plan": "Core",
+        "before": "Plan mode",
+        "after": null,
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-replit-2026-10-29-5",
+          "source": "replit.com/pricing",
+          "ts_utc": "2026-10-29T05:10:31Z",
+          "quote": "'Plan mode' removed from the Core plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/8f8c36ba7_core.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Replit pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w44-replit-pricing"
+      }
+    },
+    {
+      "id": "chg-replit-pro-packaging-change",
+      "source_ids": [
+        "live-replit-2026-10-29-2"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Replit Pro: '10 parallel agents' removed, with a screenshot of replit.com/pricing. Then update the Brightloop vs Replit comparison page.",
+      "why": "Replit Pro: '10 parallel agents' removed, stated on replit.com/pricing (2026-10-29T05:10:31Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Replit",
+      "deck_line": "Pro: '10 parallel agents' removed",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": "10 parallel agents",
+        "after": null,
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-replit-2026-10-29-2",
+          "source": "replit.com/pricing",
+          "ts_utc": "2026-10-29T05:10:31Z",
+          "quote": "'10 parallel agents' removed from the Pro plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/37bac3a59_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Replit pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w44-replit-pricing"
+      }
+    },
+    {
+      "id": "chg-replit-pro-packaging-change-2",
+      "source_ids": [
+        "live-replit-2026-10-29-3"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Replit Pro: 'Even more Free Mode usage to chat and create' removed, with a screenshot of replit.com/pricing. Then update the Brightloop vs Replit comparison page.",
+      "why": "Replit Pro: 'Even more Free Mode usage to chat and create' removed, stated on replit.com/pricing (2026-10-29T05:10:31Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Replit",
+      "deck_line": "Pro: 'Even more Free Mode usage to chat and create' removed",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": "Even more Free Mode usage to chat and create",
+        "after": null,
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-replit-2026-10-29-3",
+          "source": "replit.com/pricing",
+          "ts_utc": "2026-10-29T05:10:31Z",
+          "quote": "'Even more Free Mode usage to chat and create' removed from the Pro plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/37bac3a59_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Replit pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w44-replit-pricing"
+      }
+    },
+    {
+      "id": "chg-replit-pro-packaging-change-3",
+      "source_ids": [
+        "live-replit-2026-10-29-4"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Replit Pro: 'Invite up to 50 viewers' removed, with a screenshot of replit.com/pricing. Then update the Brightloop vs Replit comparison page.",
+      "why": "Replit Pro: 'Invite up to 50 viewers' removed, stated on replit.com/pricing (2026-10-29T05:10:31Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Replit",
+      "deck_line": "Pro: 'Invite up to 50 viewers' removed",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": "Invite up to 50 viewers",
+        "after": null,
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-replit-2026-10-29-4",
+          "source": "replit.com/pricing",
+          "ts_utc": "2026-10-29T05:10:31Z",
+          "quote": "'Invite up to 50 viewers' removed from the Pro plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/37bac3a59_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Replit pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w44-replit-pricing"
+      }
+    },
+    {
+      "id": "chg-replit-pro-packaging-even-more-free-mode-usage",
+      "source_ids": [
+        "live-replit-2026-10-29-7"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Replit Pro: 'Even more Free Mode usage' added, with a screenshot of replit.com/pricing. Then update the Brightloop vs Replit comparison page.",
+      "why": "Replit Pro: 'Even more Free Mode usage' added, stated on replit.com/pricing (2026-10-29T05:10:31Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Replit",
+      "deck_line": "Pro: 'Even more Free Mode usage' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": null,
+        "after": "Even more Free Mode usage",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-replit-2026-10-29-7",
+          "source": "replit.com/pricing",
+          "ts_utc": "2026-10-29T05:10:31Z",
+          "quote": "'Even more Free Mode usage' added to the Pro plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/37bac3a59_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Replit pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w44-replit-pricing"
+      }
+    },
+    {
+      "id": "chg-replit-pro-packaging-for-commercial-and-professional-builds",
+      "source_ids": [
+        "live-replit-2026-10-29-6"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Replit Pro: 'For commercial and professional builds.' added, with a screenshot of replit.com/pricing. Then update the Brightloop vs Replit comparison page.",
+      "why": "Replit Pro: 'For commercial and professional builds.' added, stated on replit.com/pricing (2026-10-29T05:10:31Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Replit",
+      "deck_line": "Pro: 'For commercial and professional builds.' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": null,
+        "after": "For commercial and professional builds.",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-replit-2026-10-29-6",
+          "source": "replit.com/pricing",
+          "ts_utc": "2026-10-29T05:10:31Z",
+          "quote": "'For commercial and professional builds.' added to the Pro plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/37bac3a59_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Replit pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w44-replit-pricing"
+      }
+    },
+    {
+      "id": "chg-replit-pro-packaging-premium-support",
+      "source_ids": [
+        "live-replit-2026-10-29-1"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Replit Pro: 'Premium Support' is now 'Premium support', with a screenshot of replit.com/pricing. Then update the Brightloop vs Replit comparison page.",
+      "why": "Replit Pro: 'Premium Support' is now 'Premium support', stated on replit.com/pricing (2026-10-29T05:10:31Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Replit",
+      "deck_line": "Pro: 'Premium Support' is now 'Premium support'",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": "Premium Support",
+        "after": "Premium support",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-replit-2026-10-29-1",
+          "source": "replit.com/pricing",
+          "ts_utc": "2026-10-29T05:10:31Z",
+          "quote": "Pro plan: 'Premium Support' is now 'Premium support'.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/37bac3a59_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Replit pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w44-replit-pricing"
+      }
+    }
+  ],
+  "skipped": [],
+  "run": {
+    "started_at": "2026-10-29T05:10:00+00:00",
+    "cost_usd": 0.0,
+    "errors": [],
+    "mode": "live",
+    "notes": [
+      "Lovable: homepage picture unavailable this week; reusing the one from 2026-10-24."
+    ]
+  }
+}

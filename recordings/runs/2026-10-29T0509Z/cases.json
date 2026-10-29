@@ -1,0 +1,81 @@
+{
+  "week": "2026-W44",
+  "timezone": "Asia/Jerusalem",
+  "brand": {
+    "name": "Brightloop",
+    "voice": "plain, confident, no hype",
+    "banned_words": [
+      "revolutionary",
+      "game-changing",
+      "seamless"
+    ]
+  },
+  "config": {
+    "utm_source": "brightloop"
+  },
+  "signals": [
+    {
+      "id": "live-replit-2026-10-29-1",
+      "type": "pricing",
+      "competitor": "Replit",
+      "source": "replit.com/pricing",
+      "ts": "2026-10-29T05:10:31Z",
+      "text": "Pro plan: 'Premium Support' is now 'Premium support'.",
+      "screenshot": "recordings/replit/2026-10-29T0509Z/pro.png"
+    },
+    {
+      "id": "live-replit-2026-10-29-2",
+      "type": "pricing",
+      "competitor": "Replit",
+      "source": "replit.com/pricing",
+      "ts": "2026-10-29T05:10:31Z",
+      "text": "'10 parallel agents' removed from the Pro plan.",
+      "screenshot": "recordings/replit/2026-10-29T0509Z/pro.png"
+    },
+    {
+      "id": "live-replit-2026-10-29-3",
+      "type": "pricing",
+      "competitor": "Replit",
+      "source": "replit.com/pricing",
+      "ts": "2026-10-29T05:10:31Z",
+      "text": "'Even more Free Mode usage to chat and create' removed from the Pro plan.",
+      "screenshot": "recordings/replit/2026-10-29T0509Z/pro.png"
+    },
+    {
+      "id": "live-replit-2026-10-29-4",
+      "type": "pricing",
+      "competitor": "Replit",
+      "source": "replit.com/pricing",
+      "ts": "2026-10-29T05:10:31Z",
+      "text": "'Invite up to 50 viewers' removed from the Pro plan.",
+      "screenshot": "recordings/replit/2026-10-29T0509Z/pro.png"
+    },
+    {
+      "id": "live-replit-2026-10-29-5",
+      "type": "pricing",
+      "competitor": "Replit",
+      "source": "replit.com/pricing",
+      "ts": "2026-10-29T05:10:31Z",
+      "text": "'Plan mode' removed from the Core plan.",
+      "screenshot": "recordings/replit/2026-10-29T0509Z/core.png"
+    },
+    {
+      "id": "live-replit-2026-10-29-6",
+      "type": "pricing",
+      "competitor": "Replit",
+      "source": "replit.com/pricing",
+      "ts": "2026-10-29T05:10:31Z",
+      "text": "'For commercial and professional builds.' added to the Pro plan.",
+      "screenshot": "recordings/replit/2026-10-29T0509Z/pro.png"
+    },
+    {
+      "id": "live-replit-2026-10-29-7",
+      "type": "pricing",
+      "competitor": "Replit",
+      "source": "replit.com/pricing",
+      "ts": "2026-10-29T05:10:31Z",
+      "text": "'Even more Free Mode usage' added to the Pro plan.",
+      "screenshot": "recordings/replit/2026-10-29T0509Z/pro.png"
+    }
+  ]
+}

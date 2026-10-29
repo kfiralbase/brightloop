@@ -1,0 +1,229 @@
+{
+  "competitor": "Lovable",
+  "url": "https://lovable.dev/pricing",
+  "final_url": "https://lovable.dev/pricing",
+  "status": 200,
+  "fetched_at": "2026-10-29T05:10:00Z",
+  "billing_view": "monthly",
+  "method": "playwright",
+  "plans": [
+    {
+      "name": "Free",
+      "lines": [
+        "Free",
+        "Discover what Lovable can do for you",
+        "$0",
+        "Get started",
+        "No credit card needed",
+        "Free grants",
+        "Unlimited collaborators",
+        "5 lovable.app domains",
+        "Invite-only publishing",
+        "Cloud",
+        "Community support"
+      ],
+      "controls": [],
+      "screenshot": "recordings/lovable/2026-10-29T0509Z/free.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/cb693c4d2_free.png"
+    },
+    {
+      "name": "Pro",
+      "lines": [
+        "Pro",
+        "Designed for fast-moving teams building together in real time.",
+        "$25",
+        "/ month",
+        "100 monthly credits",
+        "Get started",
+        "Unlimited users",
+        "Free grants",
+        "All Free features",
+        "100 Pro credits",
+        "Credit rollovers",
+        "On-demand credit top-ups",
+        "Unlimited lovable.app domains",
+        "Custom domains",
+        "User roles & permissions",
+        "Per-member credit limits",
+        "Remove the Lovable badge",
+        "Email support",
+        "Design systems"
+      ],
+      "controls": [
+        "100 monthly credits"
+      ],
+      "screenshot": "recordings/lovable/2026-10-29T0509Z/pro.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/2b33d898c_pro.png"
+    },
+    {
+      "name": "Business",
+      "lines": [
+        "Business",
+        "Advanced controls and power features for growing departments",
+        "$50",
+        "/ month",
+        "100 monthly credits",
+        "Get started",
+        "Unlimited users",
+        "Free grants",
+        "All Pro features",
+        "100 Business credits",
+        "Team workspace",
+        "Role-based access",
+        "Workspace publish",
+        "SSO",
+        "Security center",
+        "Design templates",
+        "Priority support"
+      ],
+      "controls": [
+        "100 monthly credits"
+      ],
+      "screenshot": "recordings/lovable/2026-10-29T0509Z/business.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/09997028f_business.png"
+    },
+    {
+      "name": "Enterprise",
+      "lines": [
+        "Enterprise",
+        "Built for large orgs needing flexibility, scale, and governance.",
+        "Platform fee",
+        "Book a demo",
+        "Volume based pricing",
+        "Unlimited users",
+        "All Business features",
+        "Directory sync (SCIM)",
+        "Audit logs",
+        "Restrict who publishes and invites",
+        "Auto-retire abandoned apps",
+        "Scheduled deep security scans",
+        "Sensitive data detection and control",
+        "Advanced design systems support",
+        "Git sync data residency",
+        "EU inference",
+        "GitHub Enterprise, cloud or self-hosted",
+        "Private npm registry",
+        "Named CSM, onboarding and deployment",
+        "Custom SLA"
+      ],
+      "controls": [],
+      "screenshot": "recordings/lovable/2026-10-29T0509Z/enterprise.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/0244d20a5_enterprise.png"
+    }
+  ],
+  "annual": {
+    "billing_view": "annual",
+    "plans": [
+      {
+        "name": "Free",
+        "lines": [
+          "Free",
+          "Discover what Lovable can do for you",
+          "$0",
+          "Get started",
+          "No credit card needed",
+          "Free grants",
+          "Unlimited collaborators",
+          "5 lovable.app domains",
+          "Invite-only publishing",
+          "Cloud",
+          "Community support"
+        ],
+        "screenshot": "recordings/lovable/2026-10-29T0509Z/free-annual.png"
+      },
+      {
+        "name": "Pro",
+        "lines": [
+          "Pro",
+          "Designed for fast-moving teams building together in real time.",
+          "$25",
+          "Originally $25 per month",
+          "$21",
+          "/ month, billed annually",
+          "100 monthly credits",
+          "Get started",
+          "Unlimited users",
+          "Free grants",
+          "All Free features",
+          "100 Pro credits",
+          "Credit rollovers",
+          "On-demand credit top-ups",
+          "Unlimited lovable.app domains",
+          "Custom domains",
+          "User roles & permissions",
+          "Per-member credit limits",
+          "Remove the Lovable badge",
+          "Email support",
+          "Design systems"
+        ],
+        "screenshot": "recordings/lovable/2026-10-29T0509Z/pro-annual.png"
+      },
+      {
+        "name": "Business",
+        "lines": [
+          "Business",
+          "Advanced controls and power features for growing departments",
+          "$50",
+          "Originally $50 per month",
+          "$42",
+          "/ month, billed annually",
+          "100 monthly credits",
+          "Get started",
+          "Unlimited users",
+          "Free grants",
+          "All Pro features",
+          "100 Business credits",
+          "Team workspace",
+          "Role-based access",
+          "Workspace publish",
+          "SSO",
+          "Security center",
+          "Design templates",
+          "Priority support"
+        ],
+        "screenshot": "recordings/lovable/2026-10-29T0509Z/business-annual.png"
+      },
+      {
+        "name": "Enterprise",
+        "lines": [
+          "Enterprise",
+          "Built for large orgs needing flexibility, scale, and governance.",
+          "Platform fee",
+          "Book a demo",
+          "Volume based pricing",
+          "Unlimited users",
+          "All Business features",
+          "Directory sync (SCIM)",
+          "Audit logs",
+          "Restrict who publishes and invites",
+          "Auto-retire abandoned apps",
+          "Scheduled deep security scans",
+          "Sensitive data detection and control",
+          "Advanced design systems support",
+          "Git sync data residency",
+          "EU inference",
+          "GitHub Enterprise, cloud or self-hosted",
+          "Private npm registry",
+          "Named CSM, onboarding and deployment",
+          "Custom SLA"
+        ],
+        "screenshot": "recordings/lovable/2026-10-29T0509Z/enterprise-annual.png"
+      }
+    ],
+    "pricing_screenshot": "recordings/lovable/2026-10-29T0509Z/pricing-annual.png",
+    "pricing_screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/b25c2d66c_pricing-annual.png"
+  },
+  "page_screenshot": "recordings/lovable/2026-10-29T0509Z/page.png",
+  "pricing_screenshot": "recordings/lovable/2026-10-29T0509Z/pricing.png",
+  "pricing_cropped": false,
+  "homepage_url": "https://lovable.dev/",
+  "homepage_screenshot": null,
+  "verification": {
+    "status": "ok",
+    "problems": []
+  },
+  "homepage_screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/79a78d186_homepage.png",
+  "homepage_captured_at": "2026-10-24T17:18:10Z",
+  "page_screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/18b43aecc_page.png",
+  "pricing_screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/286c62975_pricing.png"
+}

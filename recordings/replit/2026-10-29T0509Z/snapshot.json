@@ -1,0 +1,92 @@
+{
+  "competitor": "Replit",
+  "url": "https://replit.com/pricing",
+  "final_url": "https://replit.com/pricing",
+  "status": 200,
+  "fetched_at": "2026-10-29T05:10:31Z",
+  "billing_view": "monthly",
+  "method": "playwright",
+  "plans": [
+    {
+      "name": "Core",
+      "lines": [
+        "Core",
+        "$20 / month",
+        "For personal projects and simple apps.",
+        "Up to 30 hours of chat on Free Mode",
+        "Up to 60 projects on Free Mode",
+        "$20 towards more powerful models",
+        "Unlimited workspaces",
+        "AI integrations",
+        "Try now"
+      ],
+      "controls": [],
+      "screenshot": "recordings/replit/2026-10-29T0509Z/core.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/8f8c36ba7_core.png"
+    },
+    {
+      "name": "Pro",
+      "lines": [
+        "Pro",
+        "$100 / month",
+        "For commercial and professional builds.",
+        "Everything in Core plus:",
+        "Even more Free Mode usage",
+        "$100 towards most powerful models",
+        "Premium support",
+        "Up to 15 collaborators",
+        "Database rollback up to 28 days",
+        "$100 credits",
+        "$100 / month",
+        "$225 / month",
+        "$440 / month",
+        "$850 / month",
+        "$2,050 / month",
+        "Upgrade to Pro"
+      ],
+      "controls": [
+        "$100 credits",
+        "$100 / month",
+        "$225 / month",
+        "$440 / month",
+        "$850 / month",
+        "$2,050 / month"
+      ],
+      "screenshot": "recordings/replit/2026-10-29T0509Z/pro.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/37bac3a59_pro.png"
+    },
+    {
+      "name": "Enterprise",
+      "lines": [
+        "Enterprise",
+        "Custom",
+        "Enterprise-grade security and control",
+        "SSO, SCIM & audit logs",
+        "Advanced privacy controls",
+        "Centralized security management",
+        "Single-tenant & private networking options",
+        "Dedicated premium support",
+        "and much more",
+        "Contact sales",
+        "Get started"
+      ],
+      "controls": [],
+      "screenshot": "recordings/replit/2026-10-29T0509Z/enterprise.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/5244437ff_enterprise.png"
+    }
+  ],
+  "annual": null,
+  "page_screenshot": "recordings/replit/2026-10-29T0509Z/page.png",
+  "pricing_screenshot": "recordings/replit/2026-10-29T0509Z/pricing.png",
+  "pricing_cropped": false,
+  "homepage_url": "https://replit.com/",
+  "homepage_screenshot": "recordings/replit/2026-10-29T0509Z/homepage.png",
+  "verification": {
+    "status": "ok",
+    "problems": []
+  },
+  "homepage_captured_at": "2026-10-29T05:10:31Z",
+  "page_screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/436698d65_page.png",
+  "pricing_screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/6adf18b19_pricing.png",
+  "homepage_screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/3e3123405_homepage.png"
+}
