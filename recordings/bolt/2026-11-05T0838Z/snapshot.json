@@ -1,0 +1,225 @@
+{
+  "competitor": "Bolt",
+  "url": "https://bolt.new/pricing",
+  "final_url": "https://bolt.new/pricing",
+  "status": 200,
+  "fetched_at": "2026-11-05T08:40:09Z",
+  "billing_view": "monthly",
+  "method": "playwright",
+  "plans": [
+    {
+      "name": "Free",
+      "lines": [
+        "Free",
+        "$0",
+        "/month",
+        "Free forever, no card required",
+        "Try Bolt with daily limits. No credit card.",
+        "Start free",
+        "You get:",
+        "Public and private projects",
+        "300K tokens daily limit",
+        "1M tokens per month",
+        "Bolt branding on websites",
+        "10MB file upload limit",
+        "Website hosting",
+        "Up to 333k web requests",
+        "Unlimited databases"
+      ],
+      "controls": [],
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/free.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/7e6561bea_free.png"
+    },
+    {
+      "name": "Pro",
+      "lines": [
+        "Pro",
+        "$25",
+        "/month",
+        "Billed monthly",
+        "Everything in Free, plus real app capacity and your own domain.",
+        "Get Pro",
+        "You get:",
+        "Public and private projects",
+        "No daily token limit",
+        "Start at 10M tokens per month",
+        "No Bolt branding on websites",
+        "Share sites privately",
+        "100MB file upload limit",
+        "Website hosting",
+        "Up to 1M web requests",
+        "Unused tokens roll over to next month",
+        "Custom domain support",
+        "SEO boosting",
+        "Unlimited databases",
+        "Expanded database capacity",
+        "Choice of database provider",
+        "Image editing with AI"
+      ],
+      "controls": [],
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/pro.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/debdf74ba_pro.png"
+    },
+    {
+      "name": "Teams",
+      "lines": [
+        "Teams",
+        "POPULAR",
+        "$30",
+        "/month",
+        "Per member, billed monthly",
+        "Everything in Pro, plus shared capacity and team controls for collaboration.",
+        "Start a team",
+        "You get everything in Pro, plus:",
+        "Centralized billing",
+        "Team-level access management",
+        "Granular admin controls & user provisioning",
+        "Share with your organization",
+        "Private NPM registries support",
+        "Design System knowledge with per-package prompts"
+      ],
+      "controls": [],
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/teams.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/ccdf15ba7_teams.png"
+    },
+    {
+      "name": "Enterprise",
+      "lines": [
+        "Enterprise",
+        "Custom",
+        "Everything in Teams, built for scale, security, and compliance.",
+        "Get advanced security, compliance, and 24/7 support. Customized to your team's exact needs.",
+        "Book a Demo",
+        "You get everything in Pro, plus:",
+        "Advanced security (SSO, audit logs, compliance support)",
+        "Granular admin controls & user provisioning",
+        "Dedicated account manager & 24/7 priority support",
+        "Custom workflows, integrations & SLAs",
+        "Scalable for large teams and high-volume usage",
+        "Flexible billing & procurement options",
+        "Data governance & retention policies",
+        "Hands-on onboarding & enterprise training"
+      ],
+      "controls": [],
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/enterprise.png",
+      "screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/cc06fa44f_enterprise.png"
+    }
+  ],
+  "annual": {
+    "billing_view": "annual",
+    "plans": [
+      {
+        "name": "Free",
+        "lines": [
+          "Free",
+          "$0",
+          "/month",
+          "Free forever, no card required",
+          "Try Bolt with daily limits. No credit card.",
+          "Start free",
+          "You get:",
+          "Public and private projects",
+          "300K tokens daily limit",
+          "1M tokens per month",
+          "Bolt branding on websites",
+          "10MB file upload limit",
+          "Website hosting",
+          "Up to 333k web requests",
+          "Unlimited databases"
+        ],
+        "screenshot": "recordings/bolt/2026-11-05T0838Z/free-annual.png"
+      },
+      {
+        "name": "Pro",
+        "lines": [
+          "Pro",
+          "$18",
+          "/month",
+          "Total of $216 $300 / year",
+          "Billed annually",
+          "Everything in Free, plus real app capacity and your own domain.",
+          "Get Pro",
+          "You get:",
+          "Public and private projects",
+          "No daily token limit",
+          "Start at 10M tokens per month",
+          "No Bolt branding on websites",
+          "Share sites privately",
+          "100MB file upload limit",
+          "Website hosting",
+          "Up to 1M web requests",
+          "Unused tokens roll over to next month",
+          "Custom domain support",
+          "SEO boosting",
+          "Unlimited databases",
+          "Expanded database capacity",
+          "Choice of database provider",
+          "Image editing with AI"
+        ],
+        "screenshot": "recordings/bolt/2026-11-05T0838Z/pro-annual.png"
+      },
+      {
+        "name": "Teams",
+        "lines": [
+          "Teams",
+          "POPULAR",
+          "$27",
+          "/month",
+          "Total of $324 $360 / year per member",
+          "Billed annually",
+          "Everything in Pro, plus shared capacity and team controls for collaboration.",
+          "Start a team",
+          "You get everything in Pro, plus:",
+          "Centralized billing",
+          "Team-level access management",
+          "Granular admin controls & user provisioning",
+          "Share with your organization",
+          "Private NPM registries support",
+          "Design System knowledge with per-package prompts"
+        ],
+        "screenshot": "recordings/bolt/2026-11-05T0838Z/teams-annual.png"
+      },
+      {
+        "name": "Enterprise",
+        "lines": [
+          "Enterprise",
+          "Custom",
+          "Everything in Teams, built for scale, security, and compliance.",
+          "Get advanced security, compliance, and 24/7 support. Customized to your team's exact needs.",
+          "Book a Demo",
+          "You get everything in Pro, plus:",
+          "Advanced security (SSO, audit logs, compliance support)",
+          "Granular admin controls & user provisioning",
+          "Dedicated account manager & 24/7 priority support",
+          "Custom workflows, integrations & SLAs",
+          "Scalable for large teams and high-volume usage",
+          "Flexible billing & procurement options",
+          "Data governance & retention policies",
+          "Hands-on onboarding & enterprise training"
+        ],
+        "screenshot": "recordings/bolt/2026-11-05T0838Z/enterprise-annual.png"
+      }
+    ],
+    "pricing_screenshot": "recordings/bolt/2026-11-05T0838Z/pricing-annual.png",
+    "pricing_screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/3b5894f62_pricing-annual.png"
+  },
+  "page_screenshot": "recordings/bolt/2026-11-05T0838Z/page.png",
+  "pricing_screenshot": "recordings/bolt/2026-11-05T0838Z/pricing.png",
+  "pricing_cropped": false,
+  "homepage_url": "https://bolt.new/",
+  "homepage_screenshot": "recordings/bolt/2026-11-05T0838Z/homepage.png",
+  "verification": {
+    "status": "mismatch",
+    "problems": [
+      "Free: price $0/month not visible in its screenshot",
+      "Pro: price $25/month not visible in its screenshot",
+      "Teams: price $30/month not visible in its screenshot",
+      "Free: annual price $0/month not visible in the annual screenshot",
+      "Teams: annual price $27/month not visible in the annual screenshot"
+    ]
+  },
+  "homepage_captured_at": "2026-11-05T08:40:09Z",
+  "page_screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/21ea1e880_page.png",
+  "pricing_screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/be4a17b0e_pricing.png",
+  "homepage_screenshot_url": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/35fcbe773_homepage.png"
+}

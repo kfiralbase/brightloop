@@ -1,0 +1,1264 @@
+{
+  "built_for": "maya",
+  "items": [
+    {
+      "id": "chg-bolt-enterprise-packaging-advanced-security-sso-audit-logs-compliance-support",
+      "source_ids": [
+        "live-bolt-2026-11-05-27"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Enterprise: 'Advanced security (SSO, audit logs, compliance support)' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Enterprise: 'Advanced security (SSO, audit logs, compliance support)' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Enterprise: 'Advanced security (SSO, audit logs, compliance support)' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Enterprise",
+        "before": null,
+        "after": "Advanced security (SSO, audit logs, compliance support)",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-27",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Advanced security (SSO, audit logs, compliance support)' added to the Enterprise plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/cc06fa44f_enterprise.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-enterprise-packaging-change",
+      "source_ids": [
+        "live-bolt-2026-11-05-5"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Enterprise: 'Custom annual contract, billed by consumption' removed, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Enterprise: 'Custom annual contract, billed by consumption' removed, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Enterprise: 'Custom annual contract, billed by consumption' removed",
+      "change": {
+        "field": "packaging",
+        "plan": "Enterprise",
+        "before": "Custom annual contract, billed by consumption",
+        "after": null,
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-5",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Custom annual contract, billed by consumption' removed from the Enterprise plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/cc06fa44f_enterprise.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-enterprise-packaging-change-2",
+      "source_ids": [
+        "live-bolt-2026-11-05-6"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Enterprise: 'SOC 2 Type II, SSO, and data governance' removed, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Enterprise: 'SOC 2 Type II, SSO, and data governance' removed, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Enterprise: 'SOC 2 Type II, SSO, and data governance' removed",
+      "change": {
+        "field": "packaging",
+        "plan": "Enterprise",
+        "before": "SOC 2 Type II, SSO, and data governance",
+        "after": null,
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-6",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'SOC 2 Type II, SSO, and data governance' removed from the Enterprise plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/cc06fa44f_enterprise.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-enterprise-packaging-change-3",
+      "source_ids": [
+        "live-bolt-2026-11-05-7"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Enterprise: 'Unlimited tokens, priced by consumption' removed, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Enterprise: 'Unlimited tokens, priced by consumption' removed, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Enterprise: 'Unlimited tokens, priced by consumption' removed",
+      "change": {
+        "field": "packaging",
+        "plan": "Enterprise",
+        "before": "Unlimited tokens, priced by consumption",
+        "after": null,
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-7",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Unlimited tokens, priced by consumption' removed from the Enterprise plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/cc06fa44f_enterprise.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-enterprise-packaging-change-4",
+      "source_ids": [
+        "live-bolt-2026-11-05-8"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Enterprise: 'Dedicated infrastructure and account manager' removed, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Enterprise: 'Dedicated infrastructure and account manager' removed, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Enterprise: 'Dedicated infrastructure and account manager' removed",
+      "change": {
+        "field": "packaging",
+        "plan": "Enterprise",
+        "before": "Dedicated infrastructure and account manager",
+        "after": null,
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-8",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Dedicated infrastructure and account manager' removed from the Enterprise plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/cc06fa44f_enterprise.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-enterprise-packaging-change-5",
+      "source_ids": [
+        "live-bolt-2026-11-05-9"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Enterprise: 'Flexible procurement, MSA, and 24/7 support' removed, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Enterprise: 'Flexible procurement, MSA, and 24/7 support' removed, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Enterprise: 'Flexible procurement, MSA, and 24/7 support' removed",
+      "change": {
+        "field": "packaging",
+        "plan": "Enterprise",
+        "before": "Flexible procurement, MSA, and 24/7 support",
+        "after": null,
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-9",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Flexible procurement, MSA, and 24/7 support' removed from the Enterprise plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/cc06fa44f_enterprise.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-enterprise-packaging-custom-workflows-integrations-slas",
+      "source_ids": [
+        "live-bolt-2026-11-05-30"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Enterprise: 'Custom workflows, integrations & SLAs' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Enterprise: 'Custom workflows, integrations & SLAs' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Enterprise: 'Custom workflows, integrations & SLAs' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Enterprise",
+        "before": null,
+        "after": "Custom workflows, integrations & SLAs",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-30",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Custom workflows, integrations & SLAs' added to the Enterprise plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/cc06fa44f_enterprise.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-enterprise-packaging-dedicated-account-manager-24-7-priority-support",
+      "source_ids": [
+        "live-bolt-2026-11-05-29"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Enterprise: 'Dedicated account manager & 24/7 priority support' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Enterprise: 'Dedicated account manager & 24/7 priority support' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Enterprise: 'Dedicated account manager & 24/7 priority support' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Enterprise",
+        "before": null,
+        "after": "Dedicated account manager & 24/7 priority support",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-29",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Dedicated account manager & 24/7 priority support' added to the Enterprise plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/cc06fa44f_enterprise.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-enterprise-packaging-flexible-billing-procurement-options",
+      "source_ids": [
+        "live-bolt-2026-11-05-32"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Enterprise: 'Flexible billing & procurement options' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Enterprise: 'Flexible billing & procurement options' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Enterprise: 'Flexible billing & procurement options' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Enterprise",
+        "before": null,
+        "after": "Flexible billing & procurement options",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-32",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Flexible billing & procurement options' added to the Enterprise plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/cc06fa44f_enterprise.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-enterprise-packaging-granular-admin-controls-user-provisioning",
+      "source_ids": [
+        "live-bolt-2026-11-05-28"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Enterprise: 'Granular admin controls & user provisioning' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Enterprise: 'Granular admin controls & user provisioning' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Enterprise: 'Granular admin controls & user provisioning' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Enterprise",
+        "before": null,
+        "after": "Granular admin controls & user provisioning",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-28",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Granular admin controls & user provisioning' added to the Enterprise plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/cc06fa44f_enterprise.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-enterprise-packaging-hands-on-onboarding-enterprise-training",
+      "source_ids": [
+        "live-bolt-2026-11-05-33"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Enterprise: 'Hands-on onboarding & enterprise training' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Enterprise: 'Hands-on onboarding & enterprise training' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Enterprise: 'Hands-on onboarding & enterprise training' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Enterprise",
+        "before": null,
+        "after": "Hands-on onboarding & enterprise training",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-33",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Hands-on onboarding & enterprise training' added to the Enterprise plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/cc06fa44f_enterprise.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-enterprise-packaging-scalable-for-large-teams-and-high-volume-usage",
+      "source_ids": [
+        "live-bolt-2026-11-05-31"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Enterprise: 'Scalable for large teams and high-volume usage' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Enterprise: 'Scalable for large teams and high-volume usage' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Enterprise: 'Scalable for large teams and high-volume usage' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Enterprise",
+        "before": null,
+        "after": "Scalable for large teams and high-volume usage",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-31",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Scalable for large teams and high-volume usage' added to the Enterprise plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/cc06fa44f_enterprise.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-enterprise-packaging-you-get-everything-in-pro-plus",
+      "source_ids": [
+        "live-bolt-2026-11-05-26"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Enterprise: 'You get everything in Pro, plus:' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Enterprise: 'You get everything in Pro, plus:' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Enterprise: 'You get everything in Pro, plus:' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Enterprise",
+        "before": null,
+        "after": "You get everything in Pro, plus:",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-26",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'You get everything in Pro, plus:' added to the Enterprise plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/cc06fa44f_enterprise.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-free-packaging-10mb-file-upload-limit",
+      "source_ids": [
+        "live-bolt-2026-11-05-38"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Free: '10MB file upload limit' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Free: '10MB file upload limit' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Free: '10MB file upload limit' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Free",
+        "before": null,
+        "after": "10MB file upload limit",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-38",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'10MB file upload limit' added to the Free plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/7e6561bea_free.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-free-packaging-1m-tokens-per-month",
+      "source_ids": [
+        "live-bolt-2026-11-05-37"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Free: '1M tokens per month' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Free: '1M tokens per month' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Free: '1M tokens per month' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Free",
+        "before": null,
+        "after": "1M tokens per month",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-37",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'1M tokens per month' added to the Free plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/7e6561bea_free.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-free-packaging-300k-tokens-daily-limit",
+      "source_ids": [
+        "live-bolt-2026-11-05-36"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Free: '300K tokens daily limit' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Free: '300K tokens daily limit' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Free: '300K tokens daily limit' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Free",
+        "before": null,
+        "after": "300K tokens daily limit",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-36",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'300K tokens daily limit' added to the Free plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/7e6561bea_free.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-free-packaging-change",
+      "source_ids": [
+        "live-bolt-2026-11-05-12"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Free: '1M tokens/month to try Bolt' removed, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Free: '1M tokens/month to try Bolt' removed, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Free: '1M tokens/month to try Bolt' removed",
+      "change": {
+        "field": "packaging",
+        "plan": "Free",
+        "before": "1M tokens/month to try Bolt",
+        "after": null,
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-12",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'1M tokens/month to try Bolt' removed from the Free plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/7e6561bea_free.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-free-packaging-up-to-333k-web-requests",
+      "source_ids": [
+        "live-bolt-2026-11-05-39"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Free: 'Up to 333k web requests' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Free: 'Up to 333k web requests' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Free: 'Up to 333k web requests' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Free",
+        "before": null,
+        "after": "Up to 333k web requests",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-39",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Up to 333k web requests' added to the Free plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/7e6561bea_free.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-free-packaging-you-get",
+      "source_ids": [
+        "live-bolt-2026-11-05-35"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Free: 'You get:' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Free: 'You get:' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Free: 'You get:' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Free",
+        "before": null,
+        "after": "You get:",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-35",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'You get:' added to the Free plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/7e6561bea_free.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-pro-packaging-100mb-file-upload-limit",
+      "source_ids": [
+        "live-bolt-2026-11-05-19"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Pro: '100MB file upload limit' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Pro: '100MB file upload limit' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Pro: '100MB file upload limit' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": null,
+        "after": "100MB file upload limit",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-19",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'100MB file upload limit' added to the Pro plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/debdf74ba_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-pro-packaging-change",
+      "source_ids": [
+        "live-bolt-2026-11-05-1"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Pro: 'Your own domain, no Bolt branding' removed, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Pro: 'Your own domain, no Bolt branding' removed, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Pro: 'Your own domain, no Bolt branding' removed",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": "Your own domain, no Bolt branding",
+        "after": null,
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-1",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Your own domain, no Bolt branding' removed from the Pro plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/debdf74ba_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-pro-packaging-change-2",
+      "source_ids": [
+        "live-bolt-2026-11-05-2"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Pro: '10M tokens/month, rollover included' removed, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Pro: '10M tokens/month, rollover included' removed, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Pro: '10M tokens/month, rollover included' removed",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": "10M tokens/month, rollover included",
+        "after": null,
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-2",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'10M tokens/month, rollover included' removed from the Pro plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/debdf74ba_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-pro-packaging-change-3",
+      "source_ids": [
+        "live-bolt-2026-11-05-3"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Pro: 'Access to the newest AI models' removed, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Pro: 'Access to the newest AI models' removed, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Pro: 'Access to the newest AI models' removed",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": "Access to the newest AI models",
+        "after": null,
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-3",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Access to the newest AI models' removed from the Pro plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/debdf74ba_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-pro-packaging-change-4",
+      "source_ids": [
+        "live-bolt-2026-11-05-4"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Pro: 'Connectors and MCPs' removed, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Pro: 'Connectors and MCPs' removed, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Pro: 'Connectors and MCPs' removed",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": "Connectors and MCPs",
+        "after": null,
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-4",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Connectors and MCPs' removed from the Pro plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/debdf74ba_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-pro-packaging-custom-domain-support",
+      "source_ids": [
+        "live-bolt-2026-11-05-23"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Pro: 'Custom domain support' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Pro: 'Custom domain support' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Pro: 'Custom domain support' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": null,
+        "after": "Custom domain support",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-23",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Custom domain support' added to the Pro plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/debdf74ba_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-pro-packaging-image-editing-with-ai",
+      "source_ids": [
+        "live-bolt-2026-11-05-25"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Pro: 'Image editing with AI' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Pro: 'Image editing with AI' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Pro: 'Image editing with AI' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": null,
+        "after": "Image editing with AI",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-25",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Image editing with AI' added to the Pro plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/debdf74ba_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-pro-packaging-no-bolt-branding-on-websites",
+      "source_ids": [
+        "live-bolt-2026-11-05-17"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Pro: 'No Bolt branding on websites' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Pro: 'No Bolt branding on websites' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Pro: 'No Bolt branding on websites' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": null,
+        "after": "No Bolt branding on websites",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-17",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'No Bolt branding on websites' added to the Pro plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/debdf74ba_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-pro-packaging-no-daily-token-limit",
+      "source_ids": [
+        "live-bolt-2026-11-05-15"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Pro: 'No daily token limit' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Pro: 'No daily token limit' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Pro: 'No daily token limit' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": null,
+        "after": "No daily token limit",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-15",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'No daily token limit' added to the Pro plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/debdf74ba_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-pro-packaging-public-and-private-projects",
+      "source_ids": [
+        "live-bolt-2026-11-05-14"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Pro: 'Public and private projects' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Pro: 'Public and private projects' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Pro: 'Public and private projects' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": null,
+        "after": "Public and private projects",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-14",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Public and private projects' added to the Pro plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/debdf74ba_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-pro-packaging-share-sites-privately",
+      "source_ids": [
+        "live-bolt-2026-11-05-18"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Pro: 'Share sites privately' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Pro: 'Share sites privately' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Pro: 'Share sites privately' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": null,
+        "after": "Share sites privately",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-18",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Share sites privately' added to the Pro plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/debdf74ba_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-pro-packaging-start-at-10m-tokens-per-month",
+      "source_ids": [
+        "live-bolt-2026-11-05-16"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Pro: 'Start at 10M tokens per month' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Pro: 'Start at 10M tokens per month' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Pro: 'Start at 10M tokens per month' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": null,
+        "after": "Start at 10M tokens per month",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-16",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Start at 10M tokens per month' added to the Pro plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/debdf74ba_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-pro-packaging-unlimited-databases",
+      "source_ids": [
+        "live-bolt-2026-11-05-24"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Pro: 'Unlimited databases' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Pro: 'Unlimited databases' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Pro: 'Unlimited databases' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": null,
+        "after": "Unlimited databases",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-24",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Unlimited databases' added to the Pro plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/debdf74ba_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-pro-packaging-unused-tokens-roll-over-to-next-month",
+      "source_ids": [
+        "live-bolt-2026-11-05-22"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Pro: 'Unused tokens roll over to next month' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Pro: 'Unused tokens roll over to next month' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Pro: 'Unused tokens roll over to next month' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": null,
+        "after": "Unused tokens roll over to next month",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-22",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Unused tokens roll over to next month' added to the Pro plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/debdf74ba_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-pro-packaging-up-to-1m-web-requests",
+      "source_ids": [
+        "live-bolt-2026-11-05-21"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Pro: 'Up to 1M web requests' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Pro: 'Up to 1M web requests' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Pro: 'Up to 1M web requests' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": null,
+        "after": "Up to 1M web requests",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-21",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Up to 1M web requests' added to the Pro plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/debdf74ba_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-pro-packaging-website-hosting",
+      "source_ids": [
+        "live-bolt-2026-11-05-20"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Pro: 'Website hosting' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Pro: 'Website hosting' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Pro: 'Website hosting' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": null,
+        "after": "Website hosting",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-20",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Website hosting' added to the Pro plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/debdf74ba_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-pro-packaging-you-get",
+      "source_ids": [
+        "live-bolt-2026-11-05-13"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Pro: 'You get:' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Pro: 'You get:' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Pro: 'You get:' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Pro",
+        "before": null,
+        "after": "You get:",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-13",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'You get:' added to the Pro plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/debdf74ba_pro.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-teams-packaging-change",
+      "source_ids": [
+        "live-bolt-2026-11-05-10"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Teams: 'Best for small teams.' removed, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Teams: 'Best for small teams.' removed, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Teams: 'Best for small teams.' removed",
+      "change": {
+        "field": "packaging",
+        "plan": "Teams",
+        "before": "Best for small teams.",
+        "after": null,
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-10",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Best for small teams.' removed from the Teams plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/ccdf15ba7_teams.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-teams-packaging-change-2",
+      "source_ids": [
+        "live-bolt-2026-11-05-11"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Teams: 'Priority support' removed, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Teams: 'Priority support' removed, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Teams: 'Priority support' removed",
+      "change": {
+        "field": "packaging",
+        "plan": "Teams",
+        "before": "Priority support",
+        "after": null,
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-11",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'Priority support' removed from the Teams plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/ccdf15ba7_teams.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    },
+    {
+      "id": "chg-bolt-teams-packaging-you-get-everything-in-pro-plus",
+      "source_ids": [
+        "live-bolt-2026-11-05-34"
+      ],
+      "confidence": 0.75,
+      "action": "Add a slide to Monday's deck: Bolt Teams: 'You get everything in Pro, plus:' added, with a screenshot of bolt.new/pricing. Then update the Brightloop vs Bolt comparison page.",
+      "why": "Bolt Teams: 'You get everything in Pro, plus:' added, stated on bolt.new/pricing (2026-11-05T08:40:09Z). Source is the competitor's own pricing page, with the numbers next to it.",
+      "competitor": "Bolt",
+      "deck_line": "Teams: 'You get everything in Pro, plus:' added",
+      "change": {
+        "field": "packaging",
+        "plan": "Teams",
+        "before": null,
+        "after": "You get everything in Pro, plus:",
+        "direction": null
+      },
+      "evidence": [
+        {
+          "source_id": "live-bolt-2026-11-05-34",
+          "source": "bolt.new/pricing",
+          "ts_utc": "2026-11-05T08:40:09Z",
+          "quote": "'You get everything in Pro, plus:' added to the Teams plan.",
+          "source_tier": "official_pricing_page",
+          "screenshot": "https://media.base44.com/images/public/6adc6082ac25ea2df090c4aa/ccdf15ba7_teams.png"
+        }
+      ],
+      "cta": {
+        "label": "Review the Bolt pricing change",
+        "utm": "utm_source=brightloop&utm_medium=pricing_deck&utm_campaign=2026-w45-bolt-pricing"
+      }
+    }
+  ],
+  "skipped": [],
+  "run": {
+    "started_at": "2026-11-05T08:39:05+00:00",
+    "cost_usd": 0.0,
+    "errors": [],
+    "mode": "live",
+    "notes": [
+      "Lovable: homepage picture unavailable this week; reusing the one from 2026-10-24.",
+      "Bolt: the screenshot doesn't match the page text (Free: price $0/month not visible in its screenshot; Pro: price $25/month not visible in its screenshot; Teams: price $30/month not visible in its screenshot); the slide is marked to check."
+    ]
+  }
+}

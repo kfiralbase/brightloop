@@ -1,0 +1,369 @@
+{
+  "week": "2026-W45",
+  "timezone": "Asia/Jerusalem",
+  "brand": {
+    "name": "Brightloop",
+    "voice": "plain, confident, no hype",
+    "banned_words": [
+      "revolutionary",
+      "game-changing",
+      "seamless"
+    ]
+  },
+  "config": {
+    "utm_source": "brightloop"
+  },
+  "signals": [
+    {
+      "id": "live-bolt-2026-11-05-1",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Your own domain, no Bolt branding' removed from the Pro plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/pro.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-2",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'10M tokens/month, rollover included' removed from the Pro plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/pro.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-3",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Access to the newest AI models' removed from the Pro plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/pro.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-4",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Connectors and MCPs' removed from the Pro plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/pro.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-5",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Custom annual contract, billed by consumption' removed from the Enterprise plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/enterprise.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-6",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'SOC 2 Type II, SSO, and data governance' removed from the Enterprise plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/enterprise.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-7",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Unlimited tokens, priced by consumption' removed from the Enterprise plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/enterprise.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-8",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Dedicated infrastructure and account manager' removed from the Enterprise plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/enterprise.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-9",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Flexible procurement, MSA, and 24/7 support' removed from the Enterprise plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/enterprise.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-10",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Best for small teams.' removed from the Teams plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/teams.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-11",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Priority support' removed from the Teams plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/teams.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-12",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'1M tokens/month to try Bolt' removed from the Free plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/free.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-13",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'You get:' added to the Pro plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/pro.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-14",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Public and private projects' added to the Pro plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/pro.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-15",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'No daily token limit' added to the Pro plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/pro.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-16",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Start at 10M tokens per month' added to the Pro plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/pro.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-17",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'No Bolt branding on websites' added to the Pro plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/pro.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-18",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Share sites privately' added to the Pro plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/pro.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-19",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'100MB file upload limit' added to the Pro plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/pro.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-20",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Website hosting' added to the Pro plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/pro.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-21",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Up to 1M web requests' added to the Pro plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/pro.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-22",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Unused tokens roll over to next month' added to the Pro plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/pro.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-23",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Custom domain support' added to the Pro plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/pro.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-24",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Unlimited databases' added to the Pro plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/pro.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-25",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Image editing with AI' added to the Pro plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/pro.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-26",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'You get everything in Pro, plus:' added to the Enterprise plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/enterprise.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-27",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Advanced security (SSO, audit logs, compliance support)' added to the Enterprise plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/enterprise.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-28",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Granular admin controls & user provisioning' added to the Enterprise plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/enterprise.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-29",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Dedicated account manager & 24/7 priority support' added to the Enterprise plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/enterprise.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-30",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Custom workflows, integrations & SLAs' added to the Enterprise plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/enterprise.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-31",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Scalable for large teams and high-volume usage' added to the Enterprise plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/enterprise.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-32",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Flexible billing & procurement options' added to the Enterprise plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/enterprise.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-33",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Hands-on onboarding & enterprise training' added to the Enterprise plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/enterprise.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-34",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'You get everything in Pro, plus:' added to the Teams plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/teams.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-35",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'You get:' added to the Free plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/free.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-36",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'300K tokens daily limit' added to the Free plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/free.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-37",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'1M tokens per month' added to the Free plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/free.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-38",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'10MB file upload limit' added to the Free plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/free.png"
+    },
+    {
+      "id": "live-bolt-2026-11-05-39",
+      "type": "pricing",
+      "competitor": "Bolt",
+      "source": "bolt.new/pricing",
+      "ts": "2026-11-05T08:40:09Z",
+      "text": "'Up to 333k web requests' added to the Free plan.",
+      "screenshot": "recordings/bolt/2026-11-05T0838Z/free.png"
+    }
+  ]
+}
