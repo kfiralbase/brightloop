@@ -1,0 +1,14 @@
+{
+  "built_for": "maya",
+  "items": [],
+  "skipped": [],
+  "run": {
+    "started_at": "2026-11-16T05:35:05+00:00",
+    "cost_usd": 0.0,
+    "errors": [],
+    "mode": "live",
+    "notes": [
+      "Bolt: the screenshot doesn't match the page text (Free: price $0/month not visible in its screenshot; Pro: price $25/month not visible in its screenshot; Teams: price $30/month not visible in its screenshot); the slide is marked to check."
+    ]
+  }
+}
